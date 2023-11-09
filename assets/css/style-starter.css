@@ -9756,6 +9756,23 @@ span.diff {
   background: var(--opposite-color);
   border: 2px solid var(--opposite-color);
   color: var(--white-color); }
+  
+  .btn-theme6 {
+    padding: 1px 8px;
+    color: #000;
+    font-size: 12px;
+    font-weight: 400;
+    transition: 0.3s ease-in;
+    border: 1px solid #747474;
+    background: #fff;
+    text-align: left; 
+    margin-top: 7px;
+  }
+
+.btn-theme6:hover {
+    background: var(--gray);
+    border: 1px solid var(--dark);
+    color: var(--white-color); }
 
 .btn-theme2:focus {
   border-color: none !important; }
