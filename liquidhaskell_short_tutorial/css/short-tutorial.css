@@ -1,5 +1,7 @@
 /* Add some basic styling */
-#collapsibleDiv1,#collapsibleDiv2,#collapsibleDiv3,#collapsibleDiv4,#collapsibleDiv5 {
+#collapsibleDiv1,#collapsibleDiv2,#collapsibleDiv3,#collapsibleDiv4,
+#collapsibleDiv5, #collapsibleDiv9, #collapsibleDiv40,#collapsibleDiv71, #collapsibleDiv61
+ {
   display: none;
   padding: 20px;
   border: 1px solid #ddd;
@@ -14,7 +16,7 @@ position: relative;
 padding-left: 35px;
 margin-bottom: 12px;
 cursor: pointer;
-font-size: 18px;
+font-size: 16px;
 -webkit-user-select: none;
 -moz-user-select: none;
 -ms-user-select: none;
@@ -139,5 +141,12 @@ background: white;
   border-radius: 10px;
     border-color: #ffc837;
     background-color: #dc76001f;
+    padding: 10px;
+}
+
+.thinkaloud{
+  border-radius: 10px;
+    border-color: #ff37b260;
+    background-color: #dc00841f;
     padding: 10px;
 }

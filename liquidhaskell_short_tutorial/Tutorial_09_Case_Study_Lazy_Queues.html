@@ -127,31 +127,38 @@ MathJax.Hub.Config({
 
 <div id='toc' class='mobile-hidden'>
 <ul class='chapter'>
-<li><a href='Tutorial_01_Introduction.html'><b>1.</b>Introduction {#intro}</a></li>
+<li><a href='Cheat_sheet.html'><b>1.</b>Introduction {#intro}</a></li>
 <ul class='section'>
-<li><a href='Tutorial_01_Introduction.html#'><b>1.1.</b> Well-Typed Programs Do Go Wrong {#gowrong}</a></li>
-<li><a href='Tutorial_01_Introduction.html#'><b>1.2.</b> Refinement Types</a></li>
+<li><a href='Cheat_sheet.html#'><b>1.1.</b> Adding Specifications</a></li>
+<li><a href='Cheat_sheet.html#'><b>1.2.</b> Alias</a></li>
+<li><a href='Cheat_sheet.html#'><b>1.3.</b> Liquid types in Datatypes</a></li>
+<li><a href='Cheat_sheet.html#'><b>1.4.</b> Measures</a></li>
 </ul>
-<li><a href='Tutorial_03_Basic.html'><b>2.</b>Refinement Types</a></li>
+<li><a href='Tutorial_01_Introduction.html'><b>2.</b>Introduction {#intro}</a></li>
 <ul class='section'>
-<li><a href='Tutorial_03_Basic.html#'><b>2.1.</b> Defining Types {#definetype}</a></li>
-<li><a href='Tutorial_03_Basic.html#'><b>2.2.</b> Errors</a></li>
-<li><a href='Tutorial_03_Basic.html#'><b>2.3.</b> Subtyping</a></li>
-<li><a href='Tutorial_03_Basic.html#'><b>2.4.</b> Writing Specifications</a></li>
-<li><a href='Tutorial_03_Basic.html#'><b>2.5.</b> Refining Function Types: Post-conditions</a></li>
-<li><a href='Tutorial_03_Basic.html#'><b>2.6.</b> Dependent Refinements</a></li>
+<li><a href='Tutorial_01_Introduction.html#'><b>2.1.</b> Well-Typed Programs Do Go Wrong {#gowrong}</a></li>
+<li><a href='Tutorial_01_Introduction.html#'><b>2.2.</b> Refinement Types</a></li>
 </ul>
-<li><a href='Tutorial_05_Datatypes.html'><b>3.</b>Refined Datatypes {#refineddatatypes}</a></li>
+<li><a href='Tutorial_03_Basic.html'><b>3.</b>Refinement Types</a></li>
 <ul class='section'>
-<li><a href='Tutorial_05_Datatypes.html#'><b>3.1.</b> Sparse Vectors {#autosmart}</a></li>
+<li><a href='Tutorial_03_Basic.html#'><b>3.1.</b> Defining Types {#definetype}</a></li>
+<li><a href='Tutorial_03_Basic.html#'><b>3.2.</b> Errors</a></li>
+<li><a href='Tutorial_03_Basic.html#'><b>3.3.</b> Subtyping</a></li>
+<li><a href='Tutorial_03_Basic.html#'><b>3.4.</b> Writing Specifications</a></li>
+<li><a href='Tutorial_03_Basic.html#'><b>3.5.</b> Refining Function Types: Post-conditions</a></li>
+<li><a href='Tutorial_03_Basic.html#'><b>3.6.</b> Dependent Refinements</a></li>
 </ul>
-<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html'><b>4.</b>Case Study: Okasaki's Lazy Queues {#lazyqueue}</a></li>
+<li><a href='Tutorial_05_Datatypes.html'><b>4.</b>Refined Datatypes {#refineddatatypes}</a></li>
 <ul class='section'>
-<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>4.1.</b> Queues</a></li>
-<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>4.2.</b> Sized Lists</a></li>
-<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>4.3.</b> Queue Type</a></li>
-<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>4.4.</b> Queue Operations</a></li>
-<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>4.5.</b> Recap of everyting!</a></li>
+<li><a href='Tutorial_05_Datatypes.html#'><b>4.1.</b> Sparse Vectors {#autosmart}</a></li>
+</ul>
+<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html'><b>5.</b>Case Study: Okasaki's Lazy Queues {#lazyqueue}</a></li>
+<ul class='section'>
+<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>5.1.</b> Queues</a></li>
+<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>5.2.</b> Sized Lists</a></li>
+<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>5.3.</b> Queue Type</a></li>
+<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>5.4.</b> Queue Operations</a></li>
+<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>5.5.</b> Recap of everyting!</a></li>
 </ul>
 </ul>
 
@@ -317,9 +324,9 @@ that all we need to do is to enforce a simple <em>balance
 invariant</em>:</p>
 <p><span class="math display">\[\mbox{Size of front} \geq \mbox{Size of
 back}\]</span></p>
-<p>If the lists are lazy i.e. only constructed as the head value is
+<p>% If the lists are lazy i.e. only constructed as the head % value is
 demanded, then a single <code>remove</code> needs only a tiny
-<code>O(log n)</code> in the worst case, and so no single
+<code>O(log n)</code> % in the worst case, and so no single
 <code>remove</code> is stuck paying the bill.</p>
 <p><br />
 <strong>Lets implement Queues</strong> and ensure the crucial
@@ -353,6 +360,11 @@ otherwise, we have a linear time computation that wrecks Okasaki’s
 careful analysis. (Actually, he presents a variant which does
 <em>not</em> require saving the size as well, but that’s for another
 day.)</p>
+<div class="thinkaloud">
+<p><b>Think Aloud:</b></p>
+<p>For the following exercise, read the question aloud and try to speak
+when thinking about how to resolve the exercise.</p>
+</div>
 <div class="interact">
 <p>How can we be sure that <code>size</code> is indeed the <em>real
 size</em> of <code>elems</code>? Write a function to <em>measure</em>
@@ -425,9 +437,15 @@ badList = SL 1 []         -- rejected</div>
   <div id="program-5" class="programbox">{-@ type SListN a N = {v:SList a | size v = N} @-}</div>
 </div>
 
+<div class="thinkaloud">
+<p><b>Think Aloud:</b></p>
+<p>For the following exercise, read the question aloud and try to speak
+when thinking about how to resolve the exercise.</p>
+</div>
 <div class="interact">
 <p><br />
-<strong>Now define an alias</strong> for lists that are not empty:</p>
+<strong>Now define an alias</strong> <code>NEList</code> for lists that
+are not empty:</p>
 <div id="program-pane-6" class="welleditor" style="background:#fff; position:relative">
 
   <!-- Verify Source -->
@@ -436,7 +454,7 @@ badList = SL 1 []         -- rejected</div>
     <span class="glyphicon glyphicon-play"></span>
   </button>
  
-  <div id="program-6" class="programbox">{-@ type NEList a = ?? @-}</div>
+  <div id="program-6" class="programbox">-- write the NEList alias</div>
 </div>
 
 <div>
@@ -466,13 +484,22 @@ nil = SL 0 []
 cons x (SL n xs) = SL (n+1) (x:xs)</div>
 </div>
 
+<div class="thinkaloud">
+<p><b>Think Aloud:</b></p>
+<p>For the following exercise, read the question aloud and try to speak
+when thinking about how to resolve the exercise.</p>
+</div>
 <div class="interact">
 <div id="Destructing Lists" class="hwex">
 <p><br />
 <strong>Exercise: (Destructing Lists): </strong>We can destruct lists by
-writing a <code>hd</code> and <code>tl</code> function as shown below.
-Now, fix the specification on both functions so the definitions
-typecheck.</p>
+writing a <code>hd</code> (head) and <code>tl</code> (tail) function as
+shown below. For <code>tl</code>, fix the signature such that it
+receives a non-empty list and returns another without the first
+element.</p>
+<p>For <code>hd</code>, do the opposite. From the presented signature,
+writr the implementation. This function returns just the element at the
+front of the list.</p>
 <br />
 <br />
 
@@ -485,13 +512,12 @@ typecheck.</p>
     <span class="glyphicon glyphicon-play"></span>
   </button>
  
-  <div id="program-8" class="programbox">{-@ tl           :: xs:SList a -> SListN a {size xs + 1}  @-}
+  <div id="program-8" class="programbox">{-@ tl           :: {xs:NEList a| size xs < 0 }-> SListN a {size xs}  @-}
 tl (SL n (_:xs)) = SL (n-1) xs
 tl _             = die "empty SList"
 
-{-@ hd           :: xs:SList a -> a @-}
-hd (SL _ (x:_))  = x
-hd _             = die "empty SList"</div>
+{-@ hd           :: xs:NEList a -> a @-}
+-- implement hd</div>
 </div>
 
 <p><strong>Hint: </strong>When you are done, <code>okHd</code> should be
@@ -515,10 +541,9 @@ badHd = hd (tl okList)  -- rejected</div>
 <button class="btn-answer" onclick="toggleCollapsible(9)">
 Answer</button>
 <div id="collapsibleDiv9">
-<p><code>{-@ tl           :: xs:NEList a -&gt; SListN a {size xs - 1}  @-}</code></p>
-<p><code>tl (SL n (_:xs)) = SL (n-1) xs</code></p>
-<p><code>{-@ hd           :: xs:NEList a -&gt; a @-}</code></p>
-<code>hd (SL _ (x:_))  = x</code>
+<code>{-@ tl           :: xs:NEList a -&gt; SListN a {size xs - 1}  @-}</code><br/>
+<br/> <code>hd (SL _ (x:_))  = x</code>
+<code>hd _             = die "empty SList"</code>
 </div>
 </div>
 </div>
@@ -597,6 +622,11 @@ Okasaki’s (I prefer <code>front</code> and <code>back</code> to his
   <div id="program-13" class="programbox">emp = Q nil nil</div>
 </div>
 
+<div class="thinkaloud">
+<p><b>Think Aloud:</b></p>
+<p>For the following exercise, read the question aloud and try to speak
+when thinking about how to resolve the exercise.</p>
+</div>
 <div class="interact">
 <div id="Queue Sizes" class="hwex">
 <p><br />
@@ -635,12 +665,13 @@ example0Q = Q nil nil</div>
 </div>
 
 <div>
-<button class="btn-answer" onclick="toggleCollapsible(7)">
+<button class="btn-answer" onclick="toggleCollapsible(71)">
 Answer</button>
-<div id="collapsibleDiv7">
-<p>{-@ measure qsize @-} qsize :: Queue a -&gt; Int qsize (Q l r) = size
-l + size r</p>
-{-@ type QueueN a N = {v:Queue a | qsize v = N} @-}
+<div id="collapsibleDiv71">
+<code>{-@ measure qsize @-}</code>
+<code>qsize         :: Queue a -&gt; Int</code><br/>
+<code>qsize (Q l r) = size l + size r</code><br/> <br/>
+<code>{-@ type QueueN a N = {v:Queue a | qsize v = N} @-}</code>
 </div>
 </div>
 </div>
@@ -651,6 +682,11 @@ that the <code>remove</code> is only called on non-empty
 <code>Queue</code>s, which together with the key balance invariant
 (<code>makeq</code> that we will see later), ensures that the calls to
 <code>hd</code> and <code>tl</code> are safe.</p>
+<div class="thinkaloud">
+<p><b>Think Aloud:</b></p>
+<p>For the following exercise, read the question aloud and try to speak
+when thinking about how to resolve the exercise.</p>
+</div>
 <div class="interact">
 <p>Add a LiquidHaskell signature to remove using QueueN. When you are
 done, <code>okRemove</code> should be accepted, <code>badRemove</code>
@@ -674,22 +710,28 @@ badRemove = remove example0Q   -- reject</div>
 <button class="btn-answer" onclick="toggleCollapsible(4)">
 Answer</button>
 <div id="collapsibleDiv4">
-<p><code>{-@ remove       :: q:NEQueue a -&gt; (a, QueueN a {qsize q - 1}) @-}</code></p>
-<code>remove (Q f b)   = (hd f, makeq (tl f) b)</code>
+<code>{-@ remove       :: q:NEQueue a -&gt; (a, QueueN a {qsize q - 1}) @-}</code>
 </div>
 </div>
 </div>
 <p><br />
 <strong>To Insert</strong> an element we just <code>cons</code> it to
 the <code>back</code> list, and call the <em>smart constructor</em>
-<code>makeq</code> to ensure that the balance invariant holds:</p>
+<code>makeq</code> to ensure that the balance invariant holds.</p>
+<div class="thinkaloud">
+<p><b>Think Aloud:</b></p>
+<p>Now, write the liquid type signature for replicate such that it adds
+the same element n times to the queue.</p>
+<p>For the following exercise, read the question aloud and try to speak
+when thinking about how to resolve the exercise.</p>
+</div>
 <div class="interact">
 <div id="Insert" class="hwex">
 <p><br />
 <strong>Exercise: (Insert): </strong>Write down a type for
-<code>insert</code> such that <code>replicate</code> and
-<code>okReplicate</code> are accepted by LiquidHaskell, but
-<code>badReplicate</code> is rejected.</p>
+<code>replicate</code> (that uses
+<code>insert``), so that</code>okReplicate<code>is accepted by LiquidHaskell, but</code>badReplicate`
+is rejected.</p>
 <br />
 <br />
 
@@ -702,9 +744,10 @@ the <code>back</code> list, and call the <em>smart constructor</em>
     <span class="glyphicon glyphicon-play"></span>
   </button>
  
-  <div id="program-16" class="programbox">insert e (Q f b) = makeq f (e `cons` b)
+  <div id="program-16" class="programbox">`{-@ insert       :: a -> q:Queue a -> QueueN a {qsize q + 1}   @-}`
+insert e (Q f b) = makeq f (e `cons` b)
 
-{-@ replicate :: n:Nat -> a -> QueueN a n @-}
+-- write liquid type signature
 replicate 0 _ = emp
 replicate n x = insert x (replicate (n-1) x)
 
@@ -719,8 +762,7 @@ badReplicate = replicate 1 "No!"   -- reject</div>
 <button class="btn-answer" onclick="toggleCollapsible(5)">
 Answer</button>
 <div id="collapsibleDiv5">
-<p><code>{-@ insert       :: a -&gt; q:Queue a -&gt; QueueN a {qsize q + 1}   @-}</code></p>
-<code>insert e (Q f b) = makeq f (e</code>cons<code>b)</code>
+<code>{-@ replicate :: n:Nat -&gt; a -&gt; QueueN a n @-}</code>
 </div>
 </div>
 </div>
@@ -746,26 +788,41 @@ makeq f b
   | otherwise        = Q (rot f b nil) nil</div>
 </div>
 
+<br />
+<strong>The rotate function</strong> will ensure that the two lists are
+balanced, as introduced at the start. It is arranged so that it the
+<code>hd</code> is built up fast, before the entire computation
+finishes; which, combined with laziness provides the efficient
+worst-case guarantee.
+<div id="fig:queue-transfer" style="align: left; text-align:center;">
+  <img src="img/queue-rotate.png" height="100px" style="display:block;  margin-left:auto; margin-right:auto">
+  <div class="caption" style="text-align:center"><b>Figure 1.3:</b> Transferring Elements from back to front. </div>
+</div>
+<br>
+
+
+<div class="thinkaloud">
+<p><b>Think Aloud:</b></p>
+<p>For the following exercise, read the question aloud and try to speak
+when thinking about how to resolve the exercise.</p>
+</div>
+<div class = "interact">
+
 <div id="Rotate" class="hwex">
 <p><br />
-<strong>Exercise: (Rotate): </strong> The Rotate function
-<code>rot</code>:<br />
-1) is only called when <code>back</code> is one larger than the
+<strong>Exercise: (Rotate): </strong> Read and fix the liquid type added
+to <code>rot</code>, following the next properties.</p>
+<p>The Rotate function <code>rot</code>:<br />
+1. is only called when <code>back</code> is one larger than the
 <code>front</code> (we never let things drift beyond that).</p>
 <ol start="2" type="1">
 <li>And the return size is the sum of the size in front, back and the
 additional to be rotated.</li>
 </ol>
-<p>It is arranged so that it the <code>hd</code> is built up fast,
-before the entire computation finishes; which, combined with laziness
-provides the efficient worst-case guarantee.</p>
 <br />
 <br />
 
 </div>
-<div class="interact">
-<p>As a last exercise, write down a type for <code>rot</code> so that it
-typechecks and verifies the type for <code>makeq</code>.</p>
 <div id="program-pane-18" class="welleditor" style="background:#fff; position:relative">
 
   <!-- Verify Source -->
@@ -774,7 +831,12 @@ typechecks and verifies the type for <code>makeq</code>.</p>
     <span class="glyphicon glyphicon-play"></span>
   </button>
  
-  <div id="program-18" class="programbox">rot f b acc
+  <div id="program-18" class="programbox">{-@ rot :: f:SList a
+          -> b:SList a {1 - size f}
+          -> acc:List a
+          -> SListN a {size acc}
+@-}
+rot f b acc
   | size f == 0 = hd b `cons` acc
   | otherwise   = hd f `cons` rot (tl f) (tl b) (hd b `cons` acc)</div>
 </div>
@@ -783,12 +845,12 @@ typechecks and verifies the type for <code>makeq</code>.</p>
 <button class="btn-answer" onclick="toggleCollapsible(6)">
 Answer</button>
 <div id="collapsibleDiv6">
-<code>{-@ rot :: f:SList a</code><br/>
-<code>-&gt; b:SListN _ {1 + size f}</code><br/>
-<code>-&gt; a:SList _</code><br/>
-<code>-&gt; SListN _ {size f + size b + size a}</code><br/>
-<code>@-}</code>
-</div>
+<pre><code>`{-@ rot :: f:SList a`&lt;br/&gt;
+`         -&gt; b:SListN a {1 + size f}`&lt;br/&gt;
+`         -&gt; acc:SList a`&lt;br/&gt;
+`         -&gt; SListN a {size f + size b + size ac}`&lt;br/&gt;
+`@-}`
+&lt;/div&gt;</code></pre>
 </div>
 </div>
 </section>

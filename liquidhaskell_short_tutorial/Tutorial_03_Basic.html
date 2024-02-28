@@ -127,31 +127,38 @@ MathJax.Hub.Config({
 
 <div id='toc' class='mobile-hidden'>
 <ul class='chapter'>
-<li><a href='Tutorial_01_Introduction.html'><b>1.</b>Introduction {#intro}</a></li>
+<li><a href='Cheat_sheet.html'><b>1.</b>Introduction {#intro}</a></li>
 <ul class='section'>
-<li><a href='Tutorial_01_Introduction.html#'><b>1.1.</b> Well-Typed Programs Do Go Wrong {#gowrong}</a></li>
-<li><a href='Tutorial_01_Introduction.html#'><b>1.2.</b> Refinement Types</a></li>
+<li><a href='Cheat_sheet.html#'><b>1.1.</b> Adding Specifications</a></li>
+<li><a href='Cheat_sheet.html#'><b>1.2.</b> Alias</a></li>
+<li><a href='Cheat_sheet.html#'><b>1.3.</b> Liquid types in Datatypes</a></li>
+<li><a href='Cheat_sheet.html#'><b>1.4.</b> Measures</a></li>
 </ul>
-<li><a href='Tutorial_03_Basic.html'><b>2.</b>Refinement Types</a></li>
+<li><a href='Tutorial_01_Introduction.html'><b>2.</b>Introduction {#intro}</a></li>
 <ul class='section'>
-<li><a href='Tutorial_03_Basic.html#'><b>2.1.</b> Defining Types {#definetype}</a></li>
-<li><a href='Tutorial_03_Basic.html#'><b>2.2.</b> Errors</a></li>
-<li><a href='Tutorial_03_Basic.html#'><b>2.3.</b> Subtyping</a></li>
-<li><a href='Tutorial_03_Basic.html#'><b>2.4.</b> Writing Specifications</a></li>
-<li><a href='Tutorial_03_Basic.html#'><b>2.5.</b> Refining Function Types: Post-conditions</a></li>
-<li><a href='Tutorial_03_Basic.html#'><b>2.6.</b> Dependent Refinements</a></li>
+<li><a href='Tutorial_01_Introduction.html#'><b>2.1.</b> Well-Typed Programs Do Go Wrong {#gowrong}</a></li>
+<li><a href='Tutorial_01_Introduction.html#'><b>2.2.</b> Refinement Types</a></li>
 </ul>
-<li><a href='Tutorial_05_Datatypes.html'><b>3.</b>Refined Datatypes {#refineddatatypes}</a></li>
+<li><a href='Tutorial_03_Basic.html'><b>3.</b>Refinement Types</a></li>
 <ul class='section'>
-<li><a href='Tutorial_05_Datatypes.html#'><b>3.1.</b> Sparse Vectors {#autosmart}</a></li>
+<li><a href='Tutorial_03_Basic.html#'><b>3.1.</b> Defining Types {#definetype}</a></li>
+<li><a href='Tutorial_03_Basic.html#'><b>3.2.</b> Errors</a></li>
+<li><a href='Tutorial_03_Basic.html#'><b>3.3.</b> Subtyping</a></li>
+<li><a href='Tutorial_03_Basic.html#'><b>3.4.</b> Writing Specifications</a></li>
+<li><a href='Tutorial_03_Basic.html#'><b>3.5.</b> Refining Function Types: Post-conditions</a></li>
+<li><a href='Tutorial_03_Basic.html#'><b>3.6.</b> Dependent Refinements</a></li>
 </ul>
-<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html'><b>4.</b>Case Study: Okasaki's Lazy Queues {#lazyqueue}</a></li>
+<li><a href='Tutorial_05_Datatypes.html'><b>4.</b>Refined Datatypes {#refineddatatypes}</a></li>
 <ul class='section'>
-<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>4.1.</b> Queues</a></li>
-<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>4.2.</b> Sized Lists</a></li>
-<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>4.3.</b> Queue Type</a></li>
-<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>4.4.</b> Queue Operations</a></li>
-<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>4.5.</b> Recap of everyting!</a></li>
+<li><a href='Tutorial_05_Datatypes.html#'><b>4.1.</b> Sparse Vectors {#autosmart}</a></li>
+</ul>
+<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html'><b>5.</b>Case Study: Okasaki's Lazy Queues {#lazyqueue}</a></li>
+<ul class='section'>
+<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>5.1.</b> Queues</a></li>
+<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>5.2.</b> Sized Lists</a></li>
+<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>5.3.</b> Queue Type</a></li>
+<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>5.4.</b> Queue Operations</a></li>
+<li><a href='Tutorial_09_Case_Study_Lazy_Queues.html#'><b>5.5.</b> Recap of everyting!</a></li>
 </ul>
 </ul>
 
@@ -209,11 +216,20 @@ module Tutorial_03_Basic where
 
 import Prelude hiding (abs)
 divide  :: Int -> Int -> Int
+
 die     :: String -> a
+{-@ die :: {v:String | false} -> a  @-}
+die msg = error msg
+
+
 -- {-@ fail nonsense  @-}
 -- {-@ fail canDie    @-}
 -- {-@ fail divide'   @-}
 -- {-@ fail avg       @-}
+-- {-@ fail percentT  @-}
+-- {-@ fail percentF  @-}
+-- {-@ fail cpc  @-}
+-- {-@ fail cpi  @-}
 -- {-@ ignore lAssert @-}
 
 </div>
@@ -254,8 +270,10 @@ describes the <em>set of</em> <code>Int</code> values that are equal to
 <code>0</code>, and <code>NonZero</code> describes the set of
 <code>Int</code> values that are <em>not</em> equal to <code>0</code>,
 that is, the set <code>{1, -1, 2, -2, ...}</code> and so on.</p>
+<p>To indicate that these specifications are for LiquidHaskell
+specifications we write them like <code>{-@ spec @-}</code>.</p>
 <p><br />
-<strong>To use</strong> these types we can write:</p>
+<strong>Now, to use</strong> these types we can write:</p>
 <div id="program-pane-2" class="welleditor" style="background:#fff; position:relative">
 
   <!-- Verify Source -->
@@ -325,18 +343,20 @@ more refinements of <code>Int</code></p>
   <div id="program-4" class="programbox">{-@ type Nat      = {v:Int | 0 <= v}        @-}
 {-@ type Positive = {v:Int | 0 < v}         @-}
 {-@ type Even     = {v:Int | v mod 2 == 0 } @-}
-{-@ type Lt100  = {v:Int | v < 100}         @-}</div>
+{-@ type TensToHundred = {v:Int | v mod 10 == 0 && v <= 100}         @-}</div>
 </div>
 
 <p><code>Zero</code> is the most precise type for <code>0::Int</code>,
-as it is a <em>subtype</em> of <code>Nat</code>, <code>Even</code> and
-<code>Lt100</code>. However, it is not a subtype of
-<code>Positive</code>.</p>
+as it is a <em>subtype</em> of <code>Nat</code>, <code>Even</code>.
+However, it is not a subtype of <code>Positive</code>. The alias
+<code>TensToHundred</code> represents the multiples of 10 smaller than
+100, meaning that <code>Even</code> is a <em>subtype</em> of it but all
+the other ones are not.</p>
 <div class="interact">
-<p>Now let us try a new predicate. Write a type for the numbers that
-represent a percentage (between 0 and 100) by replacing the
-<code>TRUE</code> predicate. Then run the code, and the first example
-should be correct and the second should not.</p>
+<p>Now let us try a new predicate.</p>
+<p>Write a type for the numbers that represent a percentage (between 0
+and 100). Then, decoment the liquid type signatures and run the code.
+The first example should be correct and the second should not.</p>
 <div id="program-pane-5" class="welleditor" style="background:#fff; position:relative">
 
   <!-- Verify Source -->
@@ -345,15 +365,22 @@ should be correct and the second should not.</p>
     <span class="glyphicon glyphicon-play"></span>
   </button>
  
-  <div id="program-5" class="programbox">{-@ type Percentage = TRUE  @-}
+  <div id="program-5" class="programbox">-- write the alias here
 
-{-@ percentT  :: Percentage  @-}
+-- {-@ percentT  :: Percentage  @-}
 percentT    = 10 :: Int
-{-@ percentF  :: Percentage  @-}
+-- {-@ percentF  :: Percentage  @-}
 percentF :: Int
 percentF    = 10 + 99 :: Int</div>
 </div>
 
+<div>
+<button class="btn-answer" onclick="toggleCollapsible(1)">
+Answer</button>
+<div id="collapsibleDiv1">
+<code>{-@ type Percentage = {v:Int | 0 &lt;= v &amp;&amp; v &lt;= 100}  @-}</code>
+</div>
+</div>
 </div>
 <p><br />
 <strong>In Summary</strong> the key points about refinement types
@@ -428,8 +455,7 @@ class="checkmark"></span> </label><br>
 <button class="btn-answer" onclick="toggleCollapsible(3)">
 Answer</button>
 <div id="collapsibleDiv3">
-<pre><code>`hij` is the invocation that could trigger a crash since we have no guarantees that z is a `NonZero` value. 
-
+<pre><code>hij is the invocation that could trigger a crash since we have no guarantees that z is a `NonZero` value. 
 &lt;/div&gt;</code></pre>
 </div>
 <p><br/></p>
@@ -495,10 +521,14 @@ plus1 a = a + 1</div>
 <p><br />
 <strong>Exercise: (List Average): </strong>Can you now put everything
 together?</p>
-<p>Write a specification for the method <code>calcPer</code> that: 1)
-first receives a positive int; 2) then an int with a value between zero
-and the first int; 3) returns a percentage;</p>
-<p>Try using the aliases created before.</p>
+<p>Write a specification for the method <code>calcPer</code> that:</p>
+<ol type="1">
+<li><p>first receives a positive int;</p></li>
+<li><p>then an int with a value between zero and the first int;</p></li>
+<li><p>returns a percentage;</p></li>
+</ol>
+<p>Use the aliases created in the exercises you have completed
+before.</p>
 <br />
 <br />
 
@@ -522,11 +552,13 @@ cpi = calcPer 10 11 :: Int -- should be incorrect</div>
 <div>
 <button class="btn-answer" onclick="toggleCollapsible(1)">
 Answer</button>
-<div id="collapsibleDiv1">
+<div id="collapsibleDiv5">
 <code>{-@ calcPer :: a:Positive -&gt; {b:Int | 0 &lt;= b &amp;&amp; b &lt;= a} -&gt; c:Percentage @-}</code>
 </div>
 </div>
 </div>
+<p>Before moving to the next part, answer some questions from our
+team.</p>
 <p><a href="Tutorial_05_Datatypes.html" >
 <button class="btn-next">Next</button> </a></p>
 </section>
