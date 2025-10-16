@@ -1,0 +1,266 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+-->
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <link rel="icon" type="image/jpg" href="../assets/images/DSC09526 (1).jpg" sizes="228x228" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Introduction to Liquid Types - Catarina Gamboa</title>
+    <!-- web fonts -->
+    <link href="//fonts.googleapis.com/css?family=Nunito:400,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Hind&display=swap" rel="stylesheet">
+    <!-- //web fonts -->
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="../assets/css/style-starter.css">
+  </head>
+  <body>
+
+<section class="w3l-bootstrap-header">
+  <nav class="navbar navbar-expand-lg navbar-light py-lg-3 py-2">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html">Catarina Gamboa</a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon fa fa-bars"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../CatarinaGamboa_CV.pdf"><span class="fa fa-download"></span> CV</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../about_me.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../projects.html">Papers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../activities.html">Outreach & Activities</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../blog.html">Blog</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg">
+    <div class="container py-5">
+      <p><a href="../index.html">Home</a> &nbsp; / &nbsp; <a href="../blog.html">Blog</a> &nbsp; / &nbsp; Liquid Types</p>
+     </div>
+  </div>
+</section>
+
+<!-- Blog Post Content -->
+<div class="w3l-content-photo-5 py-5">
+  <div class="content-main pt-lg-5 pt-md-3 pb-0">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <!-- Post Header -->
+          <h1 class="blog-post-title">Introduction to Liquid Types: A Lightweight Approach to Software Verification</h1>
+          <p class="blog-post-meta">
+            <span class="fa fa-calendar"></span> October 10, 2025
+            <span class="blog-post-author">by Catarina Gamboa</span>
+          </p>
+
+          <!-- Featured Image -->
+          <div class="blog-post-image">
+            <img src="../assets/images/Liquid.png" class="img-fluid" alt="Liquid Types Logo">
+          </div>
+
+          <!-- Post Content -->
+          <div class="blog-post-content">
+            <p>
+              Liquid types are one of the most exciting developments in software verification in recent years. They offer a sweet spot between the expressiveness of full formal methods and the usability of traditional type systems. In this post, I'll introduce what liquid types are and why they matter for building reliable software.
+            </p>
+
+            <h3>The Verification Challenge</h3>
+            <p>
+              Software bugs are expensive. They cost companies billions of dollars annually and can even have safety implications in critical systems. Traditional testing can catch many bugs, but it can't prove the absence of bugs. Formal verification can provide such proofs, but it's often too complex and time-consuming for everyday development.
+            </p>
+
+            <p>
+              This is where liquid types come in. They aim to make verification more accessible by automating much of the proof process while still providing strong guarantees about program behavior.
+            </p>
+
+            <h3>What Are Liquid Types?</h3>
+            <p>
+              Liquid types extend traditional type systems with <em>refinement predicates</em>—logical formulas that constrain the values a type can hold. For example, instead of just saying a variable is an integer, you can specify it's a positive integer, or an integer within a certain range.
+            </p>
+
+            <div class="code-example">
+              <pre><code>// Traditional type
+int x;
+
+// Liquid type - x must be positive
+{v: int | v > 0} x;</code></pre>
+            </div>
+
+            <p>
+              The key innovation is that liquid types use <strong>SMT solvers</strong> (Satisfiability Modulo Theories) to automatically verify that these refinements are satisfied throughout the program. Developers write the specifications, and the type checker handles the verification!
+            </p>
+
+            <h3>Why "Liquid"?</h3>
+            <p>
+              The "liquid" in liquid types refers to their flexibility. Unlike traditional dependent types that require explicit proof terms, liquid types use type inference to automatically infer many refinements. This makes them more practical for real-world programming.
+            </p>
+
+            <h3>A Practical Example</h3>
+            <p>
+              Let's look at a common programming error: array access out of bounds. With liquid types, we can statically verify that array accesses are always safe:
+            </p>
+
+            <div class="code-example">
+              <pre><code>// Function that safely accesses an array
+public {v: int | v >= 0} getElement(
+    int[] array,
+    {v: int | v >= 0 && v < array.length} index
+) {
+    return array[index];  // Verified safe!
+}</code></pre>
+            </div>
+
+            <p>
+              The type system verifies at compile time that any call to <code>getElement</code> uses a valid index. No runtime checks needed, and no possibility of an out-of-bounds error!
+            </p>
+
+            <h3>LiquidJava: Bringing Liquid Types to Java</h3>
+            <p>
+              My research focuses on <a href="../liquidjava.html">LiquidJava</a>, which brings liquid types to Java. Java is widely used in industry, but it lacks the verification capabilities of more research-oriented languages. LiquidJava aims to bridge this gap, making lightweight verification accessible to Java developers.
+            </p>
+
+            <p>
+              Through our work, we've focused not just on the theory, but on making the tool usable. This includes:
+            </p>
+            <ul>
+              <li>IDE integration with VS Code</li>
+              <li>Clear, actionable error messages</li>
+              <li>Gradual adoption—you can verify just the critical parts of your code</li>
+              <li>Compatibility with existing Java codebases</li>
+            </ul>
+
+            <h3>The Road Ahead</h3>
+            <p>
+              Liquid types are still evolving, and there's much work to be done. Some of the challenges we're tackling include:
+            </p>
+            <ul>
+              <li>Improving inference to reduce annotation burden</li>
+              <li>Better error messages that help developers understand and fix issues</li>
+              <li>Scaling to large codebases</li>
+              <li>Integration with modern development workflows</li>
+            </ul>
+
+            <h3>Learn More</h3>
+            <p>
+              If you're interested in learning more about liquid types or trying out LiquidJava, check out:
+            </p>
+            <ul>
+              <li><a href="../liquidjava.html">LiquidJava website</a> with tutorials and documentation</li>
+              <li>Our <a href="https://dl.acm.org/doi/abs/10.1109/ICSE48619.2023.00132">ICSE 2023 paper</a> on usability-oriented design</li>
+              <li>Our <a href="../papers/pre_print_barriers_liquid_types.pdf">PLDI 2025 paper</a> on usability barriers</li>
+            </ul>
+
+            <p>
+              I'm passionate about making verification techniques more accessible to developers. Liquid types represent an important step in that direction, and I'm excited to see how they evolve and gain adoption in the coming years.
+            </p>
+
+            <p class="blog-signature">
+              <em>— Catarina</em>
+            </p>
+          </div>
+
+          <!-- Back to Blog -->
+          <div class="mt-5">
+            <p><a href="../blog.html" class="btn-theme2 btn"><span class="fa fa-arrow-left"></span> Back to Blog</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<section class="w3l-footer-29-main" id="footer">
+  <div class="footer-29 text-center">
+      <div class="container">
+
+        <div class="main-social-footer-29">
+          <a href="#facebook" onclick="sendEmail()" class="facebook"><span class="fa fa-envelope-o"></span></a>
+          <a href="https://github.com/CatarinaGamboa" class="twitter"><span class="fa fa-github"></span></a>
+          <a href="https://www.linkedin.com/in/catarina-ventura-gamboa-518151172/" class="linkedin"><span class="fa fa-linkedin"></span></a>
+        </div>
+          <div class="bottom-copies text-center">
+              <p class="copy-footer-29">© 2020 My Website. All rights reserved | Designed by <a href="https://w3layouts.com">W3layouts</a></p>
+
+          </div>
+      </div>
+  </div>
+   <!-- move top -->
+  <button onclick="topFunction()" id="movetop" title="Go to top">
+              <span class="fa fa-angle-up"></span>
+                 </button>
+                 <script>
+                     // When the user scrolls down 20px from the top of the document, show the button
+                     window.onscroll = function () {
+                         scrollFunction()
+                     };
+
+                     function scrollFunction() {
+                         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                             document.getElementById("movetop").style.display = "block";
+                         } else {
+                             document.getElementById("movetop").style.display = "none";
+                         }
+                     }
+
+                     // When the user clicks on the button, scroll to the top of the document
+                     function topFunction() {
+                         document.body.scrollTop = 0;
+                         document.documentElement.scrollTop = 0;
+                     }
+
+                    function sendEmail(){
+                      window.open('mailto:cgamboa@andrew.cmu.edu');
+                    }
+
+                 </script>
+                 <!-- /move top -->
+</section>
+<!-- // grids block 5 -->
+<script src="../assets/js/jquery-3.3.1.min.js"></script>
+<!-- //footer-28 block -->
+</section>
+
+<script>
+    $(function () {
+      $('.navbar-toggler').click(function () {
+        $('body').toggleClass('noscroll');
+      })
+    });
+  </script>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+
+</body>
+
+</html>
