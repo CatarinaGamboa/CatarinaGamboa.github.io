@@ -12602,15 +12602,22 @@ body:after {
 }
 
 .checklist li {
-  padding-left: 2rem;
-  margin-bottom: 0.6rem;
+  padding-left: 2.2rem;
+  margin-bottom: 0.8rem;
   line-height: 1.6;
+  position: relative;
 }
 
 .checklist li:before {
   content: '';
-  margin-left: -2rem;
-  margin-right: 0.5rem;
+  position: absolute;
+  left: 0;
+  top: 0.2rem;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #4a90e2;
+  border-radius: 3px;
+  background-color: #fff;
 }
 
 /* Responsive adjustments for blog */
