@@ -10592,6 +10592,12 @@ h4.sub-title {
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px; }
 
+  /* Center a lone last card when the awards grid has an odd item count */
+  .w3l-feature-3 .grid-column .three-grids-columns:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    width: calc(50% - 10px);
+    justify-self: center; }
+
   .w3l-feature-3 .grid-column-2 {
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px; }
@@ -10634,6 +10640,9 @@ h4.sub-title {
     .w3l-feature-3 .grid-column {
       grid-template-columns: 1fr;
       grid-gap: 35px; }
+    .w3l-feature-3 .grid-column .three-grids-columns:last-child:nth-child(odd) {
+      grid-column: auto;
+      width: auto; }
     .w3l-feature-3 .three-grids-columns h4 {
       padding-top: 7px; }
     .w3l-feature-3 a.actionbg {
