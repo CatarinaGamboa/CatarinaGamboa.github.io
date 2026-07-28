@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Four Nights, Home Saturday — September 2026</title>
+<title>Five Nights, Home Saturday — September 2026</title>
 <style>
 :root{
   --ink:#0B2B3C;--ink-2:#123D52;--sea:#14607F;--shallow:#7FC4CE;
@@ -70,24 +70,25 @@ p{margin:0 0 1em}
 .rule-k{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass-lt);margin-bottom:.5rem}
 .rule-v{color:var(--white);font-size:.96rem;line-height:1.45}
 
-/* BUDGET BARS */
+/* BUDGET BARS — scaled to €1,600; ceiling marker at 93.75% */
 .bars{margin:0 0 clamp(38px,6vw,58px)}
-.bar-row{display:grid;grid-template-columns:132px 1fr 74px;gap:16px;align-items:center;margin-bottom:16px}
+.bar-row{display:grid;grid-template-columns:132px 1fr 82px;gap:16px;align-items:center;margin-bottom:16px}
 .bar-lab{text-align:right}
 .bar-code{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;color:var(--sea)}
 .bar-place{font-family:var(--display);font-size:1rem;line-height:1.15}
-.bar-track{position:relative;height:34px;background:rgba(11,43,60,.07);border-radius:2px;overflow:hidden}
-.bar-fill{display:flex;height:100%}
+.bar-track{position:relative;height:34px;background:rgba(11,43,60,.07);border-radius:2px;overflow:visible}
+.bar-fill{display:flex;height:100%;overflow:hidden;border-radius:2px}
+.bar-track::after{content:"";position:absolute;left:93.75%;top:-5px;bottom:-5px;
+  border-left:1px dashed rgba(180,82,63,.75);z-index:3}
 .seg{height:100%}
 .seg-travel{background:var(--sea)}
 .seg-hotel{background:var(--brass)}
 .seg-ground{background:var(--shallow)}
 .bar-total{font-family:var(--mono);font-size:.92rem;font-weight:600}
-.ceiling{position:relative;margin:6px 0 22px;padding-left:148px}
-.ceiling-line{border-top:1px dashed rgba(180,82,63,.55);position:relative}
-.ceiling-line::after{content:"€1,500 ceiling";position:absolute;right:74px;top:-9px;background:var(--lime);
-  padding:0 8px;font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--coral)}
-.legend{display:flex;flex-wrap:wrap;gap:18px;padding-left:148px;font-family:var(--mono);font-size:.68rem;color:rgba(11,43,60,.7)}
+.bar-total.over{color:var(--coral)}
+.ceil-key{display:flex;justify-content:flex-end;padding-right:82px;margin-bottom:8px}
+.ceil-key span{font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--coral)}
+.legend{display:flex;flex-wrap:wrap;gap:18px;padding-left:148px;font-family:var(--mono);font-size:.68rem;color:rgba(11,43,60,.7);margin-top:20px}
 .legend span{display:flex;align-items:center;gap:7px}
 .dot{width:10px;height:10px;border-radius:2px;display:inline-block}
 .bars-note{font-size:.82rem;color:rgba(11,43,60,.62);margin-top:1.2rem}
@@ -104,6 +105,7 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
 .t-name{font-family:var(--display);font-size:1.05rem;line-height:1.2}
 .t-code{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--brass);display:block;margin-bottom:.2rem}
 .t-total{font-weight:600;color:var(--ink)}
+.t-total.over{color:var(--coral)}
 .tag{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;
   text-transform:uppercase;padding:5px 10px;border-radius:var(--r);white-space:nowrap}
 .tag-cheap{background:#DCE9E3;color:#255C46}
@@ -203,6 +205,7 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
 .budget{width:100%;font-size:.92rem;background:var(--white)}
 .budget tfoot td{background:var(--ink);color:var(--white);font-weight:600;border-bottom:none}
 .budget tfoot td.num{font-family:var(--mono);font-size:1.02rem}
+.budget tfoot tr.over td{background:#7A3325}
 .est{font-family:var(--mono);font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin-left:7px}
 .warns{background:#FBF3EF;border:1px solid rgba(180,82,63,.3);border-radius:var(--r);padding:clamp(20px,3vw,28px)}
 .warns h4{color:var(--coral);margin-bottom:1rem;letter-spacing:.06em}
@@ -242,8 +245,8 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
   .bar-row{grid-template-columns:1fr;gap:6px;margin-bottom:22px}
   .bar-lab{text-align:left;display:flex;align-items:baseline;gap:10px}
   .bar-total{text-align:right;margin-top:-30px}
-  .ceiling,.legend{padding-left:0}
-  .ceiling-line::after{right:0}
+  .ceil-key{padding-right:0}
+  .legend{padding-left:0}
 }
 @media (max-width:620px){
   .fact{border-right:none;border-bottom:1px solid rgba(224,184,113,.22)}
@@ -265,13 +268,13 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
   <div class="hero-img" role="img" aria-label="The Sorrentine peninsula above the Bay of Naples"></div>
   <div class="hero-inner"><div class="wrap">
     <p class="eyebrow eyebrow-l">Group trip research · Revised 27 July 2026</p>
-    <h1>Four nights. No car. <em>Home Saturday night.</em></h1>
-    <p class="hero-sub">Tuesday 15 to Saturday 19 September — a full Sunday at home before anyone has to work. Four complete trips for four adults, every one under the budget, and every one costed to the last euro.</p>
+    <h1>Five nights. No car. <em>Home Saturday night.</em></h1>
+    <p class="hero-sub">Monday 14 to Saturday 19 September — five full nights away and a clear Sunday at home before anyone works. Four complete trips for four adults, priced to the last euro.</p>
     <dl class="facts">
       <div class="fact"><dt>Travellers</dt><dd>4 adults</dd></div>
-      <div class="fact"><dt>Out</dt><dd>Tue 15 Sep 2026</dd></div>
+      <div class="fact"><dt>Out</dt><dd>Mon 14 Sep 2026</dd></div>
       <div class="fact"><dt>Back</dt><dd>Sat 19 Sep 2026</dd></div>
-      <div class="fact"><dt>Length</dt><dd>4 nights</dd></div>
+      <div class="fact"><dt>Length</dt><dd>5 nights</dd></div>
       <div class="fact"><dt>Budget</dt><dd>≤ €1,500 pp</dd></div>
       <div class="fact"><dt>Car</dt><dd>Not needed</dd></div>
     </dl>
@@ -282,9 +285,9 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
   <div class="nav-in">
     <a href="#compare" class="nav-home">Compare</a>
     <a href="#nap">NAP · Bay of Naples</a>
-    <a href="#pmi">PMI · Mallorca</a>
     <a href="#agp">AGP · Marbella</a>
     <a href="#tfs">TFS · Tenerife</a>
+    <a href="#pmi">PMI · Mallorca</a>
     <a href="#dates">Why these dates</a>
     <a href="#method">Sourcing</a>
   </div>
@@ -294,15 +297,15 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
   <div class="wrap">
     <div class="section-head rise">
       <p class="eyebrow eyebrow-l">The shape of it</p>
-      <h2>Dropping a night made everything cheaper</h2>
-      <p>Moving to Tuesday-to-Saturday took roughly €100–230 a head off every option compared with the five-night version — partly the lost night, partly because Saturday is a far cheaper day to fly home than Sunday. All four now sit between €1,095 and €1,308, comfortably inside the ceiling.</p>
+      <h2>The fifth night costs €150–336 a head</h2>
+      <p>Adding Monday night to the Tuesday–Saturday plan works on every route. Marbella is the bargain: its Monday fare is <em>€132 cheaper</em> than the Tuesday one, so the extra night costs €160 all-in. Palma gains something better than money — a 07:05 departure instead of 16:15, turning a dinner-only first day into a full one.</p>
     </div>
     <div class="rules rise">
       <div class="rule"><div class="rule-k">No car</div><div class="rule-v">Every base is walkable, or reached by bus, train, taxi and ferry. No hire desk, no parking.</div></div>
       <div class="rule"><div class="rule-k">Nonstop</div><div class="rule-v">Direct both ways on one ticket. Separate-ticket combinations were rejected.</div></div>
       <div class="rule"><div class="rule-k">No dawn starts</div><div class="rule-v">Nothing departing before 07:00, outbound or return.</div></div>
-      <div class="rule"><div class="rule-k">Home for the weekend</div><div class="rule-v">Back in Amsterdam Saturday evening. Sunday is yours before Monday.</div></div>
-      <div class="rule"><div class="rule-k">No gap nights</div><div class="rule-v">15–19 September in both the flights and the hotel. Four nights, four nights.</div></div>
+      <div class="rule"><div class="rule-k">Home for the weekend</div><div class="rule-v">Back in Amsterdam Saturday. Sunday is yours before Monday.</div></div>
+      <div class="rule"><div class="rule-k">Two days of leave</div><div class="rule-v">Departing Monday means booking that Monday off as well as the rest of the week.</div></div>
     </div>
   </div>
 </section>
@@ -311,83 +314,83 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
   <div class="wrap">
     <div class="section-head rise">
       <p class="eyebrow">Where the money goes</p>
-      <h2>Four options against one ceiling</h2>
-      <p>Each bar is one person's total, split into getting there, the room, and everything on the ground. The empty space on the right is headroom you keep — and there is now a lot more of it than there was on the five-night plan.</p>
+      <h2>Three fit the budget. One misses by €24.</h2>
+      <p>Each bar is one person's total, split into getting there, the room, and everything on the ground. The dashed line is your €1,500 ceiling — Palma crosses it, and I've left that visible rather than trimming a room to hide it.</p>
     </div>
 
     <div class="bars rise">
+      <div class="ceil-key"><span>← dashed line = €1,500</span></div>
       <div class="bar-row">
         <div class="bar-lab"><div class="bar-code">NAP</div><div class="bar-place">Bay of Naples</div></div>
         <div class="bar-track"><div class="bar-fill">
-          <div class="seg seg-travel" style="width:17.93%"></div>
-          <div class="seg seg-hotel" style="width:24.00%"></div>
-          <div class="seg seg-ground" style="width:31.07%"></div>
+          <div class="seg seg-travel" style="width:18.25%"></div>
+          <div class="seg seg-hotel" style="width:36.69%"></div>
+          <div class="seg seg-ground" style="width:34.50%"></div>
         </div></div>
-        <div class="bar-total">€1,095</div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-lab"><div class="bar-code">PMI</div><div class="bar-place">Palma</div></div>
-        <div class="bar-track"><div class="bar-fill">
-          <div class="seg seg-travel" style="width:17.87%"></div>
-          <div class="seg seg-hotel" style="width:33.80%"></div>
-          <div class="seg seg-ground" style="width:31.13%"></div>
-        </div></div>
-        <div class="bar-total">€1,242</div>
+        <div class="bar-total">€1,431</div>
       </div>
       <div class="bar-row">
         <div class="bar-lab"><div class="bar-code">AGP</div><div class="bar-place">Marbella</div></div>
         <div class="bar-track"><div class="bar-fill">
-          <div class="seg seg-travel" style="width:22.33%"></div>
-          <div class="seg seg-hotel" style="width:30.93%"></div>
-          <div class="seg seg-ground" style="width:33.07%"></div>
+          <div class="seg seg-travel" style="width:18.88%"></div>
+          <div class="seg seg-hotel" style="width:35.56%"></div>
+          <div class="seg seg-ground" style="width:36.50%"></div>
         </div></div>
-        <div class="bar-total">€1,295</div>
+        <div class="bar-total">€1,455</div>
       </div>
       <div class="bar-row">
         <div class="bar-lab"><div class="bar-code">TFS</div><div class="bar-place">Costa Adeje</div></div>
         <div class="bar-track"><div class="bar-fill">
-          <div class="seg seg-travel" style="width:19.67%"></div>
-          <div class="seg seg-hotel" style="width:38.53%"></div>
-          <div class="seg seg-ground" style="width:29.00%"></div>
+          <div class="seg seg-travel" style="width:18.75%"></div>
+          <div class="seg seg-hotel" style="width:40.62%"></div>
+          <div class="seg seg-ground" style="width:31.75%"></div>
         </div></div>
-        <div class="bar-total">€1,308</div>
+        <div class="bar-total">€1,458</div>
       </div>
-      <div class="ceiling"><div class="ceiling-line"></div></div>
+      <div class="bar-row">
+        <div class="bar-lab"><div class="bar-code">PMI</div><div class="bar-place">Palma</div></div>
+        <div class="bar-track"><div class="bar-fill">
+          <div class="seg seg-travel" style="width:20.06%"></div>
+          <div class="seg seg-hotel" style="width:39.69%"></div>
+          <div class="seg seg-ground" style="width:35.50%"></div>
+        </div></div>
+        <div class="bar-total over">€1,524</div>
+      </div>
       <div class="legend">
         <span><i class="dot" style="background:#14607F"></i> Flights and bags</span>
-        <span><i class="dot" style="background:#C08A3E"></i> Four nights</span>
+        <span><i class="dot" style="background:#C08A3E"></i> Five nights</span>
         <span><i class="dot" style="background:#7FC4CE"></i> Transfers, food, activities, contingency</span>
       </div>
-      <p class="bars-note">Bars are scaled to the €1,500 ceiling. Naples leaves €405 a head unspent; even Tenerife, the dearest, keeps €192 in reserve.</p>
+      <p class="bars-note">Bars are scaled to €1,600 so the overage is visible. Palma runs €24 over with two separate rooms; a single Quadruple Room brings it to €1,413, but that's four single beds for four adults.</p>
     </div>
 
     <div class="table-scroll rise">
       <table>
-        <thead><tr><th>Option</th><th>Accommodation</th><th class="num">Flights</th><th class="num">4 nights</th><th class="num">All-in p.p.</th><th>The days</th></tr></thead>
+        <thead><tr><th>Option</th><th>Accommodation</th><th class="num">Flights</th><th class="num">5 nights</th><th class="num">All-in p.p.</th><th>The days</th></tr></thead>
         <tbody>
           <tr>
             <td><span class="t-code">NAP</span><span class="t-name">Vico Equense, Italy</span><br><span class="tag tag-cheap">Cheapest</span></td>
             <td>Eden Bleu · 8.7<br><small>2 × Standard Double or Twin · B&amp;B</small></td>
-            <td class="num">€815</td><td class="num">€1,439</td><td class="num t-total">€1,095</td>
-            <td>In at 12:20 Tuesday. Out at 10:05 Saturday — an early last morning.</td>
+            <td class="num">€909</td><td class="num">€2,349</td><td class="num t-total">€1,431</td>
+            <td>In at 16:00 Monday, out at 10:05 Saturday. An early last morning.</td>
           </tr>
           <tr>
-            <td><span class="t-code">PMI</span><span class="t-name">Palma, Mallorca</span><br><span class="tag tag-value">Best Value</span></td>
-            <td>Hotel Artmadams · 8.6<br><small>2 × Twin Room · 2 pools</small></td>
-            <td class="num">€812</td><td class="num">€2,027</td><td class="num t-total">€1,242</td>
-            <td>Evening arrival, but a full final day — home 22:30 Saturday.</td>
-          </tr>
-          <tr>
-            <td><span class="t-code">AGP</span><span class="t-name">Marbella, Spain</span><br><span class="tag tag-relax">Most Relaxing</span></td>
+            <td><span class="t-code">AGP</span><span class="t-name">Marbella, Spain</span><br><span class="tag tag-value">Best Value</span></td>
             <td>NH Collection Marbella · 8.8<br><small>2 × Superior with terrace</small></td>
-            <td class="num">€1,081</td><td class="num">€1,854</td><td class="num t-total">€1,295</td>
-            <td>The best-shaped week: in at 10:30 Tuesday, out at 19:10 Saturday. Both ends full.</td>
+            <td class="num">€949</td><td class="num">€2,277</td><td class="num t-total">€1,455</td>
+            <td>The best-shaped week: in 10:20 Monday, out 19:10 Saturday. Five full days.</td>
           </tr>
           <tr>
             <td><span class="t-code">TFS</span><span class="t-name">Costa Adeje, Tenerife</span><br><span class="tag tag-boug">Bougie Pick</span></td>
             <td>Vincci Selección La Plantación del Sur · 9.2<br><small>2 × Superior Room · B&amp;B · 5★</small></td>
-            <td class="num">€1,180</td><td class="num">€2,311</td><td class="num t-total">€1,308</td>
+            <td class="num">€1,200</td><td class="num">€2,600</td><td class="num t-total">€1,458</td>
             <td>Evening arrival; lands home 00:15 Sunday. Bags included in the fare.</td>
+          </tr>
+          <tr>
+            <td><span class="t-code">PMI</span><span class="t-name">Palma, Mallorca</span><br><span class="tag tag-relax">Most Relaxing</span></td>
+            <td>Hotel Artmadams · 8.6<br><small>2 × Twin Room · 2 pools</small></td>
+            <td class="num">€1,025</td><td class="num">€2,539</td><td class="num t-total over">€1,524</td>
+            <td>Shortest flight, in 09:30 Monday, out 19:55 Saturday. Both ends full — but €24 over.</td>
           </tr>
         </tbody>
       </table>
@@ -407,13 +410,13 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
   <div class="opt-body"><div class="wrap">
     <div class="opt-lede rise">
       <div>
-        <p>The option where not having a car is an advantage rather than a compromise. Vico Equense sits on the Circumvesuviana railway between Naples and Sorrento: Pompeii is twenty minutes one way, Sorrento fifteen the other, and the Sorrento ferry terminal puts Capri within an easy morning.</p>
-        <p>At €1,095 a head it comes in €405 under the ceiling — by far the most headroom of the four, and enough to upgrade the rooms or simply eat very well for four days.</p>
+        <p>The option where not having a car is an advantage rather than a compromise. Vico Equense sits on the Circumvesuviana railway between Naples and Sorrento: Pompeii is twenty minutes one way, Sorrento fifteen the other, and the Sorrento ferry terminal opens up Capri and the Amalfi coast.</p>
+        <p>Five nights gives you room for all of it — Capri, Pompeii, Sorrento and Positano without ever repeating yourself.</p>
       </div>
       <div class="suits">
         <h4>Who it suits</h4>
-        <p>A group that wants to <em>do</em> things — an island, a Roman city, three or four towns — and treats the hotel as somewhere to sleep and swim between them.</p>
-        <p><strong>Main trade-off</strong>Two things: the rooms are a plain 15 m², and the Saturday flight leaves at 10:05, so you're up and out around half seven on the last morning. Four nights here is really three and a half days.</p>
+        <p>A group that wants to <em>do</em> things — an island, a Roman city, four or five towns — and treats the hotel as somewhere to sleep and swim between them.</p>
+        <p><strong>Main trade-off</strong>The fifth night is expensive here: Eden Bleu jumps €910 for one extra night, far more than a fifth of the four-night rate. And the 10:05 Saturday flight means an early last morning.</p>
       </div>
     </div>
 
@@ -430,13 +433,13 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
       <div class="block-h"><h3>Flights</h3><span>easyJet · nonstop both ways</span></div>
       <div class="flights">
         <div class="leg">
-          <div class="leg-top"><span class="leg-dir">Outbound</span><span class="leg-date">Tue 15 Sep 2026</span></div>
+          <div class="leg-top"><span class="leg-dir">Outbound</span><span class="leg-date">Mon 14 Sep 2026</span></div>
           <div class="leg-main">
-            <div class="leg-end"><div class="leg-time">09:50</div><div class="leg-apt">AMS</div></div>
-            <div class="leg-path"><div class="leg-dur">2h 30m</div><div class="leg-line"></div><div class="leg-plane">✈</div></div>
-            <div class="leg-end"><div class="leg-time">12:20</div><div class="leg-apt">NAP</div></div>
+            <div class="leg-end"><div class="leg-time">13:35</div><div class="leg-apt">AMS</div></div>
+            <div class="leg-path"><div class="leg-dur">2h 25m</div><div class="leg-line"></div><div class="leg-plane">✈</div></div>
+            <div class="leg-end"><div class="leg-time">16:00</div><div class="leg-apt">NAP</div></div>
           </div>
-          <div class="leg-meta"><span><b>U2 4232</b></span><span>Airbus A320</span><span>Nonstop</span></div>
+          <div class="leg-meta"><span><b>U2 4236</b></span><span>Airbus A320</span><span>Nonstop</span></div>
         </div>
         <div class="leg">
           <div class="leg-top"><span class="leg-dir">Return</span><span class="leg-date">Sat 19 Sep 2026</span></div>
@@ -450,13 +453,13 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
       </div>
       <div class="fare">
         <div class="fare-l">Total, 4 adults, return</div>
-        <div><span class="fare-v">€815</span><span class="fare-pp">€204 per person</span></div>
-        <a class="btn" href="https://www.google.com/travel/flights/search?tfs=CBwQAhogEgoyMDI2LTA5LTE1KABqBwgBEgNBTVNyBwgBEgNOQVAaIBIKMjAyNi0wOS0xOSgAagcIARIDTkFQcgcIARIDQU1TQAFAAUABQAFIAXABggELCP___________wGYAQE&hl=en&gl=NL&curr=EUR" target="_blank" rel="noopener">Open this search</a>
+        <div><span class="fare-v">€909</span><span class="fare-pp">€227 per person</span></div>
+        <a class="btn" href="https://www.google.com/travel/flights/search?tfs=CBwQAhogEgoyMDI2LTA5LTE0KABqBwgBEgNBTVNyBwgBEgNOQVAaIBIKMjAyNi0wOS0xOSgAagcIARIDTkFQcgcIARIDQU1TQAFAAUABQAFIAXABggELCP___________wGYAQE&hl=en&gl=NL&curr=EUR" target="_blank" rel="noopener">Open this search</a>
       </div>
     </div>
 
     <div class="block rise">
-      <div class="block-h"><h3>Where you stay</h3><span>15–19 Sep · 4 nights</span></div>
+      <div class="block-h"><h3>Where you stay</h3><span>14–19 Sep · 5 nights</span></div>
       <div class="hotel">
         <div>
           <h4>Eden Bleu</h4>
@@ -465,33 +468,34 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
           <ul class="specs">
             <li><b>Rooms</b><span>2 × Standard Double or Twin, 15 m² each. One large double or two singles per room, ensuite, air conditioning, garden view.</span></li>
             <li><b>Pool</b><span>Outdoor swimming pool.</span></li>
-            <li><b>Included</b><span>Breakfast, rated “superb” by guests. Free WiFi.</span></li>
+            <li><b>Included</b><span>Breakfast, rated “superb” by guests. Free cancellation. Free WiFi.</span></li>
             <li><b>Also</b><span>Restaurant, bar, room service, family rooms.</span></li>
             <li><b>Position</b><span>Vico Equense town, on the Naples–Sorrento railway. Sorrento 15 minutes by train, Pompeii about 25.</span></li>
           </ul>
         </div>
         <div class="hotel-price">
-          <div class="p-big">€1,439</div>
-          <div class="p-sub">4 nights · 2 rooms · 4 adults</div>
-          <ul><li>Breakfast included</li><li>Includes taxes and charges</li><li>Cheapest room of the four</li><li>Plain, but well run</li></ul>
-          <a class="btn btn-ghost" href="https://www.booking.com/hotel/it/eden-bleu.en-gb.html?checkin=2026-09-15&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">View listing</a>
+          <div class="p-big">€2,349</div>
+          <div class="p-sub">5 nights · 2 rooms · 4 adults</div>
+          <ul><li>Breakfast included</li><li>Free cancellation</li><li>Includes taxes and charges</li><li>+€910 on the 4-night rate</li></ul>
+          <a class="btn btn-ghost" href="https://www.booking.com/hotel/it/eden-bleu.en-gb.html?checkin=2026-09-14&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">View listing</a>
         </div>
       </div>
     </div>
 
     <div class="block rise">
       <div class="block-h"><h3>Getting around without a car</h3><span>Naples → Vico Equense · ~45 min</span></div>
-      <p>From arrivals, the Curreri coach runs direct to Sorrento (about €12 a head) and you double back one stop on the train; a private minivan straight to the hotel is simpler with four people and luggage. After that the Circumvesuviana railway does everything — Pompeii, Sorrento, Naples — and ferries leave Sorrento for Capri through the day.</p>
-      <p><strong>Estimated cost:</strong> €180 return for airport transfers, plus about €160 across four days of trains and ferries. <span class="est">Estimate — confirm</span></p>
+      <p>From arrivals, the Curreri coach runs direct to Sorrento (about €12 a head) and you double back one stop on the train; a private minivan straight to the hotel is simpler with four people and luggage. After that the Circumvesuviana railway does everything — Pompeii, Sorrento, Naples — and ferries leave Sorrento for Capri and Positano through the day.</p>
+      <p><strong>Estimated cost:</strong> €180 return for airport transfers, plus about €200 across five days of trains and ferries. <span class="est">Estimate — confirm</span></p>
     </div>
 
     <div class="block rise">
-      <div class="block-h"><h3>The four nights</h3><span>Arrival through departure</span></div>
+      <div class="block-h"><h3>The five nights</h3><span>Arrival through departure</span></div>
       <ul class="days">
-        <li class="day"><div class="day-h"><span class="day-n">Tue 15</span><span class="day-t">Down to the bay</span></div><p>Land 12:20, transfer along the coast, checked in by half two. Afternoon at the pool, evening walk through Vico Equense — a working Italian town rather than a resort.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Wed 16</span><span class="day-t">Capri</span></div><p>Train to Sorrento, ferry across. The Blue Grotto if the sea is flat, the chairlift up Monte Solaro if it isn't, and a long lunch in Anacapri before the late boat back.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Thu 17</span><span class="day-t">Pompeii, then nothing</span></div><p>Twenty-five minutes on the train, three hours in the ruins before the heat peaks. Back for the pool and an early dinner.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Fri 18</span><span class="day-t">Sorrento</span></div><p>The cliff-top town properly: Villa Comunale, the Marina Grande for fish, the ceramic shops, and a last sunset drink looking at Vesuvius.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Mon 14</span><span class="day-t">Down to the bay</span></div><p>Land 16:00, transfer along the coast, checked in around six. A first walk through Vico Equense — a working Italian town rather than a resort — and dinner.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Tue 15</span><span class="day-t">Capri</span></div><p>Train to Sorrento, ferry across. The Blue Grotto if the sea is flat, the chairlift up Monte Solaro if it isn't, and a long lunch in Anacapri before the late boat back.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Wed 16</span><span class="day-t">Pompeii, then nothing</span></div><p>Twenty-five minutes on the train, three hours in the ruins before the heat peaks. Back for the pool and an early dinner.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Thu 17</span><span class="day-t">Sorrento</span></div><p>The cliff-top town properly: Villa Comunale, the Marina Grande for fish, the ceramic shops, and a sunset drink looking at Vesuvius.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Fri 18</span><span class="day-t">Positano by sea</span></div><p>Ferry down the Amalfi coast — the only sensible way to see it, and the day where not having a car is straightforwardly better than having one.</p></li>
         <li class="day"><div class="day-h"><span class="day-n">Sat 19</span><span class="day-t">Early doors</span></div><p>Up around half seven, transfer to Naples for the 10:05. Home at 12:45 with the whole weekend still in front of you.</p></li>
       </ul>
     </div>
@@ -501,157 +505,26 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
       <div class="table-scroll"><table class="budget">
         <thead><tr><th>Item</th><th class="num">Group</th><th class="num">Per person</th></tr></thead>
         <tbody>
-          <tr><td>Flights, 4 adults return (easyJet)</td><td class="num">€815</td><td class="num">€204</td></tr>
+          <tr><td>Flights, 4 adults return (easyJet)</td><td class="num">€909</td><td class="num">€227</td></tr>
           <tr><td>Checked baggage, 4 bags return <span class="est">Estimate</span></td><td class="num">€260</td><td class="num">€65</td></tr>
-          <tr><td>Hotel, 4 nights, 2 rooms, B&amp;B</td><td class="num">€1,439</td><td class="num">€360</td></tr>
-          <tr><td>Airport transfers + trains and ferries <span class="est">Estimate</span></td><td class="num">€340</td><td class="num">€85</td></tr>
-          <tr><td>Food and drink (breakfast already included)</td><td class="num">€800</td><td class="num">€200</td></tr>
-          <tr><td>Capri, Pompeii — entries and boats</td><td class="num">€400</td><td class="num">€100</td></tr>
-          <tr><td>Contingency (~8%)</td><td class="num">€326</td><td class="num">€82</td></tr>
+          <tr><td>Hotel, 5 nights, 2 rooms, B&amp;B</td><td class="num">€2,349</td><td class="num">€587</td></tr>
+          <tr><td>Airport transfers + trains and ferries <span class="est">Estimate</span></td><td class="num">€380</td><td class="num">€95</td></tr>
+          <tr><td>Food and drink (breakfast already included)</td><td class="num">€1,000</td><td class="num">€250</td></tr>
+          <tr><td>Capri, Pompeii, Positano — entries and boats</td><td class="num">€400</td><td class="num">€100</td></tr>
+          <tr><td>Contingency (~8%)</td><td class="num">€426</td><td class="num">€107</td></tr>
         </tbody>
-        <tfoot><tr><td>All-in</td><td class="num">€4,380</td><td class="num">€1,095</td></tr></tfoot>
+        <tfoot><tr><td>All-in</td><td class="num">€5,724</td><td class="num">€1,431</td></tr></tfoot>
       </table></div>
     </div>
 
     <div class="block rise"><div class="warns">
       <h4>Before you book</h4>
       <ul>
-        <li><b>The 10:05 Saturday flight costs you the last morning.</b> It was the only same-ticket return that day. If a full final day matters more than the money, Marbella and Palma both fly home in the evening.</li>
-        <li><b>The plainest rooms on this page.</b> 15 m², simple, no frills — you are buying the location and the day trips. There is €405 a head of headroom if you want to spend it on something better.</li>
-        <li><b>It's Vico Equense, not Sorrento.</b> Fifteen minutes by train from Sorrento proper — quieter and far cheaper, but you're commuting to the famous bits.</li>
+        <li><b>The fifth night is poor value here.</b> Eden Bleu goes from €1,439 for four nights to €2,349 for five — €910 for one night. If budget is the priority, this option is much stronger as a Tuesday–Saturday break at €1,095 a head.</li>
+        <li><b>The 10:05 Saturday flight costs you the last morning.</b> It was the only same-ticket return that day.</li>
+        <li><b>The plainest rooms on this page.</b> 15 m², simple, no frills — you're buying the location and the day trips.</li>
         <li><b>easyJet fares are cabin-bag only.</b> The €260 baggage line is an estimate at roughly €32 per bag per leg.</li>
         <li><b>Transfers are estimates.</b> Curreri coach fares and private minivan rates weren't quotable live.</li>
-      </ul>
-    </div></div>
-  </div></div>
-</section>
-
-<!-- PMI -->
-<section class="opt" id="pmi">
-  <div class="opt-banner">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Can_Pastilla_and_San_Antonio_de_la_Playa_marina_aerial_view1.jpg/1920px-Can_Pastilla_and_San_Antonio_de_la_Playa_marina_aerial_view1.jpg" alt="The Bay of Palma, Mallorca">
-    <div class="opt-banner-txt"><div class="wrap">
-      <span class="opt-code">PMI</span><h2>Palma, Mallorca</h2>
-      <p class="opt-where">Palma · Balearic Islands · <span class="tag tag-value">Best Value</span></p>
-    </div></div>
-  </div>
-  <div class="opt-body"><div class="wrap">
-    <div class="opt-lede rise">
-      <div>
-        <p>The shortest flight of the four at two and a half hours, the second-cheapest fare, and a hotel with two pools a few streets back from the Paseo Marítimo. Santa Catalina market is ten minutes on foot and the cathedral about twenty — which is the whole argument for Palma over a resort.</p>
-        <p>The Saturday flight doesn't leave until 19:55, so the final day is a real one: pools in the morning, a last lunch, and still home by half ten.</p>
-      </div>
-      <div class="suits">
-        <h4>Who it suits</h4>
-        <p>A group that gets restless in a resort and wants a city to walk out into in the evening, but still wants a pool for the afternoon.</p>
-        <p><strong>Main trade-off</strong>The outbound doesn't land until 18:40, so the first day is really just dinner. And the two rooms are twins — four single beds — which needs a request if you'd rather have doubles.</p>
-      </div>
-    </div>
-
-    <div class="block rise">
-      <div class="block-h"><h3>What the week looks like</h3><span>Palma · Sóller · the bay</span></div>
-      <div class="gallery">
-        <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Kathedrale_von_Palma_II.jpg/1280px-Kathedrale_von_Palma_II.jpg" alt="La Seu cathedral, Palma" loading="lazy"><figcaption>La Seu cathedral, Palma</figcaption></figure>
-        <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Es_Mal_Port_de_Soller_Sea_2020.jpg/1280px-Es_Mal_Port_de_Soller_Sea_2020.jpg" alt="Port de Sóller" loading="lazy"><figcaption>Port de Sóller</figcaption></figure>
-        <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Can_Pastilla_and_San_Antonio_de_la_Playa_marina_aerial_view1.jpg/1920px-Can_Pastilla_and_San_Antonio_de_la_Playa_marina_aerial_view1.jpg" alt="The Bay of Palma" loading="lazy"><figcaption>The Bay of Palma</figcaption></figure>
-      </div>
-    </div>
-
-    <div class="block rise">
-      <div class="block-h"><h3>Flights</h3><span>easyJet · nonstop both ways</span></div>
-      <div class="flights">
-        <div class="leg">
-          <div class="leg-top"><span class="leg-dir">Outbound</span><span class="leg-date">Tue 15 Sep 2026</span></div>
-          <div class="leg-main">
-            <div class="leg-end"><div class="leg-time">16:15</div><div class="leg-apt">AMS</div></div>
-            <div class="leg-path"><div class="leg-dur">2h 25m</div><div class="leg-line"></div><div class="leg-plane">✈</div></div>
-            <div class="leg-end"><div class="leg-time">18:40</div><div class="leg-apt">PMI</div></div>
-          </div>
-          <div class="leg-meta"><span><b>U2 7887</b></span><span>Airbus A320</span><span>Nonstop</span></div>
-        </div>
-        <div class="leg">
-          <div class="leg-top"><span class="leg-dir">Return</span><span class="leg-date">Sat 19 Sep 2026</span></div>
-          <div class="leg-main">
-            <div class="leg-end"><div class="leg-time">19:55</div><div class="leg-apt">PMI</div></div>
-            <div class="leg-path"><div class="leg-dur">2h 35m</div><div class="leg-line"></div><div class="leg-plane">✈</div></div>
-            <div class="leg-end"><div class="leg-time">22:30</div><div class="leg-apt">AMS</div></div>
-          </div>
-          <div class="leg-meta"><span><b>U2 7888</b></span><span>Airbus A320</span><span>Nonstop</span></div>
-        </div>
-      </div>
-      <div class="fare">
-        <div class="fare-l">Total, 4 adults, return</div>
-        <div><span class="fare-v">€812</span><span class="fare-pp">€203 per person</span></div>
-        <a class="btn" href="https://www.google.com/travel/flights/search?tfs=CBwQAhogEgoyMDI2LTA5LTE1KABqBwgBEgNBTVNyBwgBEgNQTUkaIBIKMjAyNi0wOS0xOSgAagcIARIDUE1JcgcIARIDQU1TQAFAAUABQAFIAXABggELCP___________wGYAQE&hl=en&gl=NL&curr=EUR" target="_blank" rel="noopener">Open this search</a>
-      </div>
-    </div>
-
-    <div class="block rise">
-      <div class="block-h"><h3>Where you stay</h3><span>15–19 Sep · 4 nights</span></div>
-      <div class="hotel">
-        <div>
-          <h4>Hotel Artmadams</h4>
-          <p class="hotel-loc">Carrer del Marquès de la Sènia 34, Palma</p>
-          <div class="score"><span class="score-n">8.6</span><span class="score-t">“Fabulous” · 2,111 reviews</span></div>
-          <ul class="specs">
-            <li><b>Rooms</b><span>2 × Twin Room, four single beds across the two. Beds can usually be joined on request — ask when booking.</span></li>
-            <li><b>Pools</b><span>Two swimming pools, including a rooftop.</span></li>
-            <li><b>Position</b><span>A few streets from the Paseo Marítimo. Santa Catalina market about ten minutes on foot, the cathedral and old town about twenty.</span></li>
-            <li><b>Included</b><span>Free WiFi. Free cancellation and no prepayment — you pay at the property. Breakfast charged separately at €15.</span></li>
-            <li><b>Also</b><span>Two restaurants, bar, fitness centre, room service, parking.</span></li>
-          </ul>
-        </div>
-        <div class="hotel-price">
-          <div class="p-big">€2,027</div>
-          <div class="p-sub">4 nights · 2 rooms · 4 adults</div>
-          <ul><li>Includes taxes and charges</li><li>Free cancellation</li><li>No prepayment needed</li><li>Breakfast €15 extra</li></ul>
-          <a class="btn btn-ghost" href="https://www.booking.com/hotel/es/armadams.en-gb.html?checkin=2026-09-15&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">View listing</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="block rise">
-      <div class="block-h"><h3>Getting around without a car</h3><span>PMI → Palma · 8 km · ~15 min</span></div>
-      <p>The shortest airport run of the four — fifteen minutes by taxi, roughly €35 for a van with four people and bags. After that the city does the work: the old town is walkable, the Sóller vintage train leaves from Plaça d'Espanya in the centre, and buses run along the bay to the better beaches at Illetas and Cala Major.</p>
-      <p><strong>Estimated cost:</strong> €70 return by taxi, plus about €80 across four days of buses and local taxis. <span class="est">Estimate — confirm</span></p>
-    </div>
-
-    <div class="block rise">
-      <div class="block-h"><h3>The four nights</h3><span>Arrival through departure</span></div>
-      <ul class="days">
-        <li class="day"><div class="day-h"><span class="day-n">Tue 15</span><span class="day-t">Land and eat</span></div><p>In at 18:40, taxi fifteen minutes, checked in by half seven. Straight out into Santa Catalina for a first dinner — no ambition beyond that.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Wed 16</span><span class="day-t">The old town</span></div><p>La Seu cathedral in the morning light, the Arab baths, Bellver Castle above the city. Lunch at the Mercat de Santa Catalina, afternoon on the roof by the pool.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Thu 17</span><span class="day-t">Sóller by wooden train</span></div><p>The 1912 train from Plaça d'Espanya through the Tramuntana orange groves, then the open-sided tram down to Port de Sóller for lunch by the water. No car, all day.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Fri 18</span><span class="day-t">Beach day</span></div><p>Bus or taxi fifteen minutes west to Illetas — small coves, clear water, a beach club if you want one. Back for a long tapas crawl through Santa Catalina.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Sat 19</span><span class="day-t">A full last day</span></div><p>Pools in the morning, late checkout, bags at reception, a final lunch by the water. Airport at six for the 19:55. Home at 22:30.</p></li>
-      </ul>
-    </div>
-
-    <div class="block rise">
-      <div class="block-h"><h3>Budget</h3><span>Group total and per person</span></div>
-      <div class="table-scroll"><table class="budget">
-        <thead><tr><th>Item</th><th class="num">Group</th><th class="num">Per person</th></tr></thead>
-        <tbody>
-          <tr><td>Flights, 4 adults return (easyJet)</td><td class="num">€812</td><td class="num">€203</td></tr>
-          <tr><td>Checked baggage, 4 bags return <span class="est">Estimate</span></td><td class="num">€260</td><td class="num">€65</td></tr>
-          <tr><td>Hotel, 4 nights, 2 rooms</td><td class="num">€2,027</td><td class="num">€507</td></tr>
-          <tr><td>Taxis and buses <span class="est">Estimate</span></td><td class="num">€150</td><td class="num">€38</td></tr>
-          <tr><td>Food and drink (breakfast not included)</td><td class="num">€1,050</td><td class="num">€263</td></tr>
-          <tr><td>Sóller train, museums, beach clubs</td><td class="num">€300</td><td class="num">€75</td></tr>
-          <tr><td>Contingency (~8%)</td><td class="num">€369</td><td class="num">€92</td></tr>
-        </tbody>
-        <tfoot><tr><td>All-in</td><td class="num">€4,968</td><td class="num">€1,242</td></tr></tfoot>
-      </table></div>
-    </div>
-
-    <div class="block rise"><div class="warns">
-      <h4>Before you book</h4>
-      <ul>
-        <li><b>You lose the first day.</b> The 16:15 departure is the only easyJet outbound on the Tuesday; landing at 18:40 means the first evening is dinner and bed. The alternative Transavia pairing runs €1,296 and isn't worth it.</li>
-        <li><b>Twin beds.</b> Four singles across two rooms. Spanish twins can usually be joined into doubles, but request it rather than assume it.</li>
-        <li><b>Breakfast costs extra</b> at €15 a head, which is why the food line here is €1,050 rather than the €800 used for Italy.</li>
-        <li><b>easyJet fares are cabin-bag only.</b> €260 baggage estimate at roughly €32 per bag per leg.</li>
-        <li><b>City beaches are ordinary.</b> If lying on sand all day is the point, Marbella or Tenerife will serve you better.</li>
       </ul>
     </div></div>
   </div></div>
@@ -663,19 +536,19 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Plage_de_Marbella_2.jpg/1920px-Plage_de_Marbella_2.jpg" alt="The beach at Marbella on the Costa del Sol">
     <div class="opt-banner-txt"><div class="wrap">
       <span class="opt-code">AGP</span><h2>Marbella, Costa del Sol</h2>
-      <p class="opt-where">Málaga · Spain · <span class="tag tag-relax">Most Relaxing</span></p>
+      <p class="opt-where">Málaga · Spain · <span class="tag tag-value">Best Value</span></p>
     </div></div>
   </div>
   <div class="opt-body"><div class="wrap">
     <div class="opt-lede rise">
       <div>
-        <p>This is the one that gets the shape of the trip right. You land at 10:30 on Tuesday and don't fly home until 19:10 on Saturday — so four nights buys you four genuinely full days, which none of the others quite manage.</p>
-        <p>Two Superior rooms with terraces at a hotel scoring 8.8, walking distance to both Marbella's old town and the beach, with free cancellation. Pound for pound it's the most usable week here.</p>
+        <p>The standout on these dates. Monday's fare is <em>cheaper</em> than Tuesday's — €949 against €1,081 — so you gain a whole night and save €132 on the flights at the same time. Nowhere else does that.</p>
+        <p>It also gets the shape right: you land at 10:20 on Monday and don't fly home until 19:10 on Saturday, so five nights buys five genuinely full days. Two Superior rooms with terraces, walking distance to both the old town and the beach, with free cancellation.</p>
       </div>
       <div class="suits">
         <h4>Who it suits</h4>
-        <p>A group that wants beach, town and pool all reachable on foot, and values a long first day and a long last day over a slightly cheaper fare.</p>
-        <p><strong>Main trade-off</strong>The most expensive flights of the four at €1,081, and the longest transfer of the Spanish options at forty minutes. Breakfast isn't included either.</p>
+        <p>A group that wants beach, town and pool all reachable on foot, and values long days at both ends over shaving a few euro off the fare.</p>
+        <p><strong>Main trade-off</strong>The longest transfer of the Spanish options at forty minutes, and breakfast isn't included — which is why the food line here is €1,300.</p>
       </div>
     </div>
 
@@ -692,13 +565,13 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
       <div class="block-h"><h3>Flights</h3><span>easyJet · nonstop both ways</span></div>
       <div class="flights">
         <div class="leg">
-          <div class="leg-top"><span class="leg-dir">Outbound</span><span class="leg-date">Tue 15 Sep 2026</span></div>
+          <div class="leg-top"><span class="leg-dir">Outbound</span><span class="leg-date">Mon 14 Sep 2026</span></div>
           <div class="leg-main">
-            <div class="leg-end"><div class="leg-time">07:25</div><div class="leg-apt">AMS</div></div>
+            <div class="leg-end"><div class="leg-time">07:15</div><div class="leg-apt">AMS</div></div>
             <div class="leg-path"><div class="leg-dur">3h 05m</div><div class="leg-line"></div><div class="leg-plane">✈</div></div>
-            <div class="leg-end"><div class="leg-time">10:30</div><div class="leg-apt">AGP</div></div>
+            <div class="leg-end"><div class="leg-time">10:20</div><div class="leg-apt">AGP</div></div>
           </div>
-          <div class="leg-meta"><span><b>U2 7889</b></span><span>Airbus A320</span><span>Nonstop</span></div>
+          <div class="leg-meta"><span><b>U2 7877</b></span><span>Airbus A320</span><span>Nonstop</span></div>
         </div>
         <div class="leg">
           <div class="leg-top"><span class="leg-dir">Return</span><span class="leg-date">Sat 19 Sep 2026</span></div>
@@ -712,13 +585,13 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
       </div>
       <div class="fare">
         <div class="fare-l">Total, 4 adults, return</div>
-        <div><span class="fare-v">€1,081</span><span class="fare-pp">€270 per person</span></div>
-        <a class="btn" href="https://www.google.com/travel/flights/search?tfs=CBwQAhogEgoyMDI2LTA5LTE1KABqBwgBEgNBTVNyBwgBEgNBR1AaIBIKMjAyNi0wOS0xOSgAagcIARIDQUdQcgcIARIDQU1TQAFAAUABQAFIAXABggELCP___________wGYAQE&hl=en&gl=NL&curr=EUR" target="_blank" rel="noopener">Open this search</a>
+        <div><span class="fare-v">€949</span><span class="fare-pp">€237 per person</span></div>
+        <a class="btn" href="https://www.google.com/travel/flights/search?tfs=CBwQAhogEgoyMDI2LTA5LTE0KABqBwgBEgNBTVNyBwgBEgNBR1AaIBIKMjAyNi0wOS0xOSgAagcIARIDQUdQcgcIARIDQU1TQAFAAUABQAFIAXABggELCP___________wGYAQE&hl=en&gl=NL&curr=EUR" target="_blank" rel="noopener">Open this search</a>
       </div>
     </div>
 
     <div class="block rise">
-      <div class="block-h"><h3>Where you stay</h3><span>15–19 Sep · 4 nights</span></div>
+      <div class="block-h"><h3>Where you stay</h3><span>14–19 Sep · 5 nights</span></div>
       <div class="hotel">
         <div>
           <h4>NH Collection Marbella</h4>
@@ -733,10 +606,10 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
           </ul>
         </div>
         <div class="hotel-price">
-          <div class="p-big">€1,854</div>
-          <div class="p-sub">4 nights · 2 rooms · 4 adults</div>
+          <div class="p-big">€2,277</div>
+          <div class="p-sub">5 nights · 2 rooms · 4 adults</div>
           <ul><li>Includes taxes and charges</li><li>Free cancellation</li><li>Two separate rooms</li><li>Breakfast €18 extra</li></ul>
-          <a class="btn btn-ghost" href="https://www.booking.com/hotel/es/nhmarbella.en-gb.html?checkin=2026-09-15&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">View listing</a>
+          <a class="btn btn-ghost" href="https://www.booking.com/hotel/es/nhmarbella.en-gb.html?checkin=2026-09-14&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">View listing</a>
         </div>
       </div>
     </div>
@@ -744,17 +617,18 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
     <div class="block rise">
       <div class="block-h"><h3>Getting around without a car</h3><span>AGP → Marbella · 55 km · ~40 min</span></div>
       <p>Book a private transfer rather than joining the taxi queue — roughly €75 each way for a van, forty minutes down the AP-7. Once there the old town, the beach and the promenade are all on foot, Puerto Banús is a €15–25 taxi, and Ronda runs as a coach day trip with hotel pickup.</p>
-      <p><strong>Estimated cost:</strong> €150 return for private transfers, plus about €100 across four days of local taxis. <span class="est">Estimate — confirm</span></p>
+      <p><strong>Estimated cost:</strong> €150 return for private transfers, plus about €100 across five days of local taxis. <span class="est">Estimate — confirm</span></p>
     </div>
 
     <div class="block rise">
-      <div class="block-h"><h3>The four nights</h3><span>Arrival through departure</span></div>
+      <div class="block-h"><h3>The five nights</h3><span>Arrival through departure</span></div>
       <ul class="days">
-        <li class="day"><div class="day-h"><span class="day-n">Tue 15</span><span class="day-t">On the sand by lunch</span></div><p>Land 10:30, transfer down the coast, checked in around noon. The beach for the whole afternoon and a first dinner in the old town.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Wed 16</span><span class="day-t">Nothing at all</span></div><p>Pool in the morning, beach after lunch, an evening walk along the promenade. The day the trip justifies itself.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Thu 17</span><span class="day-t">Ronda</span></div><p>A coach day trip inland: the Puente Nuevo over the gorge, the old bullring, a bodega lunch. Collected from and returned to the hotel.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Fri 18</span><span class="day-t">Old town and the marina</span></div><p>Marbella's Casco Antiguo on foot — orange trees, whitewash, lunch on Calle Ancha — then a taxi to Puerto Banús for the boats and the people-watching.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Sat 19</span><span class="day-t">A genuinely full last day</span></div><p>The flight isn't until 19:10. Late checkout, bags with reception, a final long afternoon on the beach before the 16:00 transfer. Home at 22:10.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Mon 14</span><span class="day-t">On the sand by lunch</span></div><p>Land 10:20, transfer down the coast, checked in around noon. The beach for the whole afternoon and a first dinner in the old town.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Tue 15</span><span class="day-t">Nothing at all</span></div><p>Pool in the morning, beach after lunch, an evening walk along the promenade. The day the trip justifies itself.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Wed 16</span><span class="day-t">Ronda</span></div><p>A coach day trip inland: the Puente Nuevo over the gorge, the old bullring, a bodega lunch. Collected from and returned to the hotel.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Thu 17</span><span class="day-t">Old town and the marina</span></div><p>Marbella's Casco Antiguo on foot — orange trees, whitewash, lunch on Calle Ancha — then a taxi to Puerto Banús for the boats and the people-watching.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Fri 18</span><span class="day-t">Beach club</span></div><p>A full day on the sand with a long lunch, or the spa if the weather turns. Last dinner somewhere in town.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Sat 19</span><span class="day-t">A genuinely full last day</span></div><p>The flight isn't until 19:10. Late checkout, bags with reception, a final long afternoon by the sea before the 16:00 transfer. Home at 22:10.</p></li>
       </ul>
     </div>
 
@@ -763,24 +637,24 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
       <div class="table-scroll"><table class="budget">
         <thead><tr><th>Item</th><th class="num">Group</th><th class="num">Per person</th></tr></thead>
         <tbody>
-          <tr><td>Flights, 4 adults return (easyJet)</td><td class="num">€1,081</td><td class="num">€270</td></tr>
+          <tr><td>Flights, 4 adults return (easyJet)</td><td class="num">€949</td><td class="num">€237</td></tr>
           <tr><td>Checked baggage, 4 bags return <span class="est">Estimate</span></td><td class="num">€260</td><td class="num">€65</td></tr>
-          <tr><td>Hotel, 4 nights, 2 rooms</td><td class="num">€1,854</td><td class="num">€464</td></tr>
+          <tr><td>Hotel, 5 nights, 2 rooms</td><td class="num">€2,277</td><td class="num">€569</td></tr>
           <tr><td>Private transfers + local taxis <span class="est">Estimate</span></td><td class="num">€250</td><td class="num">€63</td></tr>
-          <tr><td>Food and drink (breakfast not included)</td><td class="num">€1,050</td><td class="num">€263</td></tr>
-          <tr><td>Ronda day trip, beach clubs, spa</td><td class="num">€300</td><td class="num">€75</td></tr>
-          <tr><td>Contingency (~8%)</td><td class="num">€385</td><td class="num">€96</td></tr>
+          <tr><td>Food and drink (breakfast not included)</td><td class="num">€1,300</td><td class="num">€325</td></tr>
+          <tr><td>Ronda day trip, beach clubs, spa</td><td class="num">€350</td><td class="num">€88</td></tr>
+          <tr><td>Contingency (~8%)</td><td class="num">€434</td><td class="num">€109</td></tr>
         </tbody>
-        <tfoot><tr><td>All-in</td><td class="num">€5,180</td><td class="num">€1,295</td></tr></tfoot>
+        <tfoot><tr><td>All-in</td><td class="num">€5,820</td><td class="num">€1,455</td></tr></tfoot>
       </table></div>
     </div>
 
     <div class="block rise"><div class="warns">
       <h4>Before you book</h4>
       <ul>
-        <li><b>The dearest flights here at €1,081.</b> You're paying roughly €270 more than Naples or Palma for the privilege of a 07:25 departure and a 19:10 return — which is exactly what buys the full days at both ends.</li>
-        <li><b>Breakfast is not included</b>, at €18 a head if you add it.</li>
+        <li><b>Breakfast is not included</b>, at €18 a head if you add it — roughly €360 across the group for five mornings.</li>
         <li><b>551 reviews is a thinner sample</b> than Palma's 2,111 or Tenerife's 2,294, though still a solid basis for the 8.8.</li>
+        <li><b>07:15 departure.</b> Comfortably inside the 07:00 rule, but it still means leaving Amsterdam around five.</li>
         <li><b>easyJet fares are cabin-bag only.</b> €260 baggage estimate.</li>
         <li><b>Transfer prices are estimates.</b> Private minivan rates from Málaga weren't quotable live; €75 each way is realistic but unconfirmed.</li>
       </ul>
@@ -800,13 +674,13 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
   <div class="opt-body"><div class="wrap">
     <div class="opt-lede rise">
       <div>
-        <p>The only genuine five-star that fits, and the best-reviewed hotel on this page: 9.2 across 2,294 reviews, with a spa, a serious breakfast and colonial-style gardens above the Costa Adeje seafront.</p>
-        <p>It's flown by TUI, which matters more than it sounds — the fare includes checked baggage, so the €1,180 headline is the real number rather than the start of one. Against easyJet's €260-ish bag bill, that closes most of the gap to the cheaper options.</p>
+        <p>The only genuine five-star that fits, and the best-reviewed hotel here: 9.2 across 2,294 reviews, with a spa, a serious breakfast and colonial-style gardens above the Costa Adeje seafront.</p>
+        <p>The fifth night costs almost nothing on this route — the Monday fare is only €20 more than the Tuesday one, and the hotel adds €289. Flown by TUI, so checked bags are in the fare rather than bolted on afterwards.</p>
       </div>
       <div class="suits">
         <h4>Who it suits</h4>
         <p>A group that wants the hotel to be the holiday, guaranteed September heat, and a twenty-minute transfer from the runway to a sun lounger.</p>
-        <p><strong>Main trade-off</strong>The longest flight at nearly five hours, an evening arrival, and a return that lands at 00:15 on Sunday morning. You get your Sunday, but you'll spend the first half of it asleep.</p>
+        <p><strong>Main trade-off</strong>The longest flight at five hours, an evening arrival, and a return that lands at 00:15 on Sunday morning. You get your Sunday, but you'll sleep through the first half of it.</p>
       </div>
     </div>
 
@@ -823,11 +697,11 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
       <div class="block-h"><h3>Flights</h3><span>TUI fly Netherlands · nonstop both ways</span></div>
       <div class="flights">
         <div class="leg">
-          <div class="leg-top"><span class="leg-dir">Outbound</span><span class="leg-date">Tue 15 Sep 2026</span></div>
+          <div class="leg-top"><span class="leg-dir">Outbound</span><span class="leg-date">Mon 14 Sep 2026</span></div>
           <div class="leg-main">
-            <div class="leg-end"><div class="leg-time">14:55</div><div class="leg-apt">AMS</div></div>
+            <div class="leg-end"><div class="leg-time">15:05</div><div class="leg-apt">AMS</div></div>
             <div class="leg-path"><div class="leg-dur">5h 00m</div><div class="leg-line"></div><div class="leg-plane">✈</div></div>
-            <div class="leg-end"><div class="leg-time">18:55</div><div class="leg-apt">TFS</div></div>
+            <div class="leg-end"><div class="leg-time">19:05</div><div class="leg-apt">TFS</div></div>
           </div>
           <div class="leg-meta"><span><b>OR 1663</b></span><span>737 MAX 8</span><span><b>Bags included</b></span></div>
         </div>
@@ -843,13 +717,13 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
       </div>
       <div class="fare">
         <div class="fare-l">Total, 4 adults, return</div>
-        <div><span class="fare-v">€1,180</span><span class="fare-pp">€295 per person · bags included</span></div>
-        <a class="btn" href="https://www.google.com/travel/flights/search?tfs=CBwQAhogEgoyMDI2LTA5LTE1KABqBwgBEgNBTVNyBwgBEgNURlMaIBIKMjAyNi0wOS0xOSgAagcIARIDVEZTcgcIARIDQU1TQAFAAUABQAFIAXABggELCP___________wGYAQE&hl=en&gl=NL&curr=EUR" target="_blank" rel="noopener">Open this search</a>
+        <div><span class="fare-v">€1,200</span><span class="fare-pp">€300 per person · bags included</span></div>
+        <a class="btn" href="https://www.google.com/travel/flights/search?tfs=CBwQAhogEgoyMDI2LTA5LTE0KABqBwgBEgNBTVNyBwgBEgNURlMaIBIKMjAyNi0wOS0xOSgAagcIARIDVEZTcgcIARIDQU1TQAFAAUABQAFIAXABggELCP___________wGYAQE&hl=en&gl=NL&curr=EUR" target="_blank" rel="noopener">Open this search</a>
       </div>
     </div>
 
     <div class="block rise">
-      <div class="block-h"><h3>Where you stay</h3><span>15–19 Sep · 4 nights</span></div>
+      <div class="block-h"><h3>Where you stay</h3><span>14–19 Sep · 5 nights</span></div>
       <div class="hotel">
         <div>
           <h4>Vincci Selección La Plantación del Sur</h4>
@@ -864,10 +738,10 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
           </ul>
         </div>
         <div class="hotel-price">
-          <div class="p-big">€2,311</div>
-          <div class="p-sub">4 nights · 2 rooms · 4 adults</div>
+          <div class="p-big">€2,600</div>
+          <div class="p-sub">5 nights · 2 rooms · 4 adults</div>
           <ul><li>Breakfast included</li><li>Free cancellation</li><li>Best-reviewed hotel here</li><li>Room category to confirm</li></ul>
-          <a class="btn btn-ghost" href="https://www.booking.com/hotel/es/hotelvinccilaplantaciondelsur.en-gb.html?checkin=2026-09-15&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">View listing</a>
+          <a class="btn btn-ghost" href="https://www.booking.com/hotel/es/hotelvinccilaplantaciondelsur.en-gb.html?checkin=2026-09-14&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">View listing</a>
         </div>
       </div>
     </div>
@@ -875,16 +749,17 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
     <div class="block rise">
       <div class="block-h"><h3>Getting around without a car</h3><span>TFS → Costa Adeje · 20 km · ~20 min</span></div>
       <p>A taxi from Tenerife South runs about €40 for the four of you and takes twenty minutes up the TF-1 — the shortest transfer here. Once there you genuinely don't need anything: the promenade connects the beaches, restaurants and Puerto Colón, and Teide and whale-watching trips both run coaches that collect from Costa Adeje hotels.</p>
-      <p><strong>Estimated cost:</strong> €80 return by taxi, plus about €120 across four days of local taxis. <span class="est">Estimate — confirm</span></p>
+      <p><strong>Estimated cost:</strong> €80 return by taxi, plus about €120 across five days of local taxis. <span class="est">Estimate — confirm</span></p>
     </div>
 
     <div class="block rise">
-      <div class="block-h"><h3>The four nights</h3><span>Arrival through departure</span></div>
+      <div class="block-h"><h3>The five nights</h3><span>Arrival through departure</span></div>
       <ul class="days">
-        <li class="day"><div class="day-h"><span class="day-n">Tue 15</span><span class="day-t">Late in, straight to dinner</span></div><p>Land 18:55, taxi twenty minutes, checked in before eight. A drink in the gardens, dinner at the hotel, early night.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Wed 16</span><span class="day-t">Duque and back</span></div><p>Playa del Duque in the morning, pool in the afternoon. Walk the coastal path to La Caleta for fish at sunset.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Thu 17</span><span class="day-t">Teide</span></div><p>A coach excursion up to the national park — cable car to 3,555 m if the wind allows, then the caldera floor. Collected from and returned to the hotel.</p></li>
-        <li class="day"><div class="day-h"><span class="day-n">Fri 18</span><span class="day-t">Whales, then the spa</span></div><p>Catamaran from Puerto Colón, ten minutes along the front — resident pilot whales and bottlenose dolphins year-round. Spa and pool for the afternoon.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Mon 14</span><span class="day-t">Late in, straight to dinner</span></div><p>Land 19:05, taxi twenty minutes, checked in before eight. A drink in the gardens, dinner at the hotel, early night.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Tue 15</span><span class="day-t">Duque and back</span></div><p>Playa del Duque in the morning, pool in the afternoon. Walk the coastal path to La Caleta for fish at sunset.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Wed 16</span><span class="day-t">Teide</span></div><p>A coach excursion up to the national park — cable car to 3,555 m if the wind allows, then the caldera floor. Collected from and returned to the hotel.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Thu 17</span><span class="day-t">Whales, then the spa</span></div><p>Catamaran from Puerto Colón, ten minutes along the front — resident pilot whales and bottlenose dolphins year-round. Spa and pool for the afternoon.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Fri 18</span><span class="day-t">Nowhere</span></div><p>Gardens, pool, beach, a long lunch. The evening on the promenade at Puerto Colón.</p></li>
         <li class="day"><div class="day-h"><span class="day-n">Sat 19</span><span class="day-t">Borrowed hours</span></div><p>Late checkout and the pool until mid-afternoon, taxi at half four for the 18:30. Home at 00:15 on Sunday.</p></li>
       </ul>
     </div>
@@ -894,15 +769,15 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
       <div class="table-scroll"><table class="budget">
         <thead><tr><th>Item</th><th class="num">Group</th><th class="num">Per person</th></tr></thead>
         <tbody>
-          <tr><td>Flights, 4 adults return (TUI fly)</td><td class="num">€1,180</td><td class="num">€295</td></tr>
+          <tr><td>Flights, 4 adults return (TUI fly)</td><td class="num">€1,200</td><td class="num">€300</td></tr>
           <tr><td>Checked baggage — included in fare</td><td class="num">€0</td><td class="num">€0</td></tr>
-          <tr><td>Hotel, 4 nights, 2 rooms, B&amp;B</td><td class="num">€2,311</td><td class="num">€578</td></tr>
+          <tr><td>Hotel, 5 nights, 2 rooms, B&amp;B</td><td class="num">€2,600</td><td class="num">€650</td></tr>
           <tr><td>Taxis, airport and local <span class="est">Estimate</span></td><td class="num">€200</td><td class="num">€50</td></tr>
-          <tr><td>Food and drink (breakfast already included)</td><td class="num">€850</td><td class="num">€213</td></tr>
-          <tr><td>Teide excursion, catamaran, spa</td><td class="num">€300</td><td class="num">€75</td></tr>
-          <tr><td>Contingency (~8%)</td><td class="num">€391</td><td class="num">€98</td></tr>
+          <tr><td>Food and drink (breakfast already included)</td><td class="num">€1,050</td><td class="num">€263</td></tr>
+          <tr><td>Teide excursion, catamaran, spa</td><td class="num">€350</td><td class="num">€88</td></tr>
+          <tr><td>Contingency (~8%)</td><td class="num">€432</td><td class="num">€108</td></tr>
         </tbody>
-        <tfoot><tr><td>All-in</td><td class="num">€5,232</td><td class="num">€1,308</td></tr></tfoot>
+        <tfoot><tr><td>All-in</td><td class="num">€5,832</td><td class="num">€1,458</td></tr></tfoot>
       </table></div>
     </div>
 
@@ -910,10 +785,143 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
       <h4>Before you book</h4>
       <ul>
         <li><b>You land at 00:15 on Sunday.</b> Still home before Monday, but plan how you get back from Schiphol after midnight — and don't schedule anything for Sunday morning.</li>
-        <li><b>Confirm the room category.</b> Booking quoted €2,311 for two rooms with breakfast and free cancellation, but the property page listed higher-tier Triple Superior rooms at more. The €2,311 is real; pin down exactly which room it buys.</li>
+        <li><b>Confirm the room category.</b> Booking quoted €2,600 for two rooms with breakfast and free cancellation, but the property page listed higher-tier Triple Superior rooms at more. The €2,600 is real; pin down exactly which room it buys.</li>
         <li><b>Bags are included — but verify the allowance.</b> The TUI fare showed no cabin-bag-only restriction, which normally means hold luggage is in. Confirm the weight limit at booking rather than at the airport.</li>
-        <li><b>Evening arrival.</b> Landing at 18:55 means the first day is dinner only, same as Palma.</li>
+        <li><b>Evening arrival.</b> Landing at 19:05 means the first day is dinner only.</li>
         <li><b>Tenerife North was checked</b> and has no nonstop service from Amsterdam, so Tenerife South is the only way in.</li>
+      </ul>
+    </div></div>
+  </div></div>
+</section>
+
+<!-- PMI -->
+<section class="opt" id="pmi">
+  <div class="opt-banner">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Can_Pastilla_and_San_Antonio_de_la_Playa_marina_aerial_view1.jpg/1920px-Can_Pastilla_and_San_Antonio_de_la_Playa_marina_aerial_view1.jpg" alt="The Bay of Palma, Mallorca">
+    <div class="opt-banner-txt"><div class="wrap">
+      <span class="opt-code">PMI</span><h2>Palma, Mallorca</h2>
+      <p class="opt-where">Palma · Balearic Islands · <span class="tag tag-relax">Most Relaxing</span></p>
+    </div></div>
+  </div>
+  <div class="opt-body"><div class="wrap">
+    <div class="opt-lede rise">
+      <div>
+        <p>The easiest travelling of the four: two and a half hours each way, a fifteen-minute taxi at the far end, in at 09:30 on Monday and home at 22:30 on Saturday. Both ends of the trip are full days, which no other option manages alongside a flight this short.</p>
+        <p>Moving to Monday is what buys that — Tuesday's only easyJet outbound leaves at 16:15 and lands at 18:40. Here you're at the rooftop pool by eleven on day one.</p>
+      </div>
+      <div class="suits">
+        <h4>Who it suits</h4>
+        <p>A group that gets restless in a resort, wants a city to walk out into in the evening, and would rather spend the travel time on a lounger.</p>
+        <p><strong>Main trade-off</strong>It's the one option that misses your budget — €1,524, or €24 over — and the two rooms are twins rather than doubles. A single Quadruple Room brings it to €1,413 but puts all four of you in one room.</p>
+      </div>
+    </div>
+
+    <div class="block rise">
+      <div class="block-h"><h3>What the week looks like</h3><span>Palma · Sóller · the bay</span></div>
+      <div class="gallery">
+        <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Kathedrale_von_Palma_II.jpg/1280px-Kathedrale_von_Palma_II.jpg" alt="La Seu cathedral, Palma" loading="lazy"><figcaption>La Seu cathedral, Palma</figcaption></figure>
+        <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Es_Mal_Port_de_Soller_Sea_2020.jpg/1280px-Es_Mal_Port_de_Soller_Sea_2020.jpg" alt="Port de Sóller" loading="lazy"><figcaption>Port de Sóller</figcaption></figure>
+        <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Can_Pastilla_and_San_Antonio_de_la_Playa_marina_aerial_view1.jpg/1920px-Can_Pastilla_and_San_Antonio_de_la_Playa_marina_aerial_view1.jpg" alt="The Bay of Palma" loading="lazy"><figcaption>The Bay of Palma</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="block rise">
+      <div class="block-h"><h3>Flights</h3><span>easyJet · nonstop both ways</span></div>
+      <div class="flights">
+        <div class="leg">
+          <div class="leg-top"><span class="leg-dir">Outbound</span><span class="leg-date">Mon 14 Sep 2026</span></div>
+          <div class="leg-main">
+            <div class="leg-end"><div class="leg-time">07:05</div><div class="leg-apt">AMS</div></div>
+            <div class="leg-path"><div class="leg-dur">2h 25m</div><div class="leg-line"></div><div class="leg-plane">✈</div></div>
+            <div class="leg-end"><div class="leg-time">09:30</div><div class="leg-apt">PMI</div></div>
+          </div>
+          <div class="leg-meta"><span><b>U2 7881</b></span><span>Airbus A320</span><span>Nonstop</span></div>
+        </div>
+        <div class="leg">
+          <div class="leg-top"><span class="leg-dir">Return</span><span class="leg-date">Sat 19 Sep 2026</span></div>
+          <div class="leg-main">
+            <div class="leg-end"><div class="leg-time">19:55</div><div class="leg-apt">PMI</div></div>
+            <div class="leg-path"><div class="leg-dur">2h 35m</div><div class="leg-line"></div><div class="leg-plane">✈</div></div>
+            <div class="leg-end"><div class="leg-time">22:30</div><div class="leg-apt">AMS</div></div>
+          </div>
+          <div class="leg-meta"><span><b>U2 7888</b></span><span>Airbus A320</span><span>Nonstop</span></div>
+        </div>
+      </div>
+      <div class="fare">
+        <div class="fare-l">Total, 4 adults, return</div>
+        <div><span class="fare-v">€1,025</span><span class="fare-pp">€256 per person</span></div>
+        <a class="btn" href="https://www.google.com/travel/flights/search?tfs=CBwQAhogEgoyMDI2LTA5LTE0KABqBwgBEgNBTVNyBwgBEgNQTUkaIBIKMjAyNi0wOS0xOSgAagcIARIDUE1JcgcIARIDQU1TQAFAAUABQAFIAXABggELCP___________wGYAQE&hl=en&gl=NL&curr=EUR" target="_blank" rel="noopener">Open this search</a>
+      </div>
+    </div>
+
+    <div class="block rise">
+      <div class="block-h"><h3>Where you stay</h3><span>14–19 Sep · 5 nights</span></div>
+      <div class="hotel">
+        <div>
+          <h4>Hotel Artmadams</h4>
+          <p class="hotel-loc">Carrer del Marquès de la Sènia 34, Palma</p>
+          <div class="score"><span class="score-n">8.6</span><span class="score-t">“Fabulous” · 2,111 reviews</span></div>
+          <ul class="specs">
+            <li><b>Rooms</b><span>2 × Twin Room, four single beds across the two. Beds can usually be joined on request — ask when booking.</span></li>
+            <li><b>Pools</b><span>Two swimming pools, including a rooftop.</span></li>
+            <li><b>Position</b><span>A few streets from the Paseo Marítimo. Santa Catalina market about ten minutes on foot, the cathedral and old town about twenty.</span></li>
+            <li><b>Included</b><span>Free WiFi. Free cancellation and no prepayment — you pay at the property. Breakfast charged separately at €15.</span></li>
+            <li><b>Also</b><span>Two restaurants, bar, fitness centre, room service, parking.</span></li>
+          </ul>
+        </div>
+        <div class="hotel-price">
+          <div class="p-big">€2,539</div>
+          <div class="p-sub">5 nights · 2 rooms · 4 adults</div>
+          <ul><li>Includes taxes and charges</li><li>Free cancellation</li><li>No prepayment needed</li><li>One Quadruple Room: €2,126</li></ul>
+          <a class="btn btn-ghost" href="https://www.booking.com/hotel/es/armadams.en-gb.html?checkin=2026-09-14&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">View listing</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="block rise">
+      <div class="block-h"><h3>Getting around without a car</h3><span>PMI → Palma · 8 km · ~15 min</span></div>
+      <p>The shortest airport run of the four — fifteen minutes by taxi, roughly €35 for a van with four people and bags. After that the city does the work: the old town is walkable, the Sóller vintage train leaves from Plaça d'Espanya in the centre, and buses run along the bay to the better beaches at Illetas and Cala Major.</p>
+      <p><strong>Estimated cost:</strong> €70 return by taxi, plus about €100 across five days of buses and local taxis. <span class="est">Estimate — confirm</span></p>
+    </div>
+
+    <div class="block rise">
+      <div class="block-h"><h3>The five nights</h3><span>Arrival through departure</span></div>
+      <ul class="days">
+        <li class="day"><div class="day-h"><span class="day-n">Mon 14</span><span class="day-t">Pool by eleven</span></div><p>Land 09:30, taxi fifteen minutes, checked in around eleven. The rooftop pool for the afternoon, then a first walk along the Paseo Marítimo into Santa Catalina for dinner.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Tue 15</span><span class="day-t">The old town</span></div><p>La Seu cathedral in the morning light, the Arab baths, Bellver Castle above the city. Lunch at the Mercat de Santa Catalina, afternoon back on the roof.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Wed 16</span><span class="day-t">Sóller by wooden train</span></div><p>The 1912 train from Plaça d'Espanya through the Tramuntana orange groves, then the open-sided tram down to Port de Sóller for lunch by the water. No car, all day.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Thu 17</span><span class="day-t">Beach day</span></div><p>Bus or taxi fifteen minutes west to Illetas — small coves, clear water, a beach club if you want one. Back for sunset on the roof.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Fri 18</span><span class="day-t">Slow</span></div><p>Pools in the morning, Es Baluard modern art museum in the afternoon if anyone's inclined, and a long tapas crawl through Santa Catalina to finish.</p></li>
+        <li class="day"><div class="day-h"><span class="day-n">Sat 19</span><span class="day-t">A full last day</span></div><p>Pools, late checkout, bags at reception, a final lunch by the water. Airport at six for the 19:55. Home at 22:30.</p></li>
+      </ul>
+    </div>
+
+    <div class="block rise">
+      <div class="block-h"><h3>Budget</h3><span>Group total and per person</span></div>
+      <div class="table-scroll"><table class="budget">
+        <thead><tr><th>Item</th><th class="num">Group</th><th class="num">Per person</th></tr></thead>
+        <tbody>
+          <tr><td>Flights, 4 adults return (easyJet)</td><td class="num">€1,025</td><td class="num">€256</td></tr>
+          <tr><td>Checked baggage, 4 bags return <span class="est">Estimate</span></td><td class="num">€260</td><td class="num">€65</td></tr>
+          <tr><td>Hotel, 5 nights, 2 rooms</td><td class="num">€2,539</td><td class="num">€635</td></tr>
+          <tr><td>Taxis and buses <span class="est">Estimate</span></td><td class="num">€170</td><td class="num">€43</td></tr>
+          <tr><td>Food and drink (breakfast not included)</td><td class="num">€1,300</td><td class="num">€325</td></tr>
+          <tr><td>Sóller train, museums, beach clubs</td><td class="num">€350</td><td class="num">€88</td></tr>
+          <tr><td>Contingency (~8%)</td><td class="num">€452</td><td class="num">€113</td></tr>
+        </tbody>
+        <tfoot><tr class="over"><td>All-in — €24 over the ceiling</td><td class="num">€6,096</td><td class="num">€1,524</td></tr></tfoot>
+      </table></div>
+    </div>
+
+    <div class="block rise"><div class="warns">
+      <h4>Before you book</h4>
+      <ul>
+        <li><b>This is the one option over budget</b>, by €24 a head. It's inside the contingency line, but it isn't under €1,500 and I'm not going to round it there.</li>
+        <li><b>The fix, if you want one:</b> a single Quadruple Room — 30 m², four single beds, two left — is €2,126 instead of €2,539, which brings the trip to €1,413 a head. Cheaper, but all four of you share one room.</li>
+        <li><b>Twin beds either way.</b> Four singles across two rooms on the headline option. Spanish twins can usually be joined into doubles, but request it rather than assume it.</li>
+        <li><b>Breakfast costs extra</b> at €15 a head — about €300 across the group for five mornings.</li>
+        <li><b>easyJet fares are cabin-bag only.</b> €260 baggage estimate at roughly €32 per bag per leg.</li>
+        <li><b>City beaches are ordinary.</b> If lying on sand all day is the point, Marbella or Tenerife will serve you better.</li>
       </ul>
     </div></div>
   </div></div>
@@ -924,47 +932,52 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
   <div class="wrap">
     <div class="section-head rise">
       <p class="eyebrow">Why these dates</p>
-      <h2>Saturday is the cheap day to fly home. Sunday is the expensive one.</h2>
-      <p>Every combination inside your window was priced for four adults, nonstop, both legs after 07:00, on a single ticket. Tuesday-to-Saturday came out cheapest or near-cheapest on three of the four routes — and it puts everyone back in Amsterdam with a clear Sunday.</p>
+      <h2>Every combination in your window, priced</h2>
+      <p>All figures below are for four adults, nonstop, both legs after 07:00, on a single ticket. Monday-to-Saturday buys the extra night without the Sunday premium — and on Marbella it's actually cheaper than leaving a day later.</p>
     </div>
 
     <div class="table-scroll rise">
       <table class="dates-table">
         <thead><tr>
-          <th>Return</th><th class="num">NAP Naples</th><th class="num">PMI Palma</th>
+          <th>Dates</th><th class="num">NAP Naples</th><th class="num">PMI Palma</th>
           <th class="num">TFS Tenerife</th><th class="num">AGP Málaga</th><th>Verdict</th>
         </tr></thead>
         <tbody>
           <tr class="chosen">
-            <td><b>Sat 19</b> · 4 nights<br><small>out Tue 15</small><span class="chosen-flag">← costed above</span></td>
+            <td><b>Mon 14 → Sat 19</b> · 5 nights<span class="chosen-flag">← costed above</span></td>
+            <td class="num">€909</td><td class="num">€1,025</td><td class="num">€1,200</td><td class="num best">€949</td>
+            <td>Five nights, home Saturday, a clear Sunday. Marbella's fare is the cheapest of any Málaga pairing here.</td>
+          </tr>
+          <tr>
+            <td><b>Tue 15 → Sat 19</b> · 4 nights</td>
             <td class="num best">€815</td><td class="num best">€812</td><td class="num">€1,180</td><td class="num">€1,081</td>
-            <td>Home Saturday evening, a clear Sunday, and the cheapest fares on two of the four routes.</td>
+            <td>Cheapest fares overall, one night shorter, and only one day of leave. Naples is €336 a head cheaper this way.</td>
           </tr>
           <tr>
-            <td><b>Mon 21</b> · 5 nights<br><small>out Wed 16</small></td>
+            <td><b>Wed 16 → Mon 21</b> · 5 nights</td>
             <td class="num">€819</td><td class="num">€969</td><td class="num best">€1,064</td><td class="num">€1,005</td>
-            <td>The original plan. An extra night for roughly the same fares — but you fly home on the Monday.</td>
+            <td>The original plan. Good fares, but you fly home on the Monday.</td>
           </tr>
           <tr>
-            <td><b>Sun 20</b> · 5 nights<br><small>out Tue 15</small></td>
+            <td><b>Tue 15 → Sun 20</b> · 5 nights</td>
             <td class="num">€1,063</td><td class="num worst">€2,400</td><td class="num">€1,300</td><td class="num worst">€1,611</td>
-            <td>Keeps every night and lands Sunday. Only Tenerife (TUI, one ticket, bags in) and Naples make sense at these prices.</td>
+            <td>Only Tenerife (TUI, one ticket, bags in) and Naples make sense at these prices.</td>
           </tr>
           <tr>
-            <td><b>Sun 20</b> · 4 nights<br><small>out Wed 16</small></td>
+            <td><b>Wed 16 → Sun 20</b> · 4 nights</td>
             <td class="num worst">€1,143</td><td class="num worst">€1,303</td><td class="num none">separate tickets only</td><td class="num worst">€1,609</td>
-            <td>The worst row on the board — more money for fewer nights. Tenerife's only Sunday flight home is TUI, which doesn't fly out on a Wednesday.</td>
+            <td>The worst row on the board — more money for fewer nights.</td>
           </tr>
           <tr>
-            <td><b>Sat 19</b> · 3 nights<br><small>out Wed 16</small></td>
+            <td><b>Wed 16 → Sat 19</b> · 3 nights</td>
             <td class="num">€895</td><td class="num">€834</td><td class="num">€1,143</td><td class="num">—</td>
-            <td>A short break. Cheap, but a night shorter than the chosen dates for no real saving.</td>
+            <td>A short break. Cheap, but two nights shorter than the chosen dates.</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <p class="bars-note rise">One correction worth flagging: an earlier pass put Palma on these dates at €1,528. That was wrong — it had forced the earliest departure, which locked in an expensive Transavia return. The easyJet pairing above is €812.</p>
+    <p class="bars-note rise">The fifth night costs €150 a head in Tenerife, €160 in Marbella, €282 in Palma and €336 in Naples — where the hotel alone jumps €910 for one extra night. If the budget is tight, Tuesday–Saturday remains the better-value shape.</p>
   </div>
 </section>
 
@@ -973,31 +986,31 @@ td.num,th.num{font-family:var(--mono);white-space:nowrap}
     <div class="section-head rise">
       <p class="eyebrow eyebrow-l">Sourcing</p>
       <h2>Where these numbers came from</h2>
-      <p>Searched live on 27 July 2026 at four adults, in euro, for 15–19 September 2026. Flights via Google Flights with a nonstop filter; accommodation via Booking.com at two rooms, four adults.</p>
+      <p>Searched live on 27 July 2026 at four adults, in euro, for 14–19 September 2026. Flights via Google Flights with a nonstop filter; accommodation via Booking.com at two rooms, four adults. Every hotel was re-priced on the 14–19 nights rather than scaled from the shorter stay.</p>
     </div>
     <div class="rules rise">
-      <div class="rule"><div class="rule-k">Verified</div><div class="rule-v">Flight numbers, times, aircraft, fares at 4 adults, hotel names, review scores, room configurations, board basis and cancellation terms — all re-checked on the 15–19 dates.</div></div>
+      <div class="rule"><div class="rule-k">Verified</div><div class="rule-v">Flight numbers, times, aircraft, fares at 4 adults, hotel names, review scores, room configurations, board basis and cancellation terms.</div></div>
       <div class="rule"><div class="rule-k">Estimated</div><div class="rule-v">Transfers, local transport, baggage, food and activities. Each is marked in the budget tables.</div></div>
-      <div class="rule"><div class="rule-k">Cut by the budget</div><div class="rule-v">The private-pool suite in Tenerife, Kimpton Los Monteros and Hotel Victoria Gran Meliá all pushed past €1,500 a head.</div></div>
+      <div class="rule"><div class="rule-k">Over budget</div><div class="rule-v">Palma, by €24 a head. Left visible in the chart and the budget table rather than trimmed away.</div></div>
       <div class="rule"><div class="rule-k">Rejected outright</div><div class="rule-v">Dubrovnik (€3,178 flights), Athens (€1,216), Ibiza and Cyprus — no same-ticket return. Every pre-07:00 departure was discarded.</div></div>
     </div>
     <div class="foot-grid" style="margin-top:46px">
       <div><h4>Book flights direct</h4><ul>
-        <li><a href="https://www.easyjet.com" target="_blank" rel="noopener">easyJet — Naples, Palma, Málaga</a></li>
+        <li><a href="https://www.easyjet.com" target="_blank" rel="noopener">easyJet — Naples, Málaga, Palma</a></li>
         <li><a href="https://www.tui.nl/vliegtickets/" target="_blank" rel="noopener">TUI fly — Tenerife</a></li>
       </ul></div>
       <div><h4>Accommodation listings</h4><ul>
-        <li><a href="https://www.booking.com/hotel/it/eden-bleu.en-gb.html?checkin=2026-09-15&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">Eden Bleu, Vico Equense</a></li>
-        <li><a href="https://www.booking.com/hotel/es/armadams.en-gb.html?checkin=2026-09-15&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">Hotel Artmadams, Palma</a></li>
-        <li><a href="https://www.booking.com/hotel/es/nhmarbella.en-gb.html?checkin=2026-09-15&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">NH Collection Marbella</a></li>
-        <li><a href="https://www.booking.com/hotel/es/hotelvinccilaplantaciondelsur.en-gb.html?checkin=2026-09-15&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">Vincci Selección La Plantación del Sur</a></li>
+        <li><a href="https://www.booking.com/hotel/it/eden-bleu.en-gb.html?checkin=2026-09-14&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">Eden Bleu, Vico Equense</a></li>
+        <li><a href="https://www.booking.com/hotel/es/nhmarbella.en-gb.html?checkin=2026-09-14&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">NH Collection Marbella</a></li>
+        <li><a href="https://www.booking.com/hotel/es/hotelvinccilaplantaciondelsur.en-gb.html?checkin=2026-09-14&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">Vincci Selección La Plantación del Sur</a></li>
+        <li><a href="https://www.booking.com/hotel/es/armadams.en-gb.html?checkin=2026-09-14&amp;checkout=2026-09-19&amp;group_adults=4&amp;no_rooms=2&amp;group_children=0&amp;selected_currency=EUR" target="_blank" rel="noopener">Hotel Artmadams, Palma</a></li>
       </ul></div>
       <div><h4>Jump to</h4><ul>
         <li><a href="#compare">Comparison</a></li>
         <li><a href="#nap">NAP — Bay of Naples</a></li>
-        <li><a href="#pmi">PMI — Mallorca</a></li>
         <li><a href="#agp">AGP — Marbella</a></li>
         <li><a href="#tfs">TFS — Tenerife</a></li>
+        <li><a href="#pmi">PMI — Mallorca</a></li>
         <li><a href="#dates">Why these dates</a></li>
       </ul></div>
     </div>
