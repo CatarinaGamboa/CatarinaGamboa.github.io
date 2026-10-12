@@ -23,6 +23,7 @@ Push to `master` to deploy via GitHub Pages.
 - **JS**: Bootstrap 4.4.1 (via CDN + local `assets/js/bootstrap.min.js`), jQuery 3.3.1 (local), lightbox plugin, smooth scroll.
 - **LiquidJava**: Several pages (`liquidjava.html`, `liquidjava_study1.html`, `liquidjava_study2.html`, `liquidjava_tutorial.html`) and VS Code extension files (`assets/liquid-java-*.vsix`) relate to the LiquidJava research project.
 - **PDFs**: CV versions at root (`CatarinaGamboa_CV.pdf` is current), papers in `papers/`.
+- **Paper pages**: Interactive pages for main papers live in `papers/<name>/index.html` (e.g. `papers/barista/`), built on the site's navbar/footer and referencing assets via `../../`. Shared styles are in `assets/css/paper-page.css` and the reusable state machine component in `assets/js/paper-dfa.js`; page-specific scripts are `assets/js/<name>*.js`. Old root URLs keep a redirect stub (as `barista.html` does).
 - **Subdirectories**: `cmupt/`, `docs/`, `presentation/` contain supplementary content.
 
 ## Key Conventions
