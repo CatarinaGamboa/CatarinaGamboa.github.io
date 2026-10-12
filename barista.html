@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <link rel="icon" type="image/jpg" href="assets/images/DSC09526 (1).jpg" sizes="228x228" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Barista: Synthesizing Typestate Specifications with LLM Agents - Catarina Gamboa</title>
+    <!-- web fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Hind:400,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- //web fonts -->
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/style-starter.css">
+    <link rel="stylesheet" href="assets/css/paper-page.css">
+    <style>
+      /* ---------- protocol lab ---------- */
+      .pp .lab-machine { margin-top: 1.5rem; }
+      .pp .lab-machine svg { min-width: 900px; padding: 0.5rem 1rem 1rem; }
+      .pp .lab { display: grid; gap: 1.25rem; margin-top: 1.25rem; grid-template-columns: minmax(0, 1fr); }
+      @media (min-width: 992px) { .pp .lab { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); } }
+      .pp .lab > * { min-width: 0; }
+      .pp .controls { padding: 0.8rem 1rem 0.3rem; display: grid; gap: 0.6rem; }
+      .pp .row-c { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+      .pp .row-l { font-size: 15px; color: var(--pp-muted); min-width: 8rem; }
+      .pp .row-c .btn-theme6 { margin-top: 0; }
+      .pp .call {
+        font-family: var(--pp-mono); font-size: 13px; padding: 3px 9px; border-radius: 0.25rem;
+        border: 1px solid #747474; background: #fff; color: #000; cursor: pointer;
+        display: inline-flex; align-items: center; gap: 0.35rem; transition: background 0.2s, color 0.2s;
+      }
+      .pp .call:hover:not(:disabled) { background: var(--pp-title); border-color: var(--pp-title); color: #fff; }
+      .pp .call:disabled { opacity: 0.4; cursor: not-allowed; }
+      .pp .call.allowed::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--pp-ok); }
+      .pp .call input {
+        width: 4.4rem; font: inherit; border: 0; border-bottom: 1px dashed #747474;
+        background: transparent; color: inherit; padding: 0; text-align: center;
+      }
+      .pp .legend-dot { font-size: 14px; color: var(--pp-muted); display: inline-flex; gap: 0.4rem; align-items: center; }
+      .pp .legend-dot::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--pp-ok); }
+
+      .pp .program { margin: 0.5rem 1rem 0; border-radius: 4px; background: var(--pp-code-bg); padding: 0.6rem 0; min-height: 7.5rem; font-family: var(--pp-mono); font-size: 13px; overflow-x: auto; color: var(--pp-title); }
+      .pp .program ol { list-style: none; margin: 0; padding: 0; counter-reset: ln; }
+      .pp .program li { counter-increment: ln; display: grid; grid-template-columns: 2.4rem 1fr auto; gap: 0.4rem 1rem; width: max-content; min-width: 100%; padding: 0.12rem 0.9rem 0.12rem 0; border-left: 3px solid transparent; white-space: pre; }
+      .pp .program li::before { content: counter(ln); color: #9a9a9a; text-align: right; }
+      .pp .program li .st { font-family: 'Hind', sans-serif; font-size: 13px; color: var(--pp-muted); }
+      .pp .program li.bad { border-left-color: var(--pp-theme); background: var(--pp-theme-soft); }
+      .pp .program li.bad .st { color: var(--pp-theme); font-weight: 600; }
+      .pp .program li.new { animation: line-in 260ms ease-out; }
+      @keyframes line-in { from { opacity: 0; transform: translateY(-4px); } }
+      .pp .program .empty { padding: 0.3rem 1rem; color: var(--pp-muted); font-family: 'Hind', sans-serif; font-size: 15px; white-space: normal; display: block; width: auto; }
+      .pp .program .empty::before { content: none; }
+
+      .pp .verdict { margin: 0.75rem 1rem 1rem; font-family: var(--pp-mono); font-size: 13px; line-height: 1.5; min-height: 3.2rem; color: var(--pp-title); }
+      .pp .verdict .ok { color: var(--pp-ok); font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 700; }
+      .pp .verdict .err { border-left: 3px solid var(--pp-theme); padding: 0.2rem 0 0.2rem 0.75rem; margin-bottom: 0.5rem; }
+      .pp .verdict .err b { color: var(--pp-theme); font-family: 'Nunito', sans-serif; font-size: 15px; }
+      .pp .verdict .idle { color: var(--pp-muted); font-family: 'Hind', sans-serif; font-size: 15px; }
+
+      .pp .tabs { display: flex; gap: 0.25rem; padding: 0.5rem 0.6rem 0; border-bottom: 1px solid var(--pp-rule); }
+      .pp .tabs button {
+        font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 15px; color: var(--pp-muted);
+        background: none; border: 0; border-bottom: 2px solid transparent; padding: 0.45rem 0.6rem 0.5rem;
+      }
+      .pp .tabs button[aria-selected="true"] { color: var(--pp-theme); border-bottom-color: var(--pp-theme); }
+      .pp .tabpanel { padding: 0.5rem 0.4rem 0.8rem; max-height: 30rem; overflow: auto; }
+      .pp .tabpanel.javadoc { padding: 0 0 0.8rem; }
+      /* Javadoc look (JDK 17 stylesheet colors), so it reads as the JDK's text, not ours */
+      .pp .javadoc { font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif; color: #353833; padding: 0 0 0.8rem; background: #fff; }
+      .pp .jd-top { display: flex; justify-content: space-between; background: #4d7a97; color: #fff; font-size: 12px; padding: 0.45rem 0.8rem; position: sticky; top: 0; z-index: 1; }
+      .pp .jd-head { padding: 0.7rem 0.8rem 0.6rem; }
+      .pp .jd-pkg { font-size: 12.5px; color: #353833; }
+      .pp .jd-pkg a, .pp .jd-note a { color: #4a6782; }
+      .pp .jd-title { font-size: 20px; color: #2c4557; margin-top: 0.15rem; }
+      .pp .jd-section { background: #dee3e9; border: 1px solid #d0d9e0; color: #2c4557; font-size: 14px; font-weight: 700; padding: 0.35rem 0.8rem; margin: 0 0.6rem 0.3rem; }
+      .pp .doc-entry { margin: 0 0.6rem; padding: 0.55rem 0.7rem 0.6rem; border-bottom: 1px solid #ededed; border-left: 3px solid transparent; transition: background 160ms, border-color 160ms; }
+      .pp .doc-entry h5 { font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 700; color: #2c4557; background: #f8f8f8; border-top: 1px solid #ededed; margin: -0.2rem -0.3rem 0.4rem; padding: 0.25rem 0.3rem; }
+      .pp .jd-sig { font-family: 'DejaVu Sans Mono', var(--pp-mono); font-size: 12.5px; color: #353833; margin-bottom: 0.4rem; line-height: 1.45; }
+      .pp .doc-entry p { margin: 0; font-size: 14px; line-height: 1.5; color: #353833; }
+      .pp .doc-entry dl { margin: 0.4rem 0 0; font-size: 13.5px; line-height: 1.45; }
+      .pp .doc-entry dt { font-weight: 700; color: #4e4e4e; }
+      .pp .doc-entry dd { margin: 0.1rem 0 0 1.2rem; color: #353833; }
+      .pp .doc-entry code { font-family: 'DejaVu Sans Mono', var(--pp-mono); font-size: 12.5px; color: #4a6782; }
+      .pp .doc-entry mark { background: none; color: inherit; padding: 0; text-decoration: underline; text-decoration-color: var(--pp-theme); text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+      .pp .jd-note { font-size: 12.5px; color: #6b6b6b; margin: 0.7rem 1.3rem 0; }
+      .pp .doc-src { font-size: 13px; color: var(--pp-muted); padding: 0.2rem 0.7rem 0.3rem; }
+      .pp .spec { margin: 0; font-size: 12px; line-height: 1.55; color: var(--pp-title); }
+      .pp .spec .blk { display: block; padding: 0.12rem 0.7rem; border-left: 3px solid transparent; border-radius: 3px; transition: background 160ms, border-color 160ms; white-space: pre; }
+      .pp .spec .an { color: var(--pp-theme); font-weight: 600; }
+      .pp .spec .str { color: #3b2f8f; }
+      .pp .is-hot { background: var(--pp-theme-soft); border-left-color: var(--pp-theme) !important; }
+
+      /* ---------- workflow (Figure 1) ---------- */
+      .pp .wf-pane { margin-top: 1.5rem; }
+      .pp .wf { width: 100%; height: auto; display: block; min-width: 820px; padding: 1rem; }
+      .wf text { font-family: 'Hind', Arial, sans-serif; fill: #111; }
+      .wf .wf-mono { font-family: var(--pp-mono); font-size: 20px; }
+      .wf .wf-big { font-size: 25px; }
+      .wf .wf-b { font-weight: 700; }
+      .wf .wf-label { font-size: 28px; }
+      .wf .wf-title { font-size: 28px; }
+      .wf .wf-badge { font-size: 19px; font-weight: 700; fill: #fff; }
+      .wf .wf-json { font-family: var(--pp-mono); font-size: 30px; fill: #ef7d1a; }
+      .wf .wf-arrow { fill: none; stroke: #111; stroke-width: 9; stroke-linejoin: miter; transition: stroke 200ms; }
+      .wf .wf-arrow.wf-thin { stroke-width: 6; }
+      .wf marker path { fill: #111; }
+      .wf .wf-arc { fill: none; stroke: #111; stroke-width: 4; }
+      .wf .wf-region { fill: #fff; stroke: #111; stroke-width: 2.5; transition: stroke 200ms, fill 200ms, stroke-width 200ms; }
+      .wf .wf-step { cursor: pointer; outline: none; }
+      .wf .wf-step:hover .wf-region, .wf .wf-step:focus-visible .wf-region { stroke: var(--pp-theme); stroke-width: 4; }
+      .wf .wf-step.selected .wf-region { stroke: var(--pp-theme); stroke-width: 5; fill: #fdf3f6; }
+      .wf [data-play] { transition: opacity 350ms; }
+      .wf.playing [data-play]:not(.lit) { opacity: 0.18; }
+      .wf .wf-glow { fill: none; stroke: var(--pp-theme); stroke-width: 5; opacity: 0; transition: opacity 300ms; }
+      .wf [data-play].glow .wf-glow { opacity: 1; }
+      .wf.playing .lit .wf-arrow { stroke: var(--pp-theme); marker-end: url(#wf-head-hot); }
+      .wf.playing .wf-step.lit .wf-region { stroke: var(--pp-theme); stroke-width: 5; fill: #fdf3f6; }
+      .wf.playing .wf-step.lit .wf-loop { animation: wf-spin 1.2s ease-in-out 1; transform-box: view-box; }
+      .wf .wf-final { cursor: pointer; outline: none; }
+      .wf .wf-final.selected .wf-glow, .wf .wf-final:hover .wf-glow, .wf .wf-final:focus-visible .wf-glow { opacity: 1; }
+      .wf #wf-head-hot path { fill: var(--pp-theme); }
+      @keyframes wf-spin { to { transform: rotate(360deg); } }
+      .pp .wf-actions { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; margin-top: 0.8rem; }
+      .pp .wf-actions .btn-theme6 { margin-top: 0; font-size: 14px; padding: 3px 12px; }
+
+      .pp .detail { margin-top: 1.2rem; display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); padding: 1.4rem; border-radius: 6px; background: var(--pp-light); }
+      @media (min-width: 992px) { .pp .detail { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+      .pp .detail > * { min-width: 0; }
+      .pp .detail h4 { font-size: 20px; font-weight: 700; color: var(--pp-title); margin: 0 0 0.6rem; }
+      .pp .detail p { font-size: 16px; }
+      .pp .detail pre .an, .pp .spec .an { color: var(--pp-theme); font-weight: 600; }
+      .pp .detail pre .str { color: #3b2f8f; }
+      .pp .detail pre .kw { color: #1f4e79; font-weight: 600; }
+      .pp .detail pre .cm { color: #8a8a8a; font-style: italic; }
+      .pp .detail pre .err { color: var(--pp-theme); font-weight: 600; }
+      .pp .detail pre { margin: 0; background: #fff; border: 1px solid var(--pp-rule); border-radius: 4px; padding: 0.9rem 1rem; overflow-x: auto; font-size: 12.5px; line-height: 1.55; color: var(--pp-title); }
+      .pp .detail .art-label { font-size: 14px; color: var(--pp-muted); margin: 0 0 0.4rem; }
+      .pp .turns { margin-top: 1rem; font-size: 15px; color: var(--pp-title); }
+      .pp .turns-bar { display: flex; gap: 2px; height: 12px; margin: 0.4rem 0 0.35rem; }
+      .pp .turns-bar span { background: #cfcfcf; border-radius: 3px; }
+      .pp .turns-bar span.on { background: var(--pp-theme); }
+
+      /* ---------- results ---------- */
+      .pp .headline { display: grid; gap: 1.5rem 3rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin: 1.6rem 0 0.5rem; }
+      .pp .headline .num { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 56px; line-height: 1; color: var(--pp-theme); font-variant-numeric: tabular-nums; }
+      .pp .headline .num small { font-size: 0.5em; font-weight: 700; }
+      .pp .headline p { margin: 0.5rem 0 0; font-size: 16px; max-width: 22rem; }
+      .pp .headline p b { color: var(--pp-title); }
+      .pp .stack { display: flex; gap: 2px; height: 22px; margin: 0.6rem 0 0.4rem; max-width: 40rem; }
+      .pp .stack span { border-radius: 4px; }
+      .pp .stack-labels { display: flex; gap: 2px; max-width: 40rem; font-size: 14px; }
+      .pp .stack-labels span { line-height: 1.3; }
+      .pp .stack-labels b { color: var(--pp-title); display: block; font-size: 17px; font-family: 'Nunito', sans-serif; }
+      .pp .chart-wrap { max-width: 44rem; margin-top: 1rem; }
+      .pp .lens-note { font-size: 16px; min-height: 3.3rem; margin-top: 0.6rem; max-width: 40rem; }
+      .pp .causes { display: grid; grid-template-columns: minmax(9rem, 15rem) minmax(0, 1fr) 1.5rem; gap: 0.35rem 0.8rem; align-items: center; max-width: 44rem; font-size: 15px; margin-top: 0.4rem; }
+      .pp .causes .bar { height: 14px; border-radius: 0 4px 4px 0; }
+      .pp .causes .v { color: var(--pp-title); font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+
+      /* ---------- benchmark ---------- */
+      .pp .domains { display: grid; gap: 1rem; margin-top: 1.2rem; }
+      .pp .domain { display: grid; gap: 0.4rem; }
+      @media (min-width: 768px) { .pp .domain { grid-template-columns: 10rem minmax(0, 1fr); gap: 1rem; } }
+      .pp .domain h3 { font-size: 17px; font-weight: 700; color: var(--pp-title); margin: 0.15rem 0 0; }
+      .pp .domain h3 span { display: block; font-family: 'Hind', sans-serif; font-weight: 400; color: var(--pp-muted); font-size: 14px; }
+      .pp .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+      .pp .chips a { font-family: var(--pp-mono); font-size: 12.5px; padding: 2px 9px; border-radius: 0.25rem; border: 1px solid #747474; color: #000; }
+      .pp .chips a:hover { background: var(--pp-title); border-color: var(--pp-title); color: #fff; text-decoration: none; }
+      .pp .chips a.feature { border-color: var(--pp-theme); color: var(--pp-theme); }
+    </style>
+  </head>
+  <body>
+
+<section class="w3l-bootstrap-header">
+  <nav class="navbar navbar-expand-lg navbar-light py-lg-3 py-2">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Catarina Gamboa</a>
+      <!-- if logo is image enable this   
+    <a class="navbar-brand" href="#index.html">
+        <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
+    </a> -->
+    
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon fa fa-bars"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="CatarinaGamboa_CV.pdf"><span class="fa fa-download"></span> CV</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about_me.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="projects.html">Papers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="activities.html">Outreach & Activities</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="blog.html">Blog</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg">
+    <div class="container py-5">
+      <p><br/><!--<a href="index.html">Home</a> &nbsp; / &nbsp; About--></p> 
+     </div>
+  </div>
+</section>
+
+<main class="pp" id="paper">
+
+<section class="pp-hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="venue">ASE 2026, Munich, Germany</p>
+        <h1>Barista</h1>
+        <p class="subtitle">Synthesizing Typestate Specifications with LLM Agents</p>
+        <p class="authors"><u>Catarina Gamboa</u>, Paulo Canelas, Ricardo Costa, Márcio Caetano, Jonathan Aldrich, Alcides Fonseca</p>
+        <p class="venue-full">ASE 2026 - International Conference on Automated Software Engineering, CORE A*.</p>
+        <div class="btns">
+          <a href="https://doi.org/10.1145/3832783.3834427" class="btn-theme6 btn"><span class="fa fa-file-text"></span>  Paper</a>
+          <a href="papers/barista_ase_26.pdf" class="btn-theme6 btn"><span class="fa fa-file-pdf-o"></span>  PDF</a>
+          <a href="https://doi.org/10.6084/m9.figshare.31865314" class="btn-theme6 btn"><span class="fa fa-folder-open"></span>  Artifact</a>
+          <a href="assets/images/posters/poster_barista.pdf" class="btn-theme6 btn"><span class="fa fa-image"></span>  Poster</a>
+          <a href="#cite" class="btn-theme6 btn"><span class="fa fa-quote-right"></span>  Cite</a>
+        </div>
+        <p class="lede">Java classes come with rules nobody writes down formally: connect a socket before sending data, never reuse a closed stream. Barista reads those rules from the Javadoc and turns them into LiquidJava specifications, so the compiler can catch violations before the code runs.</p>
+      </div>
+      <div class="hero-poster">
+        <a class="poster" href="assets/images/posters/poster_barista.pdf"><img src="assets/images/posters/barista_png.png" alt="Barista poster: Synthesizing Typestate Specifications with LLM Agents"></a>
+        <p class="poster-cap"><span class="btn-theme6 btn award"><span class="fa fa-trophy"></span>  Best PhD Poster Award</span> LASIGE Workshop 2026</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="try" aria-labelledby="try-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="try-h">The protocol hidden in a Javadoc</h2>
+      <p>The paper's running example is <code>java.net.Socket</code>. Its documentation describes seven states in prose. Barista models them as the state machine below (Figure 2 in the paper), then writes the annotations that let LiquidJava enforce it. Build a program and see which calls the specification accepts.</p>
+    </div>
+
+    <div class="pane lab-machine">
+      <div class="pane-head">State machine for Socket <span class="hint">Drag the states to rearrange them. Hover a method to see where it applies.</span></div>
+      <div class="scroll-x"><svg id="socket-dfa" class="dfa" viewBox="0 0 1660 340" role="img" aria-labelledby="dfa-title">
+        <title id="dfa-title">State machine for java.net.Socket with seven states: Unconnected, Bound, Connected, Input Shutdown, Output Shutdown, Both Shutdown and Closed.</title>
+      </svg></div>
+    </div>
+
+    <div class="lab">
+      <div class="lab-program pane">
+        <div class="pane-head">Your program <span class="hint">LiquidJava checks it as you go</span></div>
+        <div class="controls">
+          <div class="row-c">
+            <span class="row-l">Create a socket</span>
+            <button class="call" data-ctor="ctor0">new Socket()</button>
+            <button class="call" data-ctor="ctor1">new Socket(addr, <input id="port" type="number" value="8080" aria-label="port number" inputmode="numeric">)</button>
+          </div>
+          <div class="row-c" id="methods">
+            <span class="row-l">Call a method</span>
+          </div>
+          <div class="row-c">
+            <span class="row-l">Or try a bug</span>
+            <button class="btn-theme6 btn scenario" data-scenario="after-close"><span class="fa fa-bug"></span>  Send after close</button>
+            <button class="btn-theme6 btn scenario" data-scenario="bind-twice"><span class="fa fa-bug"></span>  Bind twice</button>
+            <button class="btn-theme6 btn scenario" data-scenario="bad-port"><span class="fa fa-bug"></span>  Port out of range</button>
+          </div>
+          <div class="row-c"><span class="legend-dot">allowed in the current state</span></div>
+        </div>
+        <div class="program" aria-label="Program"><ol id="program"><li class="empty">Create a socket to start.</li></ol></div>
+        <div class="verdict" id="verdict" aria-live="polite"><div class="idle">No program yet.</div></div>
+      </div>
+
+      <div class="lab-side pane">
+        <div class="tabs" role="tablist">
+          <button role="tab" id="tab-doc" aria-selected="true" aria-controls="panel-doc">Javadoc (JDK 17)</button>
+          <button role="tab" id="tab-spec" aria-selected="false" aria-controls="panel-spec" tabindex="-1">LiquidJava specification</button>
+        </div>
+        <div class="tabpanel javadoc" id="panel-doc" role="tabpanel" aria-labelledby="tab-doc">
+          <div class="jd-top"><span>Java SE 17 &amp; JDK 17</span><span>java.base</span></div>
+          <div class="jd-head">
+            <div class="jd-pkg">Package <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/net/package-summary.html">java.net</a></div>
+            <div class="jd-title">Class Socket</div>
+          </div>
+          <div class="jd-section">Constructor and Method Details</div>
+          <div class="doc-entry" data-method="ctor0"><h5>Socket</h5><div class="jd-sig">public&nbsp;Socket()</div><p>Creates an <mark>unconnected</mark> Socket.</p></div>
+          <div class="doc-entry" data-method="ctor1"><h5>Socket</h5><div class="jd-sig">public&nbsp;Socket(InetAddress&nbsp;address, int&nbsp;port) throws IOException</div><p>Creates a stream socket and <mark>connects it</mark> to the specified port number at the specified IP address.</p><dl><dt>Throws:</dt><dd><code>IllegalArgumentException</code> - if the port parameter is outside the specified range of valid port values, which is <mark>between 0 and 65535, inclusive</mark>.</dd></dl></div>
+          <div class="doc-entry" data-method="bind"><h5>bind</h5><div class="jd-sig">public&nbsp;void&nbsp;bind(SocketAddress&nbsp;bindpoint) throws IOException</div><p>Binds the socket to a local address.</p><dl><dt>Throws:</dt><dd><code>IOException</code> - if the bind operation fails, or <mark>if the socket is already bound</mark>.</dd></dl></div>
+          <div class="doc-entry" data-method="connect"><h5>connect</h5><div class="jd-sig">public&nbsp;void&nbsp;connect(SocketAddress&nbsp;endpoint, int&nbsp;timeout) throws IOException</div><p>Connects this socket to the server with a specified timeout value.</p><dl><dt>Throws:</dt><dd><code>IllegalArgumentException</code> - if endpoint is null or is a SocketAddress subclass not supported by this socket, or if <mark>timeout is negative</mark></dd></dl></div>
+          <div class="doc-entry" data-method="sendUrgentData"><h5>sendUrgentData</h5><div class="jd-sig">public&nbsp;void&nbsp;sendUrgentData(int&nbsp;data) throws IOException</div><p>Send one byte of urgent data on the socket.</p></div>
+          <div class="doc-entry" data-method="shutdownInput"><h5>shutdownInput</h5><div class="jd-sig">public&nbsp;void&nbsp;shutdownInput() throws IOException</div><p>Places the input stream for this socket at "end of stream".</p></div>
+          <div class="doc-entry" data-method="shutdownOutput"><h5>shutdownOutput</h5><div class="jd-sig">public&nbsp;void&nbsp;shutdownOutput() throws IOException</div><p>Disables the output stream for this socket.</p></div>
+          <div class="doc-entry" data-method="close"><h5>close</h5><div class="jd-sig">public&nbsp;void&nbsp;close() throws IOException</div><p>Closes this socket. Once a socket has been closed, it is <mark>not available for further networking use</mark> (i.e. can't be reconnected or rebound).</p></div>
+          <p class="jd-note">Excerpts from the <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/net/Socket.html">JDK 17 Javadoc</a>. Underlined: the phrases that imply the protocol.</p>
+        </div>
+        <div class="tabpanel" id="panel-spec" role="tabpanel" aria-labelledby="tab-spec" hidden>
+          <div class="doc-src">Adapted from Listing 1 and Figure 2 of the paper</div>
+<pre class="spec"><code><span class="blk"><span class="an">@StateSet</span>({<span class="str">"unconnected", "bound", "connected",
+  "inputshutdown", "outputshutdown",
+  "bothshutdown", "closed"</span>})
+<span class="an">@RefinementAlias</span>(<span class="str">"ValidPort(int p) {p &gt;= 0 &amp;&amp; p &lt;= 65535}"</span>)
+<span class="an">@ExternalRefinementsFor</span>(<span class="str">"java.net.Socket"</span>)
+public interface SocketRefinements {</span>
+<span class="blk" data-method="ctor0">  <span class="an">@StateRefinement</span>(to = <span class="str">"unconnected(this)"</span>)
+  public void Socket();</span>
+<span class="blk" data-method="ctor1">  <span class="an">@StateRefinement</span>(to = <span class="str">"connected(this)"</span>)
+  public void Socket(InetAddress address,
+      <span class="an">@Refinement</span>(<span class="str">"ValidPort(_)"</span>) int port);</span>
+<span class="blk" data-method="bind">  <span class="an">@StateRefinement</span>(from = <span class="str">"unconnected(this)"</span>,
+                   to = <span class="str">"bound(this)"</span>)
+  public void bind(SocketAddress bindpoint);</span>
+<span class="blk" data-method="connect">  <span class="an">@StateRefinement</span>(from = <span class="str">"unconnected(this)"</span>,
+                   to = <span class="str">"connected(this)"</span>)
+  <span class="an">@StateRefinement</span>(from = <span class="str">"bound(this)"</span>,
+                   to = <span class="str">"connected(this)"</span>)
+  public void connect(SocketAddress endpoint,
+      <span class="an">@Refinement</span>(<span class="str">"_ &gt;= 0"</span>) int timeout);</span>
+<span class="blk" data-method="sendUrgentData">  <span class="an">@StateRefinement</span>(from = <span class="str">"connected(this)"</span>)
+  public void sendUrgentData(int data);</span>
+<span class="blk" data-method="shutdownInput">  <span class="an">@StateRefinement</span>(from = <span class="str">"connected(this)"</span>,
+                   to = <span class="str">"inputshutdown(this)"</span>)
+  <span class="an">@StateRefinement</span>(from = <span class="str">"outputshutdown(this)"</span>,
+                   to = <span class="str">"bothshutdown(this)"</span>)
+  public void shutdownInput();</span>
+<span class="blk" data-method="shutdownOutput">  <span class="an">@StateRefinement</span>(from = <span class="str">"connected(this)"</span>,
+                   to = <span class="str">"outputshutdown(this)"</span>)
+  <span class="an">@StateRefinement</span>(from = <span class="str">"inputshutdown(this)"</span>,
+                   to = <span class="str">"bothshutdown(this)"</span>)
+  public void shutdownOutput();</span>
+<span class="blk" data-method="close">  <span class="an">@StateRefinement</span>(to = <span class="str">"closed(this)"</span>)
+  public void close();</span>
+<span class="blk">}</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="how" aria-labelledby="how-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="how-h">From Javadoc to a checked specification</h2>
+      <p>Figure 1 of the paper shows the agentic workflow. Each numbered step is an agent with a tool that checks its output, and the agent loops on that feedback until the check passes. Click a step to see what it produces for <code>Socket</code>.</p>
+    </div>
+    <div class="pane wf-pane">
+      <div class="scroll-x"><svg id="workflow" class="wf" viewBox="0 0 1580 750" role="group" aria-label="Barista's agentic workflow, Figure 1 of the paper"></svg></div>
+    </div>
+    <div class="wf-actions">
+      <button class="btn-theme6 btn" id="play"><span class="fa fa-play"></span> Play the workflow</button>
+      <span class="muted small">An orchestrator agent hands work between the steps. Steps 2 and 3 run in parallel.</span>
+    </div>
+    <div class="detail" id="detail" aria-live="polite"></div>
+    <p class="muted small mt-3">Built with Claude Code and the Claude Agent SDK (Sonnet 4.6). The checks are MCP tools, and the typestate and LiquidJava guides are provided as skills.</p>
+  </div>
+</section>
+
+<section class="pp-block" id="results" aria-labelledby="results-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="results-h">How well it works</h2>
+      <p>We compared Barista's specifications with ones written by two experts for 29 JDK classes. Barista ran five times on each class, and every run was checked against the experts' test suites: 3,262 test files in total.</p>
+    </div>
+
+    <div class="headline">
+      <div><div class="num">87.0<small>%</small></div><p><b>Precision.</b> When the specification flags a call as a protocol violation, it is a real violation 87% of the time.</p></div>
+      <div><div class="num">68.3<small>%</small></div><p><b>Recall.</b> The specification catches about two thirds of the violations in the expert tests. When it errs, it errs on the permissive side.</p></div>
+      <div><div class="num">4.2<small>×</small></div><p><b>Faster than an expert.</b> 7.3 minutes and $2.20 per class, against 31 minutes for a person writing it by hand.</p></div>
+    </div>
+
+    <h3 class="pp-sub">Is the output usable?</h3>
+    <p class="prose">We rated one run per class: could a developer start from this specification?</p>
+    <div class="stack" role="img" aria-label="29% usable directly, 46% usable with minor edits, 25% not usable">
+      <span style="flex:29;background:var(--o-1)" title="Directly usable: 29%"></span>
+      <span style="flex:46;background:var(--o-2)" title="With minor edits: 46%"></span>
+      <span style="flex:25;background:var(--o-3)" title="Not usable: 25%"></span>
+    </div>
+    <div class="stack-labels" aria-hidden="true">
+      <span style="flex:29"><b>29%</b>directly</span>
+      <span style="flex:46"><b>46%</b>with minor edits</span>
+      <span style="flex:25"><b>25%</b>not usable</span>
+    </div>
+
+    <h3 class="pp-sub">What each component adds</h3>
+    <p class="prose">An ablation study: prompting with the documentation alone (baseline), adding the state machine step, and the full pipeline with tests.</p>
+    <div class="chart-wrap">
+      <div class="seg" role="group" aria-label="Comparison">
+        <button class="btn-theme6 btn" aria-pressed="true" data-lens="all">All variants</button>
+        <button class="btn-theme6 btn" aria-pressed="false" data-lens="dfa">Adding the state machine</button>
+        <button class="btn-theme6 btn" aria-pressed="false" data-lens="tests">Adding tests</button>
+      </div>
+      <ul class="legend">
+        <li><i style="background:var(--s-baseline)"></i>Baseline</li>
+        <li><i style="background:var(--s-dfa)"></i>State machine only</li>
+        <li><i style="background:var(--s-barista)"></i>Barista (full)</li>
+      </ul>
+      <svg id="ablation" class="chart" viewBox="0 0 640 310" role="img" aria-label="Grouped bar chart of precision, recall and F1 for the three variants"></svg>
+      <p class="lens-note" id="lens-note" aria-live="polite"></p>
+      <details class="table-view">
+        <summary>Show as a table</summary>
+        <table>
+          <tr><th>Variant</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+          <tr><td>Baseline</td><td>69.1%</td><td>50.7%</td><td>58.5%</td></tr>
+          <tr><td>State machine only</td><td>85.2%</td><td>47.3%</td><td>60.9%</td></tr>
+          <tr><td>Barista (full)</td><td>87.0%</td><td>68.3%</td><td>76.5%</td></tr>
+        </table>
+      </details>
+    </div>
+
+    <h3 class="pp-sub">Where it still falls short</h3>
+    <div class="prose">
+      <p>Quality drops as protocols get harder: F1 goes from 88% on simple protocols to 72% on moderate ones and 54% on complex ones. When we traced each divergence from the expert specification to its cause, most turned out to be modeling gaps in the pipeline rather than missing information. The most common one is transitions that depend on an argument's value, which a plain state machine cannot express.</p>
+    </div>
+    <ul class="legend">
+      <li><i style="background:var(--s-dfa)"></i>Modeling gap (78%)</li>
+      <li><i style="background:var(--s-baseline)"></i>Information gap (22%)</li>
+    </ul>
+    <div class="causes" id="causes" role="list" aria-label="Root causes of divergence, number of classes affected"></div>
+  </div>
+</section>
+
+<section class="pp-block" id="benchmark" aria-labelledby="bench-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="bench-h">The benchmark</h2>
+      <p>35 JDK 17 classes with typestate protocols, drawn from Beckman et al.'s study of object protocols in Java. They range from 5 to 89 public methods. Expert specifications, tests and annotation guidelines are in the <a href="https://doi.org/10.6084/m9.figshare.31865314">replication package</a>. Each class links to its Javadoc.</p>
+    </div>
+    <div class="domains" id="domains"></div>
+  </div>
+</section>
+
+<section class="pp-block pb-5" id="cite" aria-labelledby="cite-h">
+  <div class="container">
+    <h2 class="pp-h" id="cite-h">Cite</h2>
+    <div class="cite">
+      <button class="btn-theme6 btn" id="copy-bib"><span class="fa fa-clipboard"></span>  Copy</button>
+<pre id="bibtex">@inproceedings{gamboa2026barista,
+  title     = {Barista: Synthesizing Typestate Specifications with LLM Agents},
+  author    = {Gamboa, Catarina and Canelas, Paulo and Costa, Ricardo and
+               Caetano, M{\'a}rcio and Aldrich, Jonathan and Fonseca, Alcides},
+  booktitle = {Proceedings of the 41st IEEE/ACM International Conference
+               on Automated Software Engineering (ASE '26)},
+  year      = {2026},
+  address   = {Munich, Germany},
+  publisher = {ACM},
+  doi       = {10.1145/3832783.3834427}
+}</pre>
+    </div>
+  </div>
+</section>
+</main>
+<div class="pp-tooltip" id="pp-tooltip" role="presentation"></div>
+
+
+ <section class="w3l-footer-29-main" id="footer">
+  <div class="footer-29 text-center">
+      <div class="container">
+        
+        <div class="main-social-footer-29"> 
+          <a href="#facebook" onclick="sendEmail()" class="facebook"><span class="fa fa-envelope-o"></span></a>
+          <a href="https://github.com/CatarinaGamboa" class="twitter"><span class="fa fa-github"></span></a>
+          <a href="https://www.linkedin.com/in/catarina-ventura-gamboa-518151172/" class="linkedin"><span class="fa fa-linkedin"></span></a>
+        </div>
+          <div class="bottom-copies text-center">
+              <p class="copy-footer-29">© 2020 My Website. All rights reserved | Designed by <a href="https://w3layouts.com">W3layouts</a></p>
+               
+          </div>
+      </div>
+  </div>
+   <!-- move top -->
+  <button onclick="topFunction()" id="movetop" title="Go to top">
+              <span class="fa fa-angle-up"></span>
+                 </button>
+                 <script>
+                     // When the user scrolls down 20px from the top of the document, show the button
+                     window.onscroll = function () {
+                         scrollFunction()
+                     };
+              
+                     function scrollFunction() {
+                         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                             document.getElementById("movetop").style.display = "block";
+                         } else {
+                             document.getElementById("movetop").style.display = "none";
+                         }
+                     }
+              
+                     // When the user clicks on the button, scroll to the top of the document
+                     function topFunction() {
+                         document.body.scrollTop = 0;
+                         document.documentElement.scrollTop = 0;
+                     }
+                 </script>
+                 <!-- /move top -->
+</section>
+<!-- // grids block 5 -->
+<script src="assets/js/jquery-3.3.1.min.js"></script>
+<!-- //footer-28 block -->
+</section>
+
+<script>
+    $(function () {
+      $('.navbar-toggler').click(function () {
+        $('body').toggleClass('noscroll');
+      })
+    });
+  </script>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+
+<!-- Smooth scrolling -->
+
+
+
+<script src="assets/js/paper-dfa.js"></script>
+<script src="assets/js/barista-workflow.js"></script>
+<script src="assets/js/barista.js"></script>
+</body>
+
+</html>
+<!-- // grids block 5 -->
+
