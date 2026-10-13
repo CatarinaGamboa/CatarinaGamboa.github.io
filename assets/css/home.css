@@ -39,8 +39,8 @@
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 38%, rgba(0, 0, 0, 0) 58%),
-    rgba(0, 0, 0, 0.57);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.38) 0, rgba(0, 0, 0, 0) 130px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.74) 0%, rgba(0, 0, 0, 0.66) 36%, rgba(0, 0, 0, 0.22) 58%, rgba(0, 0, 0, 0.12) 100%);
 }
 .home-hero > .container { position: relative; z-index: 2; padding-top: 110px; padding-bottom: 60px; }
 .home-hero .hero-text { max-width: 640px; text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55); }
@@ -70,7 +70,7 @@
     background: url(../images/home/hero-900.jpg) 64% 0 / auto 440px no-repeat;
     -webkit-mask-image: none; mask-image: none;
   }
-  .home-hero::before { background: linear-gradient(180deg, rgba(0, 0, 0, 0.57) 0, rgba(0, 0, 0, 0.57) 300px, #262626 440px); }
+  .home-hero::before { background: linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0, rgba(0, 0, 0, 0.2) 200px, rgba(0, 0, 0, 0.6) 300px, #262626 440px); }
   .home-hero > .container { padding-top: 300px; padding-bottom: 32px; }
   .home-hero h1 { font-size: 40px; }
   .home-hero .role { font-size: 19px; }
