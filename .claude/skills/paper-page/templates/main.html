@@ -1,0 +1,61 @@
+<main class="pp" id="paper">
+
+<section class="pp-hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="venue">VENUE YEAR, City, Country</p>
+        <h1 class="long">Paper title</h1>
+        <p class="authors mt-4"><u>Catarina Gamboa</u>, Co-Author, Co-Author</p>
+        <p class="venue-full">VENUE YEAR - Full conference name, CORE A*.</p>
+        <div class="btns">
+          <a href="https://doi.org/DOI" class="btn-theme6 btn"><span class="fa fa-file-text"></span>  Paper</a>
+          <a href="ARTIFACT_URL" class="btn-theme6 btn"><span class="fa fa-folder-open"></span>  Artifact</a>
+          <a href="assets/images/posters/POSTER.pdf" class="btn-theme6 btn"><span class="fa fa-image"></span>  Poster</a>
+          <a href="#cite" class="btn-theme6 btn"><span class="fa fa-quote-right"></span>  Cite</a>
+        </div>
+        <p class="lede">One or two sentences: the problem and the result, with the key numbers in <b>bold</b>.</p>
+      </div>
+      <div class="hero-poster">
+        <button type="button" class="poster" data-pdf="../../assets/images/posters/POSTER.pdf" aria-label="Zoom into the poster"><img src="assets/images/posters/POSTER.png" alt="Poster: Paper title"></button>
+        <p class="poster-cap">Poster for VENUE YEAR</p>
+        <!-- With an award: <p class="poster-cap"><span class="btn-theme6 btn award"><span class="fa fa-trophy"></span>  Best Poster</span> Event Year</p> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- One section per idea. Each one is built around a single interactive element taken from the paper's own figures. -->
+<section class="pp-block" id="SECTION" aria-labelledby="SECTION-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="SECTION-h">A plain heading that says what the section shows</h2>
+      <p>One sentence of setup, then an instruction such as "Select a step for details."</p>
+    </div>
+    <div id="SECTION-widget"></div>
+  </div>
+</section>
+
+<section class="pp-block" id="talk" aria-labelledby="talk-h">
+  <div class="container">
+    <div class="talk">
+      <img src="assets/images/TALK_PHOTO.jpg" alt="Catarina Gamboa presenting Paper title at VENUE YEAR" loading="lazy">
+      <div class="prose">
+        <h2 class="pp-h" id="talk-h">At VENUE YEAR</h2>
+        <p>Presenting the paper in City, Country.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block pb-5" id="cite" aria-labelledby="cite-h">
+  <div class="container">
+    <h2 class="pp-h" id="cite-h">Cite</h2>
+    <div class="cite">
+      <button class="btn-theme6 btn" id="copy-bib"><span class="fa fa-clipboard"></span>  Copy</button>
+<pre id="bibtex">@inproceedings{...}</pre>
+    </div>
+  </div>
+</section>
+</main>
+<div class="pp-tooltip" id="pp-tooltip" role="presentation"></div>
