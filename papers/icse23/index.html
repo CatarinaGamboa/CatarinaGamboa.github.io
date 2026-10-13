@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <link rel="icon" type="image/jpg" href="../../assets/images/DSC09526 (1).jpg" sizes="228x228" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>LiquidJava - ICSE 2023 | Catarina Gamboa</title>
+    <!-- web fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Hind:400,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- //web fonts -->
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="../../assets/css/style-starter.css">
+    <link rel="stylesheet" href="../../assets/css/paper-page.css">
+    <style>
+      .pp .hero-poster .photo { width: 100%; border-radius: 4px; display: block; box-shadow: 0 2px 14px rgba(26, 29, 45, 0.12); }
+
+      /* ---------- quiz ---------- */
+      .pp .quiz { margin-top: 1.5rem; }
+      .pp .quiz .tabs { padding-left: 0.8rem; }
+      .pp .quiz-panel { padding: 1.2rem; }
+      .pp .quiz-grid { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); }
+      @media (min-width: 992px) { .pp .quiz-grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); } }
+      .pp .quiz-grid > * { min-width: 0; }
+      .pp .quiz-ask { color: var(--pp-title); font-weight: 600; }
+      .pp pre.code { margin: 0; background: var(--pp-code-bg); border-radius: 4px; padding: 0.9rem 1rem; overflow-x: auto; font-size: 13px; line-height: 1.6; color: var(--pp-title); }
+      .pp pre.code .an, .pp .syn .an { color: var(--pp-theme); font-weight: 600; }
+      .pp pre.code .str, .pp .syn .str { color: #3b2f8f; }
+      .pp pre.code .kw, .pp .syn .kw, .pp .spec .kw { color: #1f4e79; font-weight: 600; }
+      .pp pre.code .cm { color: #8a8a8a; font-style: italic; }
+      .pp .code-in { font: inherit; color: var(--pp-theme); font-weight: 700; width: 9ch; border: 0; border-bottom: 2px dashed var(--pp-theme); background: #fff; padding: 0 0.2rem; }
+      .pp .code-in.short { width: 5ch; }
+      .pp .code-in:focus { outline: 2px solid var(--pp-theme); outline-offset: 2px; }
+      .pp .quiz .verdict { margin: 0.8rem 0 0; }
+      .pp .goals { list-style: none; padding: 0; margin: 0 0 1rem; display: grid; gap: 0.4rem; }
+      .pp .goals li { display: flex; gap: 0.55rem; align-items: center; color: var(--pp-text); }
+      .pp .goals li::before { content: ""; width: 1rem; height: 1rem; border-radius: 50%; border: 2px solid #b9b9b9; flex: none; transition: all 200ms; }
+      .pp .goals li.done { color: var(--pp-title); font-weight: 600; }
+      .pp .goals li.done::before { border-color: var(--r-correct); background: var(--r-correct) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E") center/100% no-repeat; }
+      .pp .reveal { margin-bottom: 0.8rem; }
+      .pp .reveal p { font-size: 15.5px; }
+      .pp .stat-num { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; color: var(--pp-theme); }
+      .pp .mini-stack { display: flex; gap: 2px; height: 14px; max-width: 26rem; }
+      .pp .mini-stack span { border-radius: 3px; }
+      .pp .reveal-btn { margin-top: 0; font-size: 14px; padding: 3px 12px; }
+      .pp .small-prog { margin: 0.6rem 0 0; min-height: 5rem; }
+      .pp .quiz-side .verdict { margin: 0.6rem 0 1rem; min-height: 0; }
+      .pp .legend i.hatch { background-size: auto; }
+
+      /* ---------- design ---------- */
+      .pp .reqs { display: grid; gap: 1rem 2rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin-top: 0.5rem; }
+      .pp .reqs > div { border-top: 3px solid var(--pp-theme); padding-top: 0.6rem; font-size: 16px; }
+      .pp .reqs b { color: var(--pp-title); display: block; margin-bottom: 0.2rem; }
+      .pp .pipe { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.6rem; align-items: center; margin-top: 0.8rem; }
+      @media (min-width: 992px) { .pp .pipe { grid-template-columns: 11rem 2rem minmax(0, 1fr) 2rem 15rem; } }
+      .pp .pipe-in { border: 1px dashed #9a9a9a; border-radius: 6px; padding: 0.7rem; font-size: 15px; color: var(--pp-title); text-align: center; }
+      .pp .pipe-in small { display: block; color: var(--pp-muted); font-family: var(--pp-mono); }
+      .pp .pipe-arrow { height: 2px; background: #9a9a9a; position: relative; }
+      .pp .pipe-arrow::after { content: ""; position: absolute; right: -2px; top: -5px; border: 6px solid transparent; border-left: 9px solid #9a9a9a; border-right: 0; }
+      @media (max-width: 991px) { .pp .pipe-arrow { width: 2px; height: 1.4rem; justify-self: center; } .pp .pipe-arrow::after { right: -5px; top: auto; bottom: -6px; border: 6px solid transparent; border-top: 9px solid #9a9a9a; border-bottom: 0; } }
+      .pp .pipe-core { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; padding: 6px; border: 1px solid #e8c6d2; border-radius: 8px; background: #fdf3f6; }
+      .pp .pipe-step { color: #fff; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 15px; padding: 0.7rem 0.6rem; border-radius: 5px; text-align: center; line-height: 1.2; }
+      .pp .pipe-step small { display: block; font-weight: 400; font-style: italic; opacity: 0.85; font-size: 12px; margin-bottom: 0.15rem; }
+      .pp .pipe-step.s1 { background: #5b2149; }
+      .pp .pipe-step.s2 { background: #a8174a; }
+      .pp .pipe-step.s3 { background: #d9705c; }
+      .pp .pipe-out { display: grid; gap: 0.4rem; font-size: 15px; }
+      .pp .pipe-out .ok { color: var(--pp-ok); font-weight: 600; }
+      .pp .pipe-out .bad { color: var(--pp-theme); font-weight: 600; }
+
+      .pp .syntax { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); margin-top: 0.4rem; }
+      @media (min-width: 992px) { .pp .syntax { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+      .pp .syn { display: flex; flex-direction: column; justify-content: flex-start; text-align: left; background: #fff; border: 1px solid var(--pp-rule); border-radius: 6px; padding: 0.8rem 1rem; cursor: pointer; min-width: 0; transition: border-color 200ms, box-shadow 200ms; }
+      .pp .syn:hover { border-color: #9a9a9a; }
+      .pp .syn[aria-pressed="true"] { border-color: var(--pp-theme); box-shadow: inset 0 0 0 1px var(--pp-theme); }
+      .pp .syn-l { font-family: 'Nunito', sans-serif; font-weight: 700; color: var(--pp-title); display: block; margin-bottom: 0.4rem; }
+      .pp .syn pre { margin: 0; font-size: 12.5px; line-height: 1.55; color: var(--pp-title); overflow-x: auto; white-space: pre; }
+      .pp .survey { margin-top: 1.2rem; max-width: 44rem; }
+      .pp .survey-pick { color: var(--pp-title); }
+
+      /* ---------- socket ---------- */
+      .pp .sock { display: grid; gap: 1.25rem; grid-template-columns: minmax(0, 1fr); margin-top: 1.5rem; }
+      @media (min-width: 992px) { .pp .sock { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); } }
+      .pp .sock > * { min-width: 0; }
+      .pp .sock-machine { margin-top: 1.5rem; }
+      .pp #socket-dfa { min-width: 860px; padding: 0.5rem 1rem 0.5rem; }
+      .pp .sock { margin-top: 1.25rem !important; }
+      .pp .sock .spec { padding: 0.8rem 0.4rem; overflow-x: auto; }
+
+      /* ---------- study ---------- */
+      .pp .ex-grid { display: grid; gap: 1rem 2.5rem; grid-template-columns: minmax(0, 1fr); max-width: 56rem; }
+      @media (min-width: 768px) { .pp .ex-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+      .pp .ex-col h4 { font-size: 17px; font-weight: 700; color: var(--pp-title); margin: 0.4rem 0 0.5rem; }
+      .pp .sb-row { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 0.6rem; align-items: center; margin-bottom: 0.4rem; }
+      .pp .sb-l { font-size: 14px; color: var(--pp-text); }
+      .pp .sb { display: flex; gap: 2px; height: 26px; }
+      .pp .sb span { border-radius: 3px; color: #fff; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; min-width: 0; overflow: hidden; }
+      .pp .sb span.light { color: var(--pp-title); }
+      .pp .ex-time { font-size: 15px; margin: 0.3rem 0 0; }
+      .pp .ex-time b { color: var(--pp-title); }
+      .pp .ann { max-width: 40rem; }
+      .pp .ann .sb-row { grid-template-columns: 8rem minmax(0, 1fr); }
+      .pp .likes { display: grid; gap: 1.5rem 3rem; grid-template-columns: minmax(0, 1fr); }
+      @media (min-width: 992px) { .pp .likes { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+      .pp .likes-h { font-size: 18px; font-weight: 700; margin: 0.4rem 0 0.6rem; }
+      .pp .likes-h.like { color: var(--r-correct); }
+      .pp .likes-h.dislike { color: var(--pp-theme); }
+      .pp .lk-row { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) 1.5rem; gap: 0.1rem 0.7rem; align-items: center; padding: 0.35rem 0; border-bottom: 1px solid var(--pp-rule); }
+      .pp .lk-l { font-size: 15px; color: var(--pp-title); font-weight: 600; }
+      .pp .lk-bar { height: 12px; }
+      .pp .lk-bar span { display: block; height: 100%; border-radius: 0 3px 3px 0; }
+      .pp .lk-n { text-align: right; font-weight: 700; color: var(--pp-title); font-variant-numeric: tabular-nums; }
+      .pp .lk-q { grid-column: 1 / -1; font-size: 14px; font-style: italic; color: var(--pp-muted); }
+
+      /* ---------- editor showcase ---------- */
+      .pp .ide-wrap { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); align-items: start; margin-top: 1.2rem; }
+      @media (min-width: 992px) { .pp .ide-wrap { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); } }
+      .pp .ide { background: #1e1e1e; border-radius: 8px; overflow: hidden; box-shadow: 0 6px 24px rgba(26, 29, 45, 0.18); min-width: 0; }
+      .pp .ide-bar { display: flex; align-items: flex-end; gap: 0.8rem; background: #2d2d2d; padding: 0.5rem 0.7rem 0; overflow-x: auto; }
+      .pp .ide-dots { display: flex; gap: 6px; padding-bottom: 0.65rem; flex: none; }
+      .pp .ide-dots i { width: 11px; height: 11px; border-radius: 50%; background: #5a5a5a; }
+      .pp .ide-dots i:first-child { background: #ff5f57; } .pp .ide-dots i:nth-child(2) { background: #febc2e; } .pp .ide-dots i:nth-child(3) { background: #28c840; }
+      .pp .ide-tabs { display: flex; gap: 2px; }
+      .pp .ide-tabs button { font: 13px var(--pp-mono); color: #9d9d9d; background: #252526; border: 0; border-top: 2px solid transparent; padding: 0.45rem 0.9rem; cursor: pointer; white-space: nowrap; border-radius: 4px 4px 0 0; }
+      .pp .ide-tabs button[aria-selected="true"] { background: #1e1e1e; color: #fff; border-top-color: var(--pp-theme); }
+      .pp .ide-tabs button:focus-visible { outline: 2px solid #4fc1ff; outline-offset: -2px; }
+      .pp .ide-code { margin: 0; padding: 0.9rem 0; min-height: 15.5rem; font: 14px/1.7 var(--pp-mono); color: #d4d4d4; background: transparent; overflow: visible; white-space: pre; }
+      .pp .ide-ln { display: block; position: relative; padding-right: 1rem; }
+      .pp .ide-no { display: inline-block; width: 2.6rem; padding-right: 1rem; text-align: right; color: #6e7681; user-select: none; }
+      .pp .ide-ln u { text-decoration: none; }
+      .pp .ide-ln.bad u { text-decoration: underline wavy #f14c4c; text-decoration-skip-ink: none; text-underline-offset: 4px; }
+      .pp .ide-hover { display: grid; gap: 0.1rem; position: relative; margin: 0.45rem 1rem 0.2rem 2.6rem; max-width: 30rem; padding: 0.55rem 0.8rem; background: #252526; border: 1px solid #454545; border-radius: 4px; font-size: 13px; line-height: 1.5; white-space: normal; color: #cccccc; animation: ide-pop 260ms ease-out; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35); }
+      .pp .ide-hover b { color: #f48771; font-weight: 600; }
+      .pp .ide-hover em { color: #8b8b8b; font-style: normal; font-size: 12px; margin-top: 0.2rem; }
+      .pp .t-an { color: #dcdcaa; } .pp .t-str { color: #ce9178; } .pp .t-kw { color: #569cd6; } .pp .t-num { color: #b5cea8; }
+      .pp .t-cm { color: #6a9955; } .pp .t-fn { color: #dcdcaa; } .pp .t-ty { color: #4ec9b0; }
+      .pp .ide-status { display: flex; justify-content: space-between; background: #3b2f8f; color: #fff; font: 12px var(--pp-mono); padding: 0.25rem 0.8rem; }
+      .pp #ide-problems { opacity: 0.55; transition: opacity 200ms; }
+      .pp #ide-problems.on { opacity: 1; }
+      .pp .ide-caption { font-size: 17px; color: var(--pp-text); min-height: 3.2em; }
+      .pp .ide-caption b { color: var(--pp-title); display: block; font-family: 'Nunito', sans-serif; font-size: 19px; }
+      .pp .ide-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--pp-rule); }
+      .pp .ide-links .btn { margin: 0; }
+      .pp .ide-ln.bad u { animation: ide-squig 400ms ease-out; }
+      @keyframes ide-squig { from { text-decoration-color: transparent; } }
+      @keyframes ide-pop { from { opacity: 0; transform: translateY(-4px); } }
+
+      /* ---------- trimmed copy ---------- */
+      .pp .reqs > div { font-size: 15.5px; color: var(--pp-muted); }
+      .pp .reqs b { font-family: 'Nunito', sans-serif; font-size: 18px; }
+      .pp .headline p b { color: var(--pp-title); }
+      .pp button.lk-row { width: 100%; background: none; border: 0; border-bottom: 1px solid var(--pp-rule); text-align: left; cursor: pointer; font: inherit; }
+      .pp button.lk-row:hover .lk-l { color: var(--pp-theme); }
+      .pp button.lk-row .lk-q { display: none; }
+      .pp button.lk-row[aria-expanded="true"] .lk-q { display: block; }
+      .pp .ide-code, .pp .ide-code * { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+      .pp .ide-links .btn, .pp #ide-replay { font-size: 15px; padding: 5px 14px; }
+      @media (max-width: 575px) { .pp .ide-dots { display: none; } .pp .ide-tabs button { padding: 0.45rem 0.6rem; font-size: 12px; } .pp .ide-code { font-size: 12.5px; } .pp .ide-no { width: 2rem; padding-right: 0.7rem; } .pp .ide-hover { margin-left: 2rem; } }
+    </style>
+  </head>
+  <body>
+
+<section class="w3l-bootstrap-header">
+  <nav class="navbar navbar-expand-lg navbar-light py-lg-3 py-2">
+    <div class="container">
+      <a class="navbar-brand" href="../../index.html">Catarina Gamboa</a>
+      <!-- if logo is image enable this   
+    <a class="navbar-brand" href="#index.html">
+        <img src="../../image-path" alt="Your logo" title="Your logo" style="height:35px;" />
+    </a> -->
+    
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon fa fa-bars"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../../index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../CatarinaGamboa_CV.pdf"><span class="fa fa-download"></span> CV</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../about_me.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../projects.html">Papers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../activities.html">Outreach & Activities</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../blog.html">Blog</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg">
+    <div class="container py-5">
+      <p><br/><!--<a href="../../index.html">Home</a> &nbsp; / &nbsp; About--></p> 
+     </div>
+  </div>
+</section>
+
+<main class="pp" id="paper">
+
+<section class="pp-hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="venue">ICSE 2023, Melbourne, Australia</p>
+        <h1>LiquidJava</h1>
+        <p class="subtitle">Usability-Oriented Design of Liquid Types for Java</p>
+        <p class="authors"><u>Catarina Gamboa</u>, Paulo Canelas, Christopher Timperley, Alcides Fonseca</p>
+        <p class="venue-full">ICSE 2023 - International Conference on Software Engineering, CORE A*.</p>
+        <div class="btns">
+          <a href="https://doi.org/10.1109/ICSE48619.2023.00132" class="btn-theme6 btn"><span class="fa fa-file-text"></span>  Paper (IEEE)</a>
+          <a href="https://github.com/CatarinaGamboa/liquidjava" class="btn-theme6 btn"><span class="fa fa-github"></span>  Github</a>
+          <a href="https://zenodo.org/records/7632872" class="btn-theme6 btn"><span class="fa fa-folder-open"></span>  Artifact</a>
+          <a href="https://liquid-java.github.io/" class="btn-theme6 btn"><span class="fa fa-sitemap"></span>  LiquidJava website</a>
+          <a href="#cite" class="btn-theme6 btn"><span class="fa fa-quote-right"></span>  Cite</a>
+        </div>
+        <p class="lede">LiquidJava adds liquid types to Java: types that also say which values are allowed, checked at compile time. We designed it with Java developers and tested it with 30 of them. They found and fixed more bugs, and all 30 would use it.</p>
+      </div>
+      <div class="hero-poster">
+        <button type="button" class="poster" data-pdf="../../assets/docs/poster_LiquidJava.pdf" aria-label="Zoom into the poster"><img src="../../assets/images/posters/poster_best21.jpg" alt="LiquidJava poster: Adding Lightweight Verification to Java"></button>
+        <p class="poster-cap"><span class="btn-theme6 btn award"><span class="fa fa-trophy"></span>  Best Student Poster</span> INForum 2021</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="look" aria-labelledby="look-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="look-h">What LiquidJava looks like</h2>
+      <p>Refinements are Java annotations. LiquidJava checks them as you type and underlines the code that breaks one.</p>
+    </div>
+    <div class="ide-wrap">
+      <div class="ide" id="ide">
+        <div class="ide-bar">
+          <span class="ide-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <div class="ide-tabs" role="tablist" aria-label="Example">
+            <button role="tab" aria-selected="true" data-scene="values">Percent.java</button>
+            <button role="tab" aria-selected="false" data-scene="methods" tabindex="-1">MathUtil.java</button>
+            <button role="tab" aria-selected="false" data-scene="protocols" tabindex="-1">Client.java</button>
+          </div>
+        </div>
+        <pre class="ide-code" id="ide-code" aria-live="polite"></pre>
+        <div class="ide-status"><span id="ide-problems"><span class="fa fa-times-circle-o"></span> 1</span><span>LiquidJava</span></div>
+      </div>
+      <div class="ide-side">
+        <p id="ide-caption" class="ide-caption"></p>
+        <button class="btn-theme6 btn" id="ide-replay"><span class="fa fa-repeat"></span> Replay</button>
+        <div class="ide-links">
+          <a href="https://liquid-java.github.io/" class="btn-theme6 btn"><span class="fa fa-sitemap"></span>  LiquidJava website</a>
+          <a href="https://marketplace.visualstudio.com/items?itemName=AlcidesFonseca.liquid-java" class="btn-theme6 btn"><span class="fa fa-download"></span>  VS Code extension</a>
+          <a href="https://github.com/liquid-java/liquidjava-examples" class="btn-theme6 btn"><span class="fa fa-github"></span>  Examples</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="try" aria-labelledby="try-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="try-h">Could you use these without an explanation?</h2>
+      <p>Participants saw these three snippets before any training (Listing 4). Find one use that LiquidJava accepts and one it rejects.</p>
+    </div>
+
+    <div class="pane quiz">
+      <div class="tabs" role="tablist" aria-label="Exercise">
+        <button role="tab" id="qt-var" aria-selected="true" aria-controls="qp-var">1. A variable</button>
+        <button role="tab" id="qt-fn" aria-selected="false" aria-controls="qp-fn" tabindex="-1">2. A method</button>
+        <button role="tab" id="qt-cls" aria-selected="false" aria-controls="qp-cls" tabindex="-1">3. A class protocol</button>
+      </div>
+
+      <div class="quiz-panel" id="qp-var" role="tabpanel" aria-labelledby="qt-var">
+        <div class="quiz-grid">
+          <div>
+            <p class="quiz-ask">Give <code>x</code> a value.</p>
+<pre class="code"><code><span class="cm">// 1 - Variable Refinement</span>
+<span class="an">@Refinement</span>(<span class="str">"-25 &lt;= x &amp;&amp; x &lt;= 45"</span>) <span class="kw">int</span> x;
+x = <input id="var-x" class="code-in" value="20" aria-label="value assigned to x" spellcheck="false">;</code></pre>
+            <div class="verdict" id="var-out" aria-live="polite"></div>
+          </div>
+          <div class="quiz-side">
+            <ul class="goals" id="var-goals">
+              <li data-goal="ok">A value LiquidJava accepts</li>
+              <li data-goal="bad">A value LiquidJava rejects</li>
+            </ul>
+            <div class="reveal" id="var-reveal" hidden>
+              <div class="stat-num">86.7%</div>
+              <p>got both right on first sight.</p>
+              <div class="mini-stack" data-values="86.7,13.3,0"></div>
+            </div>
+            <button class="btn-theme6 btn reveal-btn" data-reveal="var-reveal">Show how participants did</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-panel" id="qp-fn" role="tabpanel" aria-labelledby="qt-fn" hidden>
+        <div class="quiz-grid">
+          <div>
+            <p class="quiz-ask">Call <code>function1</code>.</p>
+<pre class="code"><code><span class="cm">// 2 - Function/Method Refinement</span>
+<span class="an">@Refinement</span>(<span class="str">"_ &gt;= 0"</span>)
+<span class="kw">public static double</span> function1(<span class="an">@Refinement</span>(<span class="str">"a &gt;= 0"</span>) <span class="kw">double</span> a,
+                               <span class="an">@Refinement</span>(<span class="str">"b &gt;= a"</span>) <span class="kw">double</span> b)
+{ <span class="kw">return</span> (a + b)/2; }
+
+function1(<input id="fn-a" class="code-in short" value="1" aria-label="argument a" spellcheck="false">, <input id="fn-b" class="code-in short" value="5" aria-label="argument b" spellcheck="false">);</code></pre>
+            <div class="verdict" id="fn-out" aria-live="polite"></div>
+          </div>
+          <div class="quiz-side">
+            <ul class="goals" id="fn-goals">
+              <li data-goal="ok">A call LiquidJava accepts</li>
+              <li data-goal="bad">A call LiquidJava rejects</li>
+            </ul>
+            <div class="reveal" id="fn-reveal" hidden>
+              <div class="stat-num">96.7%</div>
+              <p>got both right.</p>
+              <div class="mini-stack" data-values="96.7,3.3,0"></div>
+            </div>
+            <button class="btn-theme6 btn reveal-btn" data-reveal="fn-reveal">Show how participants did</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-panel" id="qp-cls" role="tabpanel" aria-labelledby="qt-cls" hidden>
+        <div class="quiz-grid">
+          <div>
+            <p class="quiz-ask">Create a <code>MyObj</code> and call at least three methods. State names are hidden, as in the study.</p>
+<pre class="code"><code><span class="cm">// 3 - Class Protocol Refinement</span>
+<span class="an">@StateSet</span>({<span class="str">"sX"</span>, <span class="str">"sY"</span>, <span class="str">"sZ"</span>})
+<span class="kw">public class</span> MyObj {
+  <span class="an">@StateRefinement</span>(to=<span class="str">"sY(this)"</span>)
+  <span class="kw">public</span> MyObj() {}
+
+  <span class="an">@StateRefinement</span>(from=<span class="str">"sY(this)"</span>, to=<span class="str">"sX(this)"</span>)
+  <span class="kw">public void</span> select(<span class="kw">int</span> number) {}
+
+  <span class="an">@StateRefinement</span>(from=<span class="str">"sX(this)"</span>, to=<span class="str">"sZ(this)"</span>)
+  <span class="kw">public void</span> pay(<span class="kw">int</span> account) {}
+
+  <span class="an">@StateRefinement</span>(from=<span class="str">"sY(this)"</span>, to=<span class="str">"sX(this)"</span>)
+  <span class="an">@StateRefinement</span>(from=<span class="str">"sZ(this)"</span>, to=<span class="str">"sX(this)"</span>)
+  <span class="kw">public void</span> show() {}
+}</code></pre>
+          </div>
+          <div class="quiz-side">
+            <div class="row-c" id="cls-calls">
+              <button class="call" data-ctor="1">new MyObj()</button>
+            </div>
+            <div class="program small-prog" aria-label="Program"><ol id="cls-program"><li class="empty">Create a MyObj to start.</li></ol></div>
+            <div class="verdict" id="cls-out" aria-live="polite"></div>
+            <ul class="goals" id="cls-goals">
+              <li data-goal="ok">A sequence of 3 or more calls that passes</li>
+              <li data-goal="bad">A sequence LiquidJava rejects</li>
+            </ul>
+            <div class="reveal" id="cls-reveal" hidden>
+              <div class="stat-num">46.7%</div>
+              <p>got both right with no explanation. After a 4-minute video, all of them could write one.</p>
+              <div class="mini-stack" data-values="46.7,26.7,26.7"></div>
+              <div class="scroll-x"><svg id="myobj-dfa" class="dfa" viewBox="0 0 700 230" role="img" aria-label="State machine for MyObj: the constructor leads to sY, select goes from sY to sX, pay from sX to sZ, and show from sY or sZ to sX."></svg></div>
+            </div>
+            <button class="btn-theme6 btn reveal-btn" data-reveal="cls-reveal">Show how participants did</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="design" aria-labelledby="design-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="design-h">Designed with Java developers</h2>
+    </div>
+    <div class="reqs">
+      <div><b>R.1 Optional</b>Plain Java still type-checks.</div>
+      <div><b>R.2 Expressive</b>Specifications that look like Java.</div>
+      <div><b>R.3 Decidable</b>An SMT solver gives fast answers.</div>
+    </div>
+
+    <h3 class="pp-sub">How LiquidJava checks a program</h3>
+    <div class="pipe" aria-label="Pipeline of the LiquidJava system, Figure 1 of the paper">
+      <div class="pipe-in"><span class="fa fa-file-code-o"></span> Program annotated with refinements <small>.java</small></div>
+      <div class="pipe-arrow" aria-hidden="true"></div>
+      <div class="pipe-core">
+        <div class="pipe-step s1"><small>Spoon</small>Parsing</div>
+        <div class="pipe-step s2">Liquid Typechecking</div>
+        <div class="pipe-step s3"><small>Z3</small>Verify Refinements</div>
+      </div>
+      <div class="pipe-arrow" aria-hidden="true"></div>
+      <div class="pipe-out">
+        <div class="ok"><span class="fa fa-check"></span> All refinements verified, on to the Java compiler</div>
+        <div class="bad"><span class="fa fa-times"></span> Failed to verify a refinement</div>
+      </div>
+    </div>
+
+    <h3 class="pp-sub">Which syntax would you pick?</h3>
+    <div class="prose">
+      <p>We asked 50 Java developers to rate syntax options (Figure 2). Pick one to see their answers.</p>
+    </div>
+    <div class="syntax">
+      <button class="syn" data-opt="A" aria-pressed="false">
+        <span class="syn-l">Option A</span>
+<pre><code><span class="an">@Refinement</span>(<span class="str">"\\v &gt;= 0 &amp;&amp; \\v &lt;= 100"</span>)
+<span class="kw">public static int</span> percentageFromGrade(
+    <span class="an">@Refinement</span>(<span class="str">"grade &gt;= 0"</span>) <span class="kw">int</span> grade,
+    <span class="an">@Refinement</span>(<span class="str">"scale &gt; 0"</span>) <span class="kw">int</span> scale)</code></pre>
+      </button>
+      <button class="syn" data-opt="B" aria-pressed="false">
+        <span class="syn-l">Option B</span>
+<pre><code><span class="an">@Refinement</span>(<span class="str">"{grade &gt;= 0} -&gt; {scale &gt; 0} -&gt; {\\v &gt;= 0 &amp;&amp; \\v &lt;= 100}"</span>)
+<span class="kw">public static int</span> percentageFromGrade(<span class="kw">int</span> grade, <span class="kw">int</span> scale)</code></pre>
+      </button>
+    </div>
+    <div class="survey" id="survey" hidden>
+      <p class="survey-pick" id="survey-pick"></p>
+      <ul class="legend">
+        <li><i style="background:var(--o-3)"></i>Not acceptable</li>
+        <li><i style="background:var(--o-2)"></i>Acceptable</li>
+        <li><i style="background:var(--o-1)"></i>Preferable</li>
+      </ul>
+      <svg id="survey-chart" class="chart" viewBox="0 0 640 230" role="img" aria-label="Survey answers. Option A: 5 not acceptable, 21 acceptable, 24 preferable. Option B: 13 not acceptable, 18 acceptable, 19 preferable."></svg>
+      <p class="prose">Developers preferred Java-like syntax, so LiquidJava puts each refinement next to what it refines.</p>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="socket" aria-labelledby="socket-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="socket-h">The bug nobody fixed in plain Java</h2>
+      <p>The rules for <code>java.net.Socket</code> live only in its documentation. LiquidJava turns them into a state machine the compiler checks. No participant fixed this bug in plain Java; with LiquidJava, all of them did.</p>
+    </div>
+    <div class="pane sock-machine">
+      <div class="pane-head">State machine for Socket <span class="hint">Drag the states. Hover a method to see where it applies.</span></div>
+      <div class="scroll-x"><svg id="socket-dfa" class="dfa" viewBox="0 110 1620 230" role="img" aria-label="State machine for Socket with states unconnected, bound, connected and closed."></svg></div>
+    </div>
+    <div class="sock">
+      <div class="pane">
+        <div class="pane-head">Your program <span class="hint">LiquidJava checks it as you go</span></div>
+        <div class="controls">
+          <div class="row-c" id="sock-calls">
+            <span class="row-l">Try it</span>
+            <button class="call" data-ctor="1">new Socket()</button>
+          </div>
+        </div>
+        <div class="program" aria-label="Program"><ol id="sock-program"><li class="empty">Create a socket to start.</li></ol></div>
+        <div class="verdict" id="sock-out" aria-live="polite"></div>
+      </div>
+      <div class="pane">
+        <div class="pane-head">The specification <span class="hint">Listing 3</span></div>
+<pre class="spec code-plain"><code><span class="blk"><span class="an">@ExternalRefinementsFor</span>(<span class="str">"java.net.Socket"</span>)
+<span class="an">@StateSet</span>({<span class="str">"unconnected"</span>, <span class="str">"bound"</span>, <span class="str">"connected"</span>, <span class="str">"closed"</span>})
+<span class="kw">public interface</span> SocketRefinements {</span>
+<span class="blk" data-method="ctor">  <span class="an">@StateRefinement</span>(to=<span class="str">"unconnected(this)"</span>)
+  <span class="kw">public void</span> Socket();</span>
+<span class="blk" data-method="bind">  <span class="an">@StateRefinement</span>(from=<span class="str">"unconnected(this)"</span>, to=<span class="str">"bound(this)"</span>)
+  <span class="kw">public void</span> bind(SocketAddress add);</span>
+<span class="blk" data-method="connect">  <span class="an">@StateRefinement</span>(from=<span class="str">"bound(this)"</span>, to=<span class="str">"connected(this)"</span>)
+  <span class="kw">public void</span> connect(SocketAddress add, <span class="kw">int</span> timeout);</span>
+<span class="blk" data-method="sendUrgentData">  <span class="an">@StateRefinement</span>(from=<span class="str">"connected(this)"</span>)
+  <span class="kw">public void</span> sendUrgentData(<span class="kw">int</span> n);</span>
+<span class="blk" data-method="close">  <span class="an">@StateRefinement</span>(from=<span class="str">"!closed(this)"</span>, to=<span class="str">"closed(this)"</span>)
+  <span class="kw">public void</span> close();</span>
+<span class="blk">}</span></code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="study" aria-labelledby="study-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="study-h">What 30 Java developers did with it</h2>
+      <p>Each participant fixed bugs in plain Java, then with LiquidJava, on different exercises.</p>
+    </div>
+
+    <div class="headline">
+      <div><div class="num">100<small>%</small></div><p><b>found the bug</b> with LiquidJava in every exercise</p></div>
+      <div><div class="num">3 of 4</div><p><b>exercises were faster</b> with LiquidJava</p></div>
+      <div><div class="num">30<small> of 30</small></div><p><b>would use LiquidJava</b> in their projects</p></div>
+    </div>
+
+    <h3 class="pp-sub">Finding and fixing bugs</h3>
+    <div class="seg" role="group" aria-label="Exercise" id="ex-seg">
+      <button class="btn-theme6 btn" aria-pressed="false" data-ex="Fibonacci">Fibonacci</button>
+      <button class="btn-theme6 btn" aria-pressed="false" data-ex="Sum">Sum</button>
+      <button class="btn-theme6 btn" aria-pressed="false" data-ex="ArrayDeque">ArrayDeque</button>
+      <button class="btn-theme6 btn" aria-pressed="true" data-ex="Socket">Socket</button>
+    </div>
+    <ul class="legend">
+      <li><i style="background:var(--r-correct)"></i>Correct</li>
+      <li><i style="background:var(--r-cc)"></i>Compiler correct (error silenced, bug not fixed)</li>
+      <li><i class="hatch" style="background-color:var(--r-incorrect)"></i>Incorrect</li>
+      <li><i style="background:var(--r-blank)"></i>Unanswered</li>
+    </ul>
+    <div class="ex-grid" id="ex-grid"></div>
+    <p class="lens-note" id="ex-note" aria-live="polite"></p>
+
+    <h3 class="pp-sub">Writing their own refinements</h3>
+    <p class="prose">After a 4-minute video, participants annotated three programs (Figure 10). All rated it Easy or Very Easy.</p>
+    <div class="ann" id="ann"></div>
+
+    <h3 class="pp-sub">What they liked and disliked</h3>
+    <p class="prose small muted">Select a topic to read what a participant wrote.</p>
+    <div class="likes">
+      <div>
+        <h4 class="likes-h like">Liked most</h4>
+        <div class="lk" id="liked"></div>
+      </div>
+      <div>
+        <h4 class="likes-h dislike">Disliked most</h4>
+        <div class="lk" id="disliked"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="talk" aria-labelledby="talk-h">
+  <div class="container">
+    <div class="talk">
+      <img src="../../assets/images/presentation2.jpeg" alt="Catarina Gamboa presenting Usability-Oriented Design of Liquid Types for Java at ICSE 2023" loading="lazy">
+      <div class="prose">
+        <h2 class="pp-h" id="talk-h">At ICSE 2023</h2>
+        <p>Presenting the paper in Melbourne, Australia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block pb-5" id="cite" aria-labelledby="cite-h">
+  <div class="container">
+    <h2 class="pp-h" id="cite-h">Cite</h2>
+    <div class="cite">
+      <button class="btn-theme6 btn" id="copy-bib"><span class="fa fa-clipboard"></span>  Copy</button>
+<pre id="bibtex">@inproceedings{gamboa2023usability,
+  title     = {Usability-Oriented Design of Liquid Types for Java},
+  author    = {Gamboa, Catarina and Canelas, Paulo and
+               Timperley, Christopher and Fonseca, Alcides},
+  booktitle = {2023 IEEE/ACM 45th International Conference on
+               Software Engineering (ICSE)},
+  pages     = {1520--1532},
+  year      = {2023},
+  publisher = {IEEE},
+  doi       = {10.1109/ICSE48619.2023.00132}
+}</pre>
+    </div>
+  </div>
+</section>
+</main>
+<div class="pp-tooltip" id="pp-tooltip" role="presentation"></div>
+
+
+ <section class="w3l-footer-29-main" id="footer">
+  <div class="footer-29 text-center">
+      <div class="container">
+        
+        <div class="main-social-footer-29"> 
+          <a href="#facebook" onclick="sendEmail()" class="facebook"><span class="fa fa-envelope-o"></span></a>
+          <a href="https://github.com/CatarinaGamboa" class="twitter"><span class="fa fa-github"></span></a>
+          <a href="https://www.linkedin.com/in/catarina-ventura-gamboa-518151172/" class="linkedin"><span class="fa fa-linkedin"></span></a>
+        </div>
+          <div class="bottom-copies text-center">
+              <p class="copy-footer-29">© 2020 My Website. All rights reserved | Designed by <a href="https://w3layouts.com">W3layouts</a></p>
+               
+          </div>
+      </div>
+  </div>
+   <!-- move top -->
+  <button onclick="topFunction()" id="movetop" title="Go to top">
+              <span class="fa fa-angle-up"></span>
+                 </button>
+                 <script>
+                     // When the user scrolls down 20px from the top of the document, show the button
+                     window.onscroll = function () {
+                         scrollFunction()
+                     };
+              
+                     function scrollFunction() {
+                         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                             document.getElementById("movetop").style.display = "block";
+                         } else {
+                             document.getElementById("movetop").style.display = "none";
+                         }
+                     }
+              
+                     // When the user clicks on the button, scroll to the top of the document
+                     function topFunction() {
+                         document.body.scrollTop = 0;
+                         document.documentElement.scrollTop = 0;
+                     }
+                 </script>
+                 <!-- /move top -->
+</section>
+<!-- // grids block 5 -->
+<script src="../../assets/js/jquery-3.3.1.min.js"></script>
+<!-- //footer-28 block -->
+</section>
+
+<script>
+    $(function () {
+      $('.navbar-toggler').click(function () {
+        $('body').toggleClass('noscroll');
+      })
+    });
+  </script>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+
+<!-- Smooth scrolling -->
+
+
+
+<script src="../../assets/js/paper-dfa.js"></script>
+<script src="../../assets/js/paper-zoom.js"></script>
+<script src="../../assets/js/icse23.js"></script>
+</body>
+
+</html>
+<!-- // grids block 5 -->
+

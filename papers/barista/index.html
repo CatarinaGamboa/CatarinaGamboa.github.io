@@ -16,161 +16,6 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="../../assets/css/style-starter.css">
     <link rel="stylesheet" href="../../assets/css/paper-page.css">
-    <style>
-      /* ---------- protocol lab ---------- */
-      .pp .lab-machine { margin-top: 1.5rem; }
-      .pp .lab-machine svg { min-width: 900px; padding: 0.5rem 1rem 1rem; }
-      .pp .lab { display: grid; gap: 1.25rem; margin-top: 1.25rem; grid-template-columns: minmax(0, 1fr); }
-      @media (min-width: 992px) { .pp .lab { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); } }
-      .pp .lab > * { min-width: 0; }
-      .pp .controls { padding: 0.8rem 1rem 0.3rem; display: grid; gap: 0.6rem; }
-      .pp .row-c { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
-      .pp .row-l { font-size: 15px; color: var(--pp-muted); min-width: 8rem; }
-      .pp .row-c .btn-theme6 { margin-top: 0; }
-      .pp .call {
-        font-family: var(--pp-mono); font-size: 13px; padding: 3px 9px; border-radius: 0.25rem;
-        border: 1px solid #747474; background: #fff; color: #000; cursor: pointer;
-        display: inline-flex; align-items: center; gap: 0.35rem; transition: background 0.2s, color 0.2s;
-      }
-      .pp .call:hover:not(:disabled) { background: var(--pp-title); border-color: var(--pp-title); color: #fff; }
-      .pp .call:disabled { opacity: 0.4; cursor: not-allowed; }
-      .pp .call.allowed::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--pp-ok); }
-      .pp .call input {
-        width: 4.4rem; font: inherit; border: 0; border-bottom: 1px dashed #747474;
-        background: transparent; color: inherit; padding: 0; text-align: center;
-      }
-      .pp .legend-dot { font-size: 14px; color: var(--pp-muted); display: inline-flex; gap: 0.4rem; align-items: center; }
-      .pp .legend-dot::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--pp-ok); }
-
-      .pp .program { margin: 0.5rem 1rem 0; border-radius: 4px; background: var(--pp-code-bg); padding: 0.6rem 0; min-height: 7.5rem; font-family: var(--pp-mono); font-size: 13px; overflow-x: auto; color: var(--pp-title); }
-      .pp .program ol { list-style: none; margin: 0; padding: 0; counter-reset: ln; }
-      .pp .program li { counter-increment: ln; display: grid; grid-template-columns: 2.4rem 1fr auto; gap: 0.4rem 1rem; width: max-content; min-width: 100%; padding: 0.12rem 0.9rem 0.12rem 0; border-left: 3px solid transparent; white-space: pre; }
-      .pp .program li::before { content: counter(ln); color: #9a9a9a; text-align: right; }
-      .pp .program li .st { font-family: 'Hind', sans-serif; font-size: 13px; color: var(--pp-muted); }
-      .pp .program li.bad { border-left-color: var(--pp-theme); background: var(--pp-theme-soft); }
-      .pp .program li.bad .st { color: var(--pp-theme); font-weight: 600; }
-      .pp .program li.new { animation: line-in 260ms ease-out; }
-      @keyframes line-in { from { opacity: 0; transform: translateY(-4px); } }
-      .pp .program .empty { padding: 0.3rem 1rem; color: var(--pp-muted); font-family: 'Hind', sans-serif; font-size: 15px; white-space: normal; display: block; width: auto; }
-      .pp .program .empty::before { content: none; }
-
-      .pp .verdict { margin: 0.75rem 1rem 1rem; font-family: var(--pp-mono); font-size: 13px; line-height: 1.5; min-height: 3.2rem; color: var(--pp-title); }
-      .pp .verdict .ok { color: var(--pp-ok); font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 700; }
-      .pp .verdict .err { border-left: 3px solid var(--pp-theme); padding: 0.2rem 0 0.2rem 0.75rem; margin-bottom: 0.5rem; }
-      .pp .verdict .err b { color: var(--pp-theme); font-family: 'Nunito', sans-serif; font-size: 15px; }
-      .pp .verdict .idle { color: var(--pp-muted); font-family: 'Hind', sans-serif; font-size: 15px; }
-
-      .pp .tabs { display: flex; gap: 0.25rem; padding: 0.5rem 0.6rem 0; border-bottom: 1px solid var(--pp-rule); }
-      .pp .tabs button {
-        font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 15px; color: var(--pp-muted);
-        background: none; border: 0; border-bottom: 2px solid transparent; padding: 0.45rem 0.6rem 0.5rem;
-      }
-      .pp .tabs button[aria-selected="true"] { color: var(--pp-theme); border-bottom-color: var(--pp-theme); }
-      .pp .tabpanel { padding: 0.5rem 0.4rem 0.8rem; max-height: 30rem; overflow: auto; }
-      .pp .tabpanel.javadoc { padding: 0 0 0.8rem; }
-      /* Javadoc look (JDK 17 stylesheet colors), so it reads as the JDK's text, not ours */
-      .pp .javadoc { font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif; color: #353833; padding: 0 0 0.8rem; background: #fff; }
-      .pp .jd-top { display: flex; justify-content: space-between; background: #4d7a97; color: #fff; font-size: 12px; padding: 0.45rem 0.8rem; position: sticky; top: 0; z-index: 1; }
-      .pp .jd-head { padding: 0.7rem 0.8rem 0.6rem; }
-      .pp .jd-pkg { font-size: 12.5px; color: #353833; }
-      .pp .jd-pkg a, .pp .jd-note a { color: #4a6782; }
-      .pp .jd-title { font-size: 20px; color: #2c4557; margin-top: 0.15rem; }
-      .pp .jd-section { background: #dee3e9; border: 1px solid #d0d9e0; color: #2c4557; font-size: 14px; font-weight: 700; padding: 0.35rem 0.8rem; margin: 0 0.6rem 0.3rem; }
-      .pp .doc-entry { margin: 0 0.6rem; padding: 0.55rem 0.7rem 0.6rem; border-bottom: 1px solid #ededed; border-left: 3px solid transparent; transition: background 160ms, border-color 160ms; }
-      .pp .doc-entry h5 { font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 700; color: #2c4557; background: #f8f8f8; border-top: 1px solid #ededed; margin: -0.2rem -0.3rem 0.4rem; padding: 0.25rem 0.3rem; }
-      .pp .jd-sig { font-family: 'DejaVu Sans Mono', var(--pp-mono); font-size: 12.5px; color: #353833; margin-bottom: 0.4rem; line-height: 1.45; }
-      .pp .doc-entry p { margin: 0; font-size: 14px; line-height: 1.5; color: #353833; }
-      .pp .doc-entry dl { margin: 0.4rem 0 0; font-size: 13.5px; line-height: 1.45; }
-      .pp .doc-entry dt { font-weight: 700; color: #4e4e4e; }
-      .pp .doc-entry dd { margin: 0.1rem 0 0 1.2rem; color: #353833; }
-      .pp .doc-entry code { font-family: 'DejaVu Sans Mono', var(--pp-mono); font-size: 12.5px; color: #4a6782; }
-      .pp .doc-entry mark { background: none; color: inherit; padding: 0; text-decoration: underline; text-decoration-color: var(--pp-theme); text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
-      .pp .jd-note { font-size: 12.5px; color: #6b6b6b; margin: 0.7rem 1.3rem 0; }
-      .pp .doc-src { font-size: 13px; color: var(--pp-muted); padding: 0.2rem 0.7rem 0.3rem; }
-      .pp .spec { margin: 0; font-size: 12px; line-height: 1.55; color: var(--pp-title); }
-      .pp .spec .blk { display: block; padding: 0.12rem 0.7rem; border-left: 3px solid transparent; border-radius: 3px; transition: background 160ms, border-color 160ms; white-space: pre; }
-      .pp .spec .an { color: var(--pp-theme); font-weight: 600; }
-      .pp .spec .str { color: #3b2f8f; }
-      .pp .is-hot { background: var(--pp-theme-soft); border-left-color: var(--pp-theme) !important; }
-
-      /* ---------- workflow (Figure 1) ---------- */
-      .pp .wf-pane { margin-top: 1.5rem; }
-      .pp .wf { width: 100%; height: auto; display: block; min-width: 820px; padding: 1rem; }
-      .wf text { font-family: 'Hind', Arial, sans-serif; fill: #111; }
-      .wf .wf-mono { font-family: var(--pp-mono); font-size: 20px; }
-      .wf .wf-big { font-size: 25px; }
-      .wf .wf-b { font-weight: 700; }
-      .wf .wf-label { font-size: 28px; }
-      .wf .wf-title { font-size: 28px; }
-      .wf .wf-badge { font-size: 19px; font-weight: 700; fill: #fff; }
-      .wf .wf-json { font-family: var(--pp-mono); font-size: 30px; fill: #ef7d1a; }
-      .wf .wf-arrow { fill: none; stroke: #111; stroke-width: 9; stroke-linejoin: miter; transition: stroke 200ms; }
-      .wf .wf-arrow.wf-thin { stroke-width: 6; }
-      .wf marker path { fill: #111; }
-      .wf .wf-arc { fill: none; stroke: #111; stroke-width: 4; }
-      .wf .wf-region { fill: #fff; stroke: #111; stroke-width: 2.5; transition: stroke 200ms, fill 200ms, stroke-width 200ms; }
-      .wf .wf-step { cursor: pointer; outline: none; }
-      .wf .wf-step:hover .wf-region, .wf .wf-step:focus-visible .wf-region { stroke: var(--pp-theme); stroke-width: 4; }
-      .wf .wf-step.selected .wf-region { stroke: var(--pp-theme); stroke-width: 5; fill: #fdf3f6; }
-      .wf [data-play] { transition: opacity 350ms; }
-      .wf.playing [data-play]:not(.lit) { opacity: 0.18; }
-      .wf .wf-glow { fill: none; stroke: var(--pp-theme); stroke-width: 5; opacity: 0; transition: opacity 300ms; }
-      .wf [data-play].glow .wf-glow { opacity: 1; }
-      .wf.playing .lit .wf-arrow { stroke: var(--pp-theme); marker-end: url(#wf-head-hot); }
-      .wf.playing .wf-step.lit .wf-region { stroke: var(--pp-theme); stroke-width: 5; fill: #fdf3f6; }
-      .wf.playing .wf-step.lit .wf-loop { animation: wf-spin 1.2s ease-in-out 1; transform-box: view-box; }
-      .wf .wf-final { cursor: pointer; outline: none; }
-      .wf .wf-final.selected .wf-glow, .wf .wf-final:hover .wf-glow, .wf .wf-final:focus-visible .wf-glow { opacity: 1; }
-      .wf #wf-head-hot path { fill: var(--pp-theme); }
-      @keyframes wf-spin { to { transform: rotate(360deg); } }
-      .pp .wf-actions { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; margin-top: 0.8rem; }
-      .pp .wf-actions .btn-theme6 { margin-top: 0; font-size: 14px; padding: 3px 12px; }
-
-      .pp .detail { margin-top: 1.2rem; display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); padding: 1.4rem; border-radius: 6px; background: var(--pp-light); }
-      @media (min-width: 992px) { .pp .detail { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-      .pp .detail > * { min-width: 0; }
-      .pp .detail h4 { font-size: 20px; font-weight: 700; color: var(--pp-title); margin: 0 0 0.6rem; }
-      .pp .detail p { font-size: 16px; }
-      .pp .detail pre .an, .pp .spec .an { color: var(--pp-theme); font-weight: 600; }
-      .pp .detail pre .str { color: #3b2f8f; }
-      .pp .detail pre .kw { color: #1f4e79; font-weight: 600; }
-      .pp .detail pre .cm { color: #8a8a8a; font-style: italic; }
-      .pp .detail pre .err { color: var(--pp-theme); font-weight: 600; }
-      .pp .detail pre { margin: 0; background: #fff; border: 1px solid var(--pp-rule); border-radius: 4px; padding: 0.9rem 1rem; overflow-x: auto; font-size: 12.5px; line-height: 1.55; color: var(--pp-title); }
-      .pp .detail .art-label { font-size: 14px; color: var(--pp-muted); margin: 0 0 0.4rem; }
-      .pp .turns { margin-top: 1rem; font-size: 15px; color: var(--pp-title); }
-      .pp .turns-bar { display: flex; gap: 2px; height: 12px; margin: 0.4rem 0 0.35rem; }
-      .pp .turns-bar span { background: #cfcfcf; border-radius: 3px; }
-      .pp .turns-bar span.on { background: var(--pp-theme); }
-
-      /* ---------- results ---------- */
-      .pp .headline { display: grid; gap: 1.5rem 3rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin: 1.6rem 0 0.5rem; }
-      .pp .headline .num { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 56px; line-height: 1; color: var(--pp-theme); font-variant-numeric: tabular-nums; }
-      .pp .headline .num small { font-size: 0.5em; font-weight: 700; }
-      .pp .headline p { margin: 0.5rem 0 0; font-size: 16px; max-width: 22rem; }
-      .pp .headline p b { color: var(--pp-title); }
-      .pp .stack { display: flex; gap: 2px; height: 22px; margin: 0.6rem 0 0.4rem; max-width: 40rem; }
-      .pp .stack span { border-radius: 4px; }
-      .pp .stack-labels { display: flex; gap: 2px; max-width: 40rem; font-size: 14px; }
-      .pp .stack-labels span { line-height: 1.3; }
-      .pp .stack-labels b { color: var(--pp-title); display: block; font-size: 17px; font-family: 'Nunito', sans-serif; }
-      .pp .chart-wrap { max-width: 44rem; margin-top: 1rem; }
-      .pp .lens-note { font-size: 16px; min-height: 3.3rem; margin-top: 0.6rem; max-width: 40rem; }
-      .pp .causes { display: grid; grid-template-columns: minmax(9rem, 15rem) minmax(0, 1fr) 1.5rem; gap: 0.35rem 0.8rem; align-items: center; max-width: 44rem; font-size: 15px; margin-top: 0.4rem; }
-      .pp .causes .bar { height: 14px; border-radius: 0 4px 4px 0; }
-      .pp .causes .v { color: var(--pp-title); font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
-
-      /* ---------- benchmark ---------- */
-      .pp .domains { display: grid; gap: 1rem; margin-top: 1.2rem; }
-      .pp .domain { display: grid; gap: 0.4rem; }
-      @media (min-width: 768px) { .pp .domain { grid-template-columns: 10rem minmax(0, 1fr); gap: 1rem; } }
-      .pp .domain h3 { font-size: 17px; font-weight: 700; color: var(--pp-title); margin: 0.15rem 0 0; }
-      .pp .domain h3 span { display: block; font-family: 'Hind', sans-serif; font-weight: 400; color: var(--pp-muted); font-size: 14px; }
-      .pp .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-      .pp .chips a { font-family: var(--pp-mono); font-size: 12.5px; padding: 2px 9px; border-radius: 0.25rem; border: 1px solid #747474; color: #000; }
-      .pp .chips a:hover { background: var(--pp-title); border-color: var(--pp-title); color: #fff; text-decoration: none; }
-      .pp .chips a.feature { border-color: var(--pp-theme); color: var(--pp-theme); }
-    </style>
   </head>
   <body>
 
@@ -242,7 +87,7 @@
         <p class="lede">Java classes come with rules nobody writes down formally: connect a socket before sending data, never reuse a closed stream. Barista reads those rules from the Javadoc and turns them into LiquidJava specifications, so the compiler can catch violations before the code runs.</p>
       </div>
       <div class="hero-poster">
-        <a class="poster" href="../../assets/images/posters/poster_barista.pdf"><img src="../../assets/images/posters/barista_png.png" alt="Barista poster: Synthesizing Typestate Specifications with LLM Agents"></a>
+        <button type="button" class="poster" data-pdf="../../assets/images/posters/poster_barista.pdf" aria-label="Zoom into the poster"><img src="../../assets/images/posters/barista_png.png" alt="Barista poster: Synthesizing Typestate Specifications with LLM Agents"></button>
         <p class="poster-cap"><span class="btn-theme6 btn award"><span class="fa fa-trophy"></span>  Best PhD Poster Award</span> LASIGE Workshop 2026</p>
       </div>
     </div>
@@ -534,6 +379,7 @@ public interface SocketRefinements {</span>
 
 
 <script src="../../assets/js/paper-dfa.js"></script>
+<script src="../../assets/js/paper-zoom.js"></script>
 <script src="../../assets/js/barista-workflow.js"></script>
 <script src="../../assets/js/barista.js"></script>
 </body>

@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <link rel="icon" type="image/jpg" href="../../assets/images/DSC09526 (1).jpg" sizes="228x228" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Usability Barriers for Liquid Types - PLDI 2025 | Catarina Gamboa</title>
+    <!-- web fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Hind:400,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- //web fonts -->
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="../../assets/css/style-starter.css">
+    <link rel="stylesheet" href="../../assets/css/paper-page.css">
+    <style>
+      .pp .hero-poster .photo { width: 100%; border-radius: 4px; display: block; box-shadow: 0 2px 14px rgba(26, 29, 45, 0.12); }
+      .pp-hero h1.long { font-size: 54px; line-height: 1.05; max-width: 14ch; }
+      @media (max-width: 767px) { .pp-hero h1.long { font-size: 38px; } }
+
+      /* ---------- barriers map ---------- */
+      .pp .bmap { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); }
+      @media (min-width: 992px) { .pp .bmap { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .pp .bcat-sc { grid-column: 1 / -1; } .pp .bcat-sc { display: grid; grid-template-columns: 11rem minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; align-items: stretch; } .pp .bcat-sc .bcat-h { align-self: center; margin: 0; } }
+      .pp .bcat { background: var(--pp-light); border: 1px solid #e6e6e6; border-radius: 10px; padding: 0.8rem; display: grid; gap: 0.5rem; align-content: start; }
+      .pp .bcat-h { font-size: 22px; font-weight: 800; color: var(--pp-title); text-align: center; margin: 0.1rem 0 0.2rem; }
+      .pp .bcard { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.3rem 1rem; align-items: center; text-align: left; background: #fff; border: 1px solid #d9d9d9; border-radius: 6px; padding: 0.6rem 0.8rem; cursor: pointer; transition: opacity 250ms, border-color 200ms, box-shadow 200ms; width: 100%; }
+      .pp .bcard:hover { border-color: #9a9a9a; }
+      .pp .bcard[aria-pressed="true"] { border-color: var(--pp-theme); box-shadow: inset 0 0 0 1px var(--pp-theme); }
+      .pp .bcard.dim { opacity: 0.3; }
+      .pp .bname { font-family: 'Nunito', sans-serif; font-weight: 700; color: var(--pp-title); font-size: 15.5px; line-height: 1.3; }
+      .pp .bcounts { display: grid; gap: 0.2rem; justify-items: end; }
+      .pp .cnt { display: inline-flex; gap: 0.45rem; align-items: center; }
+      .pp .cnt em { font-style: normal; font-size: 12.5px; color: var(--pp-muted); white-space: nowrap; min-width: 8.6rem; }
+      .pp .dots { display: inline-flex; gap: 2px; }
+      .pp .dots i { width: 7px; height: 7px; border-radius: 50%; background: #e3e3e3; display: block; }
+      .pp .dots.new i.on { background: #6c757d; }
+      .pp .dots.exp i.on { background: var(--pp-title); }
+      @media (max-width: 575px) { .pp .bcard { grid-template-columns: minmax(0, 1fr); } .pp .bcounts { justify-items: start; } }
+
+      .pp .bdetail { margin-top: 1.2rem; display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); padding: 1.4rem; border-radius: 6px; background: var(--pp-light); }
+      @media (min-width: 992px) { .pp .bdetail { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); } }
+      .pp .bdetail > * { min-width: 0; }
+      .pp .bd-cat { font-size: 14px; color: var(--pp-theme); font-weight: 600; margin: 0 0 0.2rem; }
+      .pp .bdetail h3 { font-size: 21px; font-weight: 700; color: var(--pp-title); margin: 0 0 0.6rem; }
+      .pp .bdetail ul { padding-left: 1.2rem; margin: 0 0 0.6rem; }
+      .pp .bdetail li { margin-bottom: 0.35rem; }
+      .pp blockquote { margin: 0 0 1rem; padding: 0.2rem 0 0.2rem 1rem; border-left: 3px solid var(--pp-theme); font-style: italic; color: var(--pp-title); font-size: 16px; line-height: 1.55; }
+      .pp blockquote cite { display: block; font-style: normal; font-size: 13px; color: var(--pp-muted); margin-top: 0.3rem; }
+      .pp blockquote cite::before { content: "Participant "; }
+
+      /* ---------- study tracks ---------- */
+      .pp .tracks { margin-top: 1.4rem; padding: 0.4rem 1rem; }
+      .pp .track { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.6rem; padding: 0.9rem 0; align-items: center; }
+      .pp .track + .track { border-top: 1px solid var(--pp-rule); }
+      @media (min-width: 992px) { .pp .track { grid-template-columns: 15rem minmax(0, 1fr); } }
+      .pp .track-who b { display: block; font-family: 'Nunito', sans-serif; font-size: 18px; color: var(--pp-title); }
+      .pp .track-who span { font-size: 14px; color: var(--pp-muted); line-height: 1.4; display: block; }
+      .pp .track-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.4rem; }
+      @media (max-width: 767px) { .pp .track-steps { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.6rem; } }
+      .pp .tstep { position: relative; display: flex; gap: 0.5rem; align-items: center; background: #fff; border: 1px solid #d9d9d9; border-radius: 6px; padding: 0.6rem 0.7rem; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14.5px; color: var(--pp-title); text-align: left; cursor: pointer; transition: border-color 200ms, background 250ms, opacity 250ms; }
+      .pp .tstep .fa { font-size: 18px; color: var(--pp-muted); width: 1.2rem; text-align: center; }
+      @media (min-width: 768px) { .pp .tstep:not(:last-child)::after { content: ""; position: absolute; right: -1.2rem; top: 50%; border: 5px solid transparent; border-left: 7px solid #9a9a9a; border-right: 0; transform: translateY(-50%); } }
+      .pp .tstep:hover { border-color: #9a9a9a; }
+      .pp .tstep[aria-pressed="true"] { border-color: var(--pp-theme); box-shadow: inset 0 0 0 1px var(--pp-theme); }
+      .pp .tracks.playing .tstep:not(.lit) { opacity: 0.3; }
+      .pp .tstep.lit { background: #fdf3f6; }
+      .pp .tstep.lit .fa { color: var(--pp-theme); }
+      .pp #sdetail { grid-template-columns: minmax(0, 1fr); }
+      .pp .quotes { display: grid; gap: 0.5rem 2rem; grid-template-columns: minmax(0, 1fr); }
+      @media (min-width: 992px) { .pp .quotes { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+      /* ---------- error demo ---------- */
+      .pp .err-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.2rem 0 0.8rem; }
+      .pp .err-chips .btn-theme6 { margin: 0; font-size: 14px; padding: 3px 10px; }
+      .pp .err-chips b { display: inline-grid; place-items: center; width: 1.2rem; height: 1.2rem; border-radius: 50%; background: var(--pp-theme); color: #fff; font-size: 11px; margin-right: 0.3rem; }
+      .pp .err-chips [aria-pressed="true"] { background: var(--pp-title); border-color: var(--pp-title); color: #fff; }
+      .pp .err-pane { overflow: hidden; }
+      .pp pre.hs { margin: 0; padding: 0.8rem 0; background: #fff; font-size: 13px; line-height: 1.6; color: var(--pp-title); counter-reset: hl; overflow-x: auto; }
+      .pp pre.hs > code { white-space: normal; }
+      .pp pre.hs .ln { display: block; white-space: pre; padding: 0 1rem 0 0; border-left: 3px solid transparent; }
+      .pp pre.hs .ln::before { content: attr(data-l); display: inline-block; width: 2.6rem; text-align: right; padding-right: 0.9rem; color: #9a9a9a; }
+      .pp pre.hs .fix { display: none; color: var(--pp-ok); font-weight: 700; }
+      .pp .errdemo.fixed pre.hs .fix { display: inline; }
+      .pp .errdemo.fixed .fixline { background: var(--pp-ok-soft); border-left-color: var(--pp-ok); }
+      .pp pre.hs .flagged::before { content: "✖ " attr(data-l); color: var(--pp-theme); }
+      .pp .errdemo.fixed pre.hs .flagged::before { content: attr(data-l); color: #9a9a9a; }
+      .pp pre.hs .loc { background: #f6c9cf; }
+      .pp .errdemo.fixed pre.hs .loc { background: none; }
+      .pp pre.hs-err { margin: 0; padding: 0.8rem 1rem; background: #f7f7f8; border-top: 1px solid var(--pp-rule); font-size: 12px; line-height: 1.6; color: #333; overflow-x: auto; white-space: pre; }
+      .pp .hs-ok { padding: 0.8rem 1rem; border-top: 1px solid var(--pp-rule); color: var(--pp-ok); font-weight: 600; }
+      .pp .errdemo [class] { transition: background 200ms, outline-color 200ms; }
+      .pp .errdemo[data-prob="loc"] .flagged, .pp .errdemo[data-prob="loc"] .fixline { background: #fff4d6; }
+      .pp .errdemo[data-prob="loc"] .fixline { border-left-color: #c98a1c; }
+      .pp .errdemo[data-prob="loc"] .bug { outline: 2px solid #c98a1c; outline-offset: 1px; border-radius: 2px; }
+      .pp .errdemo[data-prob="int"] .int, .pp .errdemo[data-prob="kind"] .kind { background: #ffe08a; color: #1A1D2D; border-radius: 2px; outline: 1px solid #c98a1c; }
+      .pp .prob-note { margin-top: 0.8rem; min-height: 3rem; color: var(--pp-title); max-width: 46rem; }
+      .pp .linkish { background: none; border: 0; padding: 0; color: var(--pp-theme); text-decoration: underline; font: inherit; cursor: pointer; }
+
+      /* ---------- implications ---------- */
+      .pp .impl { display: grid; gap: 1rem 2rem; grid-template-columns: minmax(0, 1fr); margin-top: 0.6rem; }
+      @media (min-width: 992px) { .pp .impl { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+      .pp .impl > div { border-top: 3px solid var(--pp-theme); padding-top: 0.6rem; }
+      .pp .impl-h { font-size: 20px; font-weight: 800; color: var(--pp-title); margin: 0 0 0.5rem; }
+      .pp .impl ul { padding-left: 1.1rem; margin: 0; }
+      .pp .impl li { margin-bottom: 0.4rem; font-size: 16px; }
+      .pp blockquote.pull { margin-top: 1.8rem; max-width: 46rem; font-size: 18px; }
+
+      /* ---------- highlights, icons, chips ---------- */
+      .pp mark.k { background: linear-gradient(transparent 58%, #f9cdda 58%); color: inherit; padding: 0 1px; font-weight: 600; }
+      .pp .lede b { color: var(--pp-title); }
+      .pp .bname .fa { color: var(--pp-theme); width: 1.4rem; font-size: 16px; }
+      .pp .bd-cat .fa { margin-right: 0.2rem; }
+      .pp .bd-sum { font-size: 19px; line-height: 1.55; color: var(--pp-title); }
+      .pp .bd-more summary { cursor: pointer; color: var(--pp-theme); font-weight: 600; font-size: 15px; }
+      .pp .bd-more ul { margin-top: 0.5rem; font-size: 15.5px; }
+      .pp .bd-link { margin-top: 0.6rem; font-size: 15px; }
+      .pp .bd-quotes blockquote .fa, .pp .why-q blockquote .fa { color: var(--pp-theme); opacity: 0.5; margin-right: 0.4rem; font-style: normal; }
+      .pp .why { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.4rem 0 1rem; }
+      .pp .why-chip { display: inline-flex; gap: 0.5rem; align-items: center; background: #fff; border: 1px solid #d9d9d9; border-radius: 999px; padding: 0.45rem 1rem; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 15px; color: var(--pp-title); cursor: pointer; transition: border-color 200ms, background 200ms; }
+      .pp .why-chip .fa { color: var(--pp-theme); }
+      .pp .why-chip:hover { border-color: #9a9a9a; }
+      .pp .why-chip[aria-pressed="true"] { background: var(--pp-title); border-color: var(--pp-title); color: #fff; }
+      .pp .why-chip[aria-pressed="true"] .fa { color: #f9cdda; }
+      .pp .why-q { max-width: 46rem; min-height: 6rem; }
+      .pp .impl-h .fa { color: var(--pp-theme); margin-right: 0.3rem; }
+      .pp .impl li { font-size: 17px; }
+    </style>
+  </head>
+  <body>
+
+<section class="w3l-bootstrap-header">
+  <nav class="navbar navbar-expand-lg navbar-light py-lg-3 py-2">
+    <div class="container">
+      <a class="navbar-brand" href="../../index.html">Catarina Gamboa</a>
+      <!-- if logo is image enable this   
+    <a class="navbar-brand" href="#index.html">
+        <img src="../../image-path" alt="Your logo" title="Your logo" style="height:35px;" />
+    </a> -->
+    
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon fa fa-bars"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../../index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../CatarinaGamboa_CV.pdf"><span class="fa fa-download"></span> CV</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../about_me.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../projects.html">Papers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../activities.html">Outreach & Activities</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../blog.html">Blog</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg">
+    <div class="container py-5">
+      <p><br/><!--<a href="../../index.html">Home</a> &nbsp; / &nbsp; About--></p> 
+     </div>
+  </div>
+</section>
+
+<main class="pp" id="paper">
+
+<section class="pp-hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="venue">PLDI 2025, Seoul, South Korea</p>
+        <h1 class="long">Usability Barriers for Liquid Types</h1>
+        <p class="authors mt-4"><u>Catarina Gamboa</u>, Abigail Reese, Alcides Fonseca, Jonathan Aldrich</p>
+        <p class="venue-full">PLDI 2025 - Conference on Programming Language Design and Implementation, CORE A*. Proc. ACM Program. Lang. 9, PLDI, Article 224.</p>
+        <div class="btns">
+          <a href="https://doi.org/10.1145/3729327" class="btn-theme6 btn"><span class="fa fa-file-text"></span>  Paper</a>
+          <a href="../../papers/pre_print_barriers_liquid_types.pdf" class="btn-theme6 btn"><span class="fa fa-file-pdf-o"></span>  Pre-print</a>
+          <a href="https://zenodo.org/records/15044759" class="btn-theme6 btn"><span class="fa fa-folder-open"></span>  Artifact</a>
+          <a href="../../assets/images/posters/poster_barriers.pdf" class="btn-theme6 btn"><span class="fa fa-image"></span>  Poster</a>
+          <a href="#cite" class="btn-theme6 btn"><span class="fa fa-quote-right"></span>  Cite</a>
+        </div>
+        <p class="lede">Liquid types catch more bugs, yet few developers use them. We watched <b>12 newcomers</b> and <b>7 experienced users</b> of LiquidHaskell and found <b>nine barriers</b>.</p>
+      </div>
+      <div class="hero-poster">
+        <button type="button" class="poster" data-pdf="../../assets/images/posters/poster_barriers.pdf" aria-label="Zoom into the poster"><img src="../../assets/images/posters/barriers_png.png" alt="Poster: Usability Barriers for Liquid Types"></button>
+        <p class="poster-cap">Poster for PLDI 2025</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="barriers" aria-labelledby="barriers-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="barriers-h">Nine barriers</h2>
+      <p>Figure 2 of the paper. Dots show who ran into each barrier. Select one to see it in practice.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Show barriers for" id="who">
+      <button class="btn-theme6 btn" aria-pressed="true" data-who="all">Everyone</button>
+      <button class="btn-theme6 btn" aria-pressed="false" data-who="new">New users (12)</button>
+      <button class="btn-theme6 btn" aria-pressed="false" data-who="exp">Experienced users (7)</button>
+    </div>
+    <div class="bmap" id="bmap"></div>
+    <p class="small muted mt-2">Counts show who mentioned each barrier, not how common it is.</p>
+    <div class="bdetail" id="bdetail" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="pp-block" id="study" aria-labelledby="study-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="study-h">How we studied it</h2>
+      <p>Two protocols, one per group (Figure 1). Select a step for details.</p>
+    </div>
+    <div class="tracks pane" id="tracks">
+      <div class="track" data-track="new">
+        <div class="track-who"><b>New users</b><span>12 participants: 7 developers in industry, 4 undergraduates, 1 faculty member</span></div>
+        <div class="track-steps"></div>
+      </div>
+      <div class="track" data-track="exp">
+        <div class="track-who"><b>Experienced users</b><span>7 participants: 6 former and 1 current LiquidHaskell user</span></div>
+        <div class="track-steps"></div>
+      </div>
+    </div>
+    <div class="wf-actions">
+      <button class="btn-theme6 btn" id="play"><span class="fa fa-play"></span> Play the study</button>
+      <span class="muted small"><span class="fa fa-microphone"></span> Recorded, transcribed and analyzed with thematic analysis.</span>
+    </div>
+    <div class="detail" id="sdetail" aria-live="polite"></div>
+
+    <h3 class="pp-sub">Why experienced users chose liquid types</h3>
+    <div class="why" role="group" aria-label="Reasons">
+      <button class="why-chip" aria-pressed="true" data-q="0"><span class="fa fa-compress"></span> Less code than dependent types</button>
+      <button class="why-chip" aria-pressed="false" data-q="1"><span class="fa fa-language"></span> Proofs in the same language</button>
+      <button class="why-chip" aria-pressed="false" data-q="2"><span class="fa fa-heart-o"></span> Wanted in other languages</button>
+    </div>
+    <div class="why-q" id="why-q" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="pp-block" id="error" aria-labelledby="error-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="error-h">One error message, three problems</h2>
+      <p>A newcomer forgot to apply <code>qsize</code> to <code>v</code> on line 6. This is the message they got (Figure 3).</p>
+    </div>
+    <div class="errdemo">
+      <div class="err-chips" role="group" aria-label="Problems in this error message">
+        <button class="btn-theme6 btn" data-prob="loc" aria-pressed="false"><b>1</b> It points to the wrong line</button>
+        <button class="btn-theme6 btn" data-prob="int" aria-pressed="false"><b>2</b> It shows internal names</button>
+        <button class="btn-theme6 btn" data-prob="kind" aria-pressed="false"><b>3</b> It reads like a verification failure</button>
+      </div>
+      <div class="pane err-pane">
+<pre class="hs" id="hs"><code><span class="ln" data-l="1">{-@ measure qsize @-}</span>
+<span class="ln" data-l="2">qsize          :: Queue a -&gt; Int</span>
+<span class="ln" data-l="3">qsize (Q f b)  = size f + size b</span>
+<span class="ln" data-l="4"> </span>
+<span class="ln" data-l="5">-- | Queues of size `N`</span>
+<span class="ln fixline" data-l="6">{-@ type QueueN a N = {v:Queue a | <span class="bug">qsize</span><span class="fix"> v</span> = N} @-}</span>
+<span class="ln" data-l="7"> </span>
+<span class="ln flagged" data-l="8">{-@ emp :: <span class="loc">QueueN _ 0</span> @-}</span></code></pre>
+<pre class="hs-err" id="hs-err"><code>Error: Illegal type specification for `Tutorial_09_Case_Study_Lazy_Queues.emp`
+    Tutorial_09_Case_Study_Lazy_Queues.emp :: forall a .
+                         {<span class="int">VV</span> : (Tutorial_09_Case_Study_Lazy_Queues.Queue a) | qsize == 0}
+    <span class="kind">Sort Error in Refinement</span>: {<span class="int">VV##0</span> : (Tutorial_09_Case_Study_Lazy_Queues.Queue <span class="int">a##a2cb</span>) | Tutorial_09_Case_Study_Lazy_Queues.qsize == 0}
+    The sort <span class="int">func(0 , [(Tutorial_09_Case_Study_Lazy_Queues.Queue @(42)); int])</span> is not numeric
+  because
+<span class="kind">Cannot unify</span> <span class="int">func(0 , [(Tutorial_09_Case_Study_Lazy_Queues.Queue @(42)); int])</span> with int in expression: Tutorial_09_Case_Study_Lazy_Queues.qsize == 0
+  because
+<span class="kind">Invalid Relation</span> Tutorial_09_Case_Study_Lazy_Queues.qsize == 0 with operand types <span class="int">func(0 , [(Tutorial_09_Case_Study_Lazy_Queues.Queue @(42)); int])</span> and int</code></pre>
+        <div class="hs-ok" id="hs-ok" hidden><span class="fa fa-check"></span> With <code>qsize v</code>, LiquidHaskell accepts the program.</div>
+      </div>
+      <p class="prob-note" id="prob-note" aria-live="polite">Select a problem above, or <button class="linkish" id="fix-btn">apply the fix</button>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="implications" aria-labelledby="impl-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="impl-h">What tool builders can do</h2>
+      <p>The barriers came from LiquidHaskell, but most apply to other liquid type systems, like LiquidJava and Flux.</p>
+    </div>
+    <div class="impl">
+      <div>
+        <h3 class="impl-h"><span class="fa fa-check-square-o"></span> Verification</h3>
+        <ul>
+          <li>Plan for <mark class="k">refactoring</mark> code to fit verification.</li>
+          <li><mark class="k">Style checkers</mark> for names in specifications.</li>
+          <li>Show which functions can be <mark class="k">lifted into specifications</mark>.</li>
+          <li>Start <mark class="k">lightweight</mark>, with pre- and postconditions.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="impl-h"><span class="fa fa-laptop"></span> Developer experience</h3>
+        <ul>
+          <li>Errors that point to the <mark class="k">real source</mark>.</li>
+          <li><mark class="k">Highlighting and suggestions</mark> inside predicates.</li>
+          <li><mark class="k">Resources for every level</mark>, debugging tricks included.</li>
+          <li>Setup that works in the <mark class="k">first five minutes</mark>.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="impl-h"><span class="fa fa-tachometer"></span> Scalability</h3>
+        <ul>
+          <li><mark class="k">Caching, parallel checks</mark>, or checks in CI.</li>
+          <li>Feedback on what the <mark class="k">solver can decide</mark>.</li>
+          <li>A clear path from <mark class="k">automatic to manual proofs</mark>.</li>
+        </ul>
+      </div>
+    </div>
+    <blockquote class="pull">[Developers] will probably go on the first day of their job and test it, and if they can use it in the first 5 min, they'll probably try to use it later on. If they cannot set it up on the first 5 min, they'll probably give up and don't touch it for at least a couple of months.<cite>FM2</cite></blockquote>
+  </div>
+</section>
+
+<section class="pp-block" id="talk" aria-labelledby="talk-h">
+  <div class="container">
+    <div class="talk">
+      <img src="../../assets/images/pldi25.jpg" alt="Catarina Gamboa presenting Usability Barriers for Liquid Types at PLDI 2025" loading="lazy">
+      <div class="prose">
+        <h2 class="pp-h" id="talk-h">At PLDI 2025</h2>
+        <p>Presenting the paper in Seoul, South Korea.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block pb-5" id="cite" aria-labelledby="cite-h">
+  <div class="container">
+    <h2 class="pp-h" id="cite-h">Cite</h2>
+    <div class="cite">
+      <button class="btn-theme6 btn" id="copy-bib"><span class="fa fa-clipboard"></span>  Copy</button>
+<pre id="bibtex">@article{gamboa2025usability,
+  title     = {Usability Barriers for Liquid Types},
+  author    = {Gamboa, Catarina and Reese, Abigail and
+               Fonseca, Alcides and Aldrich, Jonathan},
+  journal   = {Proceedings of the ACM on Programming Languages},
+  volume    = {9},
+  number    = {PLDI},
+  articleno = {224},
+  year      = {2025},
+  publisher = {ACM},
+  doi       = {10.1145/3729327}
+}</pre>
+    </div>
+  </div>
+</section>
+</main>
+<div class="pp-tooltip" id="pp-tooltip" role="presentation"></div>
+
+
+ <section class="w3l-footer-29-main" id="footer">
+  <div class="footer-29 text-center">
+      <div class="container">
+        
+        <div class="main-social-footer-29"> 
+          <a href="#facebook" onclick="sendEmail()" class="facebook"><span class="fa fa-envelope-o"></span></a>
+          <a href="https://github.com/CatarinaGamboa" class="twitter"><span class="fa fa-github"></span></a>
+          <a href="https://www.linkedin.com/in/catarina-ventura-gamboa-518151172/" class="linkedin"><span class="fa fa-linkedin"></span></a>
+        </div>
+          <div class="bottom-copies text-center">
+              <p class="copy-footer-29">© 2020 My Website. All rights reserved | Designed by <a href="https://w3layouts.com">W3layouts</a></p>
+               
+          </div>
+      </div>
+  </div>
+   <!-- move top -->
+  <button onclick="topFunction()" id="movetop" title="Go to top">
+              <span class="fa fa-angle-up"></span>
+                 </button>
+                 <script>
+                     // When the user scrolls down 20px from the top of the document, show the button
+                     window.onscroll = function () {
+                         scrollFunction()
+                     };
+              
+                     function scrollFunction() {
+                         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                             document.getElementById("movetop").style.display = "block";
+                         } else {
+                             document.getElementById("movetop").style.display = "none";
+                         }
+                     }
+              
+                     // When the user clicks on the button, scroll to the top of the document
+                     function topFunction() {
+                         document.body.scrollTop = 0;
+                         document.documentElement.scrollTop = 0;
+                     }
+                 </script>
+                 <!-- /move top -->
+</section>
+<!-- // grids block 5 -->
+<script src="../../assets/js/jquery-3.3.1.min.js"></script>
+<!-- //footer-28 block -->
+</section>
+
+<script>
+    $(function () {
+      $('.navbar-toggler').click(function () {
+        $('body').toggleClass('noscroll');
+      })
+    });
+  </script>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+
+<!-- Smooth scrolling -->
+
+
+
+<script src="../../assets/js/paper-dfa.js"></script>
+<script src="../../assets/js/paper-zoom.js"></script>
+<script src="../../assets/js/pldi25.js"></script>
+</body>
+
+</html>
+<!-- // grids block 5 -->
+
