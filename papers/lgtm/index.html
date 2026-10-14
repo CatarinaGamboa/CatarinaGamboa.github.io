@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <link rel="icon" type="image/jpg" href="../../assets/images/DSC09526 (1).jpg" sizes="228x228" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>LGTM! Auto-Merged Agentic PRs - MSR 2026 | Catarina Gamboa</title>
+    <!-- web fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Hind:400,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- //web fonts -->
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="../../assets/css/style-starter.css">
+    <link rel="stylesheet" href="../../assets/css/paper-page.css">
+    <style>
+      .pp { --am-never: #c8343e; --am-some: #cfcfcf; --am-always: #2f74a8; --am-agent: #2f74a8; --am-human: #b4791f; }
+      .pp-hero h1.long { font-size: 50px; line-height: 1.06; max-width: 18ch; }
+      @media (max-width: 767px) { .pp-hero h1.long { font-size: 34px; } }
+
+      /* ---------- auto-merge definition ---------- */
+      .pp .am-lab { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); margin-top: 1rem; align-items: start; }
+      @media (min-width: 992px) { .pp .am-lab { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 2.5rem; } }
+      .pp .am-lab > * { min-width: 0; }
+      .pp .am-head { padding: 0.8rem 1rem; border-bottom: 1px solid var(--pp-rule); color: var(--pp-title); font-size: 16px; }
+      .pp .am-head .fa { color: var(--pp-muted); margin-right: 0.2rem; }
+      .pp .am-timeline { list-style: none; margin: 0; padding: 0.6rem 1rem 0.9rem; position: relative; }
+      .pp .am-timeline::before { content: ""; position: absolute; left: 2.05rem; top: 1rem; bottom: 1.2rem; width: 2px; background: var(--pp-rule); }
+      .pp .am-ev { position: relative; display: grid; grid-template-columns: 2.2rem minmax(0, 1fr) auto; gap: 0.7rem; align-items: center; padding: 0.4rem 0; }
+      .pp .am-ico { width: 2.2rem; height: 2.2rem; border-radius: 50%; display: grid; place-items: center; background: #fff; border: 2px solid var(--pp-rule); color: var(--pp-muted); position: relative; z-index: 1; transition: border-color 160ms, color 160ms, opacity 160ms; }
+      .pp .am-ev .am-txt { font-size: 15px; line-height: 1.35; color: var(--pp-title); transition: opacity 160ms; }
+      .pp .am-ev .am-txt small { display: block; color: var(--pp-muted); font-size: 13px; }
+      .pp .am-ev.off .am-ico, .pp .am-ev.off .am-txt { opacity: 0.35; }
+      .pp .am-ev.on.blocks .am-ico { border-color: var(--pp-theme); color: var(--pp-theme); }
+      .pp .am-ev.on.ok .am-ico { border-color: var(--am-always); color: var(--am-always); }
+      .pp .am-ev.fixed .am-ico { background: var(--pp-light); }
+      .pp .am-ev.merge .am-ico { background: #6f42c1; border-color: #6f42c1; color: #fff; }
+      .pp .switch { position: relative; width: 2.6rem; height: 1.45rem; border-radius: 1rem; border: 1px solid #9a9a9a; background: #e9e9e9; padding: 0; cursor: pointer; transition: background 160ms, border-color 160ms; }
+      .pp .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: calc(1.45rem - 6px); height: calc(1.45rem - 6px); border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform 160ms; }
+      .pp .switch[aria-checked="true"] { background: var(--pp-title); border-color: var(--pp-title); }
+      .pp .switch[aria-checked="true"]::after { transform: translateX(1.15rem); }
+      .pp .am-verdict { border-radius: 6px; padding: 1rem 1.2rem; background: var(--pp-light); border-left: 4px solid var(--am-always); }
+      .pp .am-verdict.no { border-left-color: var(--pp-theme); }
+      .pp .am-verdict h4 { font-size: 22px; font-weight: 800; color: var(--pp-title); margin: 0 0 0.3rem; }
+      .pp .am-verdict h4 .fa { color: var(--am-always); margin-right: 0.3rem; }
+      .pp .am-verdict.no h4 .fa { color: var(--pp-theme); }
+      .pp .am-verdict p { margin: 0; font-size: 16px; }
+      .pp .am-facts { list-style: none; padding: 0; margin: 1.2rem 0 0; font-size: 15.5px; }
+      .pp .am-facts li { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr); padding: 0.3rem 0; }
+      .pp .am-facts .fa { color: var(--pp-theme); margin-top: 0.3rem; }
+      .pp .am-facts b { color: var(--pp-title); }
+
+      /* ---------- distribution bars (Figures 1 and 3) ---------- */
+      .pp .dist { display: grid; gap: 0.25rem; max-width: 56rem; }
+      .pp .dist-row { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0 1rem; align-items: center; padding: 0.45rem 0.6rem; border-radius: 6px; border: 1px solid transparent; background: none; text-align: left; width: 100%; cursor: pointer; font: inherit; color: inherit; }
+      .pp .dist-row:hover { background: var(--pp-light); }
+      .pp .dist-row[aria-pressed="true"] { background: var(--pp-light); border-color: var(--pp-rule-strong); }
+      .pp .dist-name { font-family: 'Nunito', sans-serif; font-weight: 700; color: var(--pp-title); font-size: 16px; line-height: 1.2; }
+      .pp .dist-name code { font-size: 14px; color: var(--pp-title); }
+      .pp .dist-name small { display: block; font-family: 'Hind', sans-serif; font-weight: 400; color: var(--pp-muted); font-size: 12.5px; }
+      .pp .dist-name .sig { color: var(--pp-theme); font-size: 12px; margin-left: 0.15rem; vertical-align: super; }
+      .pp .dist-bars { display: grid; gap: 4px; }
+      .pp .dist-bar { display: grid; grid-template-columns: 3.6rem minmax(0, 1fr) 3.4rem; gap: 0.6rem; align-items: center; font-size: 12.5px; color: var(--pp-muted); }
+      .pp .dist-bar .who { text-align: right; }
+      .pp .dist-bar .n { font-variant-numeric: tabular-nums; }
+      .pp .stackbar { display: flex; gap: 2px; height: 20px; }
+      .pp .stackbar span { display: flex; align-items: center; justify-content: center; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 11.5px; color: #fff; overflow: hidden; white-space: nowrap; min-width: 0; }
+      .pp .stackbar span:first-child { border-radius: 4px 0 0 4px; }
+      .pp .stackbar span:last-child { border-radius: 0 4px 4px 0; }
+      .pp .stackbar .s-never { background: var(--am-never); }
+      .pp .stackbar .s-some { background: var(--am-some); color: var(--pp-title); }
+      .pp .stackbar .s-always { background: var(--am-always); }
+      .pp .dist-bar.human .stackbar { height: 14px; opacity: 0.8; }
+      .pp .dist-bar.human .stackbar span { font-size: 0; }
+      .pp .dist-note { font-size: 16px; min-height: 3.3rem; margin-top: 0.8rem; max-width: 46rem; color: var(--pp-title); }
+      .pp .dist-note .tag { display: inline-block; font-size: 12.5px; font-family: 'Nunito', sans-serif; font-weight: 700; border: 1px solid var(--pp-rule-strong); border-radius: 0.25rem; padding: 0 6px; margin-right: 0.3rem; color: var(--pp-muted); }
+      @media (max-width: 575px) {
+        .pp .dist-row { grid-template-columns: minmax(0, 1fr); gap: 0.3rem; padding: 0.45rem 0.3rem; }
+        .pp .dist-bar { grid-template-columns: 3rem minmax(0, 1fr) 2.8rem; gap: 0.4rem; }
+      }
+
+      /* ---------- strip plot (Figure 2) ---------- */
+      .pp .strip-wrap { max-width: 40rem; }
+      .pp .strip .dot { stroke: #fff; stroke-width: 0.6; }
+      .pp .strip .dot.g0 { fill: var(--am-agent); }
+      .pp .strip .dot.g1 { fill: var(--am-human); }
+      .pp .strip .dot.g1.merged { fill: #8a8a8a; }
+      .pp .strip .grp { cursor: help; }
+      .pp .strip .p-lab { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px; fill: var(--pp-title); }
+
+      /* ---------- repository comparison (Table 1) ---------- */
+      .pp .repo-cmp { display: grid; gap: 1rem 2.5rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); max-width: 56rem; margin-top: 1rem; }
+      .pp .rc h4 { font-size: 16px; font-weight: 700; color: var(--pp-title); margin: 0 0 0.4rem; }
+      .pp .rc h4 .fa { color: var(--pp-muted); margin-right: 0.3rem; width: 1rem; }
+      .pp .rc-row { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr) 3rem; gap: 0.5rem; align-items: center; font-size: 13.5px; margin-bottom: 4px; }
+      .pp .rc-row .bar { height: 12px; border-radius: 0 4px 4px 0; }
+      .pp .rc-row .v { font-family: 'Nunito', sans-serif; font-weight: 700; color: var(--pp-title); text-align: right; font-variant-numeric: tabular-nums; }
+      .pp .rc-row.auto .bar { background: var(--am-always); }
+      .pp .rc-row.none .bar { background: var(--am-never); }
+    </style>
+  </head>
+  <body>
+
+<section class="w3l-bootstrap-header">
+  <nav class="navbar navbar-expand-lg navbar-light py-lg-3 py-2">
+    <div class="container">
+      <a class="navbar-brand" href="../../index.html">Catarina Gamboa</a>
+      <!-- if logo is image enable this   
+    <a class="navbar-brand" href="#index.html">
+        <img src="../../image-path" alt="Your logo" title="Your logo" style="height:35px;" />
+    </a> -->
+    
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon fa fa-bars"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../../index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../CatarinaGamboa_CV.pdf"><span class="fa fa-download"></span> CV</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../about_me.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../projects.html">Papers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../activities.html">Outreach & Activities</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../blog.html">Blog</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg">
+    <div class="container py-5">
+      <p><br/><!--<a href="../../index.html">Home</a> &nbsp; / &nbsp; About--></p> 
+     </div>
+  </div>
+</section>
+
+<main class="pp" id="paper">
+
+<section class="pp-hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="venue">MSR 2026 Mining Challenge, Rio de Janeiro, Brazil</p>
+        <h1 class="long">LGTM! Characteristics of Auto-Merged LLM-based Agentic PRs</h1>
+        <p class="authors mt-4">Ruben Branco, Paulo Canelas, <u>Catarina Gamboa</u>, Alcides Fonseca <span class="muted small">(equal contribution)</span></p>
+        <p class="venue-full">MSR 2026 - 23rd International Conference on Mining Software Repositories, Mining Challenge.</p>
+        <div class="btns">
+          <a href="https://doi.org/10.1145/3793302.3793621" class="btn-theme6 btn"><span class="fa fa-file-text"></span>  Paper</a>
+          <a href="https://doi.org/10.5281/zenodo.18341679" class="btn-theme6 btn"><span class="fa fa-folder-open"></span>  Artifact</a>
+          <a href="../../assets/images/posters/2026-poster-lgtm.pdf" class="btn-theme6 btn"><span class="fa fa-image"></span>  Poster</a>
+          <a href="#cite" class="btn-theme6 btn"><span class="fa fa-quote-right"></span>  Cite</a>
+        </div>
+        <p class="lede">Coding agents open pull requests faster than people can review them, so some repositories merge them <b>without anyone commenting</b>. We looked at <b>~33,000 agentic PRs</b> from <b>2,800 repositories</b> to see which ones get through.</p>
+      </div>
+      <div class="hero-poster">
+        <button type="button" class="poster" data-pdf="../../assets/images/posters/2026-poster-lgtm.pdf" aria-label="Zoom into the poster"><img src="../../assets/images/posters/lgtm_png.png" alt="Poster: LGTM! Characteristics of Auto-Merged LLM-based Agentic PRs"></button>
+        <p class="poster-cap">Poster for MSR 2026</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="definition" aria-labelledby="definition-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="definition-h">What counts as an auto-merge</h2>
+      <p>A PR merged with <mark class="k">no reviews</mark> and <mark class="k">no comments</mark> from anyone but its author or bots. Switch events on and off.</p>
+    </div>
+    <div class="am-lab">
+      <div class="pane am-pr">
+        <div class="am-head"><span class="fa fa-code-fork" aria-hidden="true"></span> <b>Add tests for the date parser</b> <span class="muted">#412</span></div>
+        <ol class="am-timeline" id="am-timeline"></ol>
+      </div>
+      <div class="am-side">
+        <div class="am-verdict" id="am-verdict" aria-live="polite"></div>
+        <ul class="am-facts">
+          <li><span class="fa fa-database" aria-hidden="true"></span> <span><b>AIDev</b> dataset: <b>~33k</b> agentic PRs, <b>2,800</b> repos with 100+ stars</span></li>
+          <li><span class="fa fa-cubes" aria-hidden="true"></span> <span><b>5 agents</b>: Codex, Claude Code, Copilot, Cursor, Devin</span></li>
+          <li><span class="fa fa-balance-scale" aria-hidden="true"></span> <span>Two repos held <b>37.2%</b> of the PRs, so each repo counts <b>once</b></span></li>
+          <li><span class="fa fa-filter" aria-hidden="true"></span> <span>Repos with fewer than <b>5</b> merged PRs are left out</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="tasks" aria-labelledby="tasks-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="tasks-h">All or nothing</h2>
+      <p>Most repositories auto-merge <mark class="k">every</mark> agentic PR or <mark class="k">none</mark>. Agents get auto-merged more than humans in <b>every task type</b>. Select a task.</p>
+    </div>
+    <ul class="legend" id="tasks-legend"></ul>
+    <div class="dist" id="tasks-chart"></div>
+    <p class="dist-note" id="tasks-note" aria-live="polite"></p>
+    <details class="table-view"><summary>Table view (Figure 1, all six bands)</summary><div class="scroll-x" id="tasks-table"></div></details>
+  </div>
+</section>
+
+<section class="pp-block" id="size" aria-labelledby="size-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="size-h">Small changes get through</h2>
+      <p>Auto-merged PRs are <mark class="k">smaller</mark>, and maintainers are wary of agents <mark class="k">deleting code</mark>. Each dot is one repository.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Comparison" id="size-seg"></div>
+    <div class="strip-wrap"><svg class="chart strip" id="strip" role="img" aria-labelledby="strip-cap"></svg></div>
+    <p class="dist-note" id="strip-cap" aria-live="polite"></p>
+
+    <h3 class="pp-sub">Mature repositories review more</h3>
+    <p class="prose">Repositories that <b>never</b> auto-merge agentic PRs are bigger, healthier and run more checks (Table 1, medians, all <i>p</i> &lt; 0.001).</p>
+    <div class="repo-cmp" id="repo-cmp"></div>
+  </div>
+</section>
+
+<section class="pp-block" id="agents" aria-labelledby="agents-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="agents-h">Not all agents are the same</h2>
+      <p>Per agent, against human PRs in the <mark class="k">same repositories</mark>. The all-or-nothing pattern <mark class="k">fades</mark>, and only <b>OpenAI Codex</b> differs significantly from humans. Select an agent.</p>
+    </div>
+    <ul class="legend" id="agents-legend"></ul>
+    <div class="dist" id="agents-chart"></div>
+    <p class="dist-note" id="agents-note" aria-live="polite"></p>
+    <details class="table-view"><summary>Table view (Figure 3, all six bands)</summary><div class="scroll-x" id="agents-table"></div></details>
+  </div>
+</section>
+
+<section class="pp-block pb-5" id="cite" aria-labelledby="cite-h">
+  <div class="container">
+    <h2 class="pp-h" id="cite-h">Cite</h2>
+    <div class="cite">
+      <button class="btn-theme6 btn" id="copy-bib"><span class="fa fa-clipboard"></span>  Copy</button>
+<pre id="bibtex">@inbook{10.1145/3793302.3793621,
+  author    = {Branco, Ruben and Canelas, Paulo and Gamboa, Catarina and Fonseca, Alcides},
+  title     = {LGTM! Characteristics of Auto-Merged LLM-based Agentic PRs},
+  year      = {2026},
+  isbn      = {9798400724749},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3793302.3793621},
+  booktitle = {Proceedings of the 23rd International Conference on Mining Software Repositories},
+  pages     = {1019--1023},
+  numpages  = {5}
+}</pre>
+    </div>
+  </div>
+</section>
+</main>
+<div class="pp-tooltip" id="pp-tooltip" role="presentation"></div>
+
+
+ <section class="w3l-footer-29-main" id="footer">
+  <div class="footer-29 text-center">
+      <div class="container">
+        
+        <div class="main-social-footer-29"> 
+          <a href="mailto:catarinavgamboa@gmail.com" class="facebook" aria-label="Email"><span class="fa fa-envelope-o" aria-hidden="true"></span></a>
+          <a href="https://github.com/CatarinaGamboa" class="twitter" aria-label="GitHub"><span class="fa fa-github" aria-hidden="true"></span></a>
+          <a href="https://www.linkedin.com/in/catarina-ventura-gamboa-518151172/" class="linkedin" aria-label="LinkedIn"><span class="fa fa-linkedin" aria-hidden="true"></span></a>
+          <a href="https://scholar.google.com/citations?user=uzAFeKAAAAAJ" class="linkedin" aria-label="Google Scholar"><span class="fa fa-graduation-cap" aria-hidden="true"></span></a>
+        </div>
+          <div class="bottom-copies text-center">
+              <p class="copy-footer-29">© 2026 Catarina Gamboa. Template by <a href="https://w3layouts.com">W3layouts</a>.</p>
+               
+          </div>
+      </div>
+  </div>
+   <!-- move top -->
+  <button onclick="topFunction()" id="movetop" title="Go to top">
+              <span class="fa fa-angle-up"></span>
+                 </button>
+                 <script>
+                     // When the user scrolls down 20px from the top of the document, show the button
+                     window.onscroll = function () {
+                         scrollFunction()
+                     };
+              
+                     function scrollFunction() {
+                         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                             document.getElementById("movetop").style.display = "block";
+                         } else {
+                             document.getElementById("movetop").style.display = "none";
+                         }
+                     }
+              
+                     // When the user clicks on the button, scroll to the top of the document
+                     function topFunction() {
+                         document.body.scrollTop = 0;
+                         document.documentElement.scrollTop = 0;
+                     }
+                 </script>
+                 <!-- /move top -->
+</section>
+<!-- // grids block 5 -->
+<script src="../../assets/js/jquery-3.3.1.min.js"></script>
+<!-- //footer-28 block -->
+</section>
+
+<script>
+    $(function () {
+      $('.navbar-toggler').click(function () {
+        $('body').toggleClass('noscroll');
+      })
+    });
+  </script>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+
+<!-- Smooth scrolling -->
+
+
+
+<script src="../../assets/js/paper-dfa.js"></script>
+<script src="../../assets/js/paper-zoom.js"></script>
+<script src="../../assets/js/lgtm.js"></script>
+</body>
+
+</html>
+<!-- // grids block 5 -->
+

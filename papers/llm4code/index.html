@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <link rel="icon" type="image/jpg" href="../../assets/images/DSC09526 (1).jpg" sizes="228x228" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Are LLMs Memorizing Bug Benchmarks? - LLM4Code 2025 | Catarina Gamboa</title>
+    <!-- web fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Hind:400,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- //web fonts -->
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="../../assets/css/style-starter.css">
+    <link rel="stylesheet" href="../../assets/css/paper-page.css">
+    <style>
+      .pp-hero h1.long { font-size: 52px; line-height: 1.06; max-width: 16ch; }
+      @media (max-width: 767px) { .pp-hero h1.long { font-size: 36px; } }
+      .pp-hero .authors sup, .pp-hero .venue-full sup { color: var(--pp-muted); }
+      .pp mark.k { background: linear-gradient(transparent 58%, #f9cdda 58%); color: inherit; padding: 0 1px; font-weight: 600; }
+      .pp .lede b, .pp .prose b { color: var(--pp-title); }
+
+      /* ---------- hero numbers (stand-in until there is a hero image) ---------- */
+      .pp .hero-stats { display: grid; gap: 1.3rem; padding: 1.4rem 1.5rem; border-left: 3px solid var(--pp-theme); background: var(--pp-light); border-radius: 0 6px 6px 0; align-self: center; }
+      .pp .hero-stats .num { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; color: var(--pp-theme); font-variant-numeric: tabular-nums; }
+      .pp .hero-stats .num small { font-size: 0.55em; font-weight: 700; }
+      .pp .hero-stats p { margin: 0.3rem 0 0; font-size: 15.5px; line-height: 1.45; }
+      .pp .hero-stats b { color: var(--pp-title); }
+
+      /* ---------- code boxes (Figures 1 and 6) ---------- */
+      .pp .codebox { margin: 0.6rem 1rem 0; border-radius: 4px; background: var(--pp-code-bg); padding: 0.5rem 0; font-family: var(--pp-mono); font-size: 13px; line-height: 1.6; color: var(--pp-title); overflow-x: auto; font-variant-ligatures: none; font-feature-settings: "calt" 0, "liga" 0; }
+      .pp .codebox ol { list-style: none; margin: 0; padding: 0; }
+      .pp .codebox li { display: grid; grid-template-columns: 2.6rem max-content; width: max-content; min-width: 100%; white-space: pre; border-left: 3px solid transparent; padding-right: 1rem; }
+      .pp .codebox li::before { content: attr(data-n); color: #9a9a9a; text-align: right; padding-right: 0.9rem; }
+      .pp .codebox li.p { background: #fff6d4; }
+      .pp .codebox li.g { background: #dce9f7; }
+      .pp .codebox li.patch { border-left-color: var(--pp-theme); }
+      .pp .codebox li.new { animation: l4c-in 220ms ease-out; }
+      @keyframes l4c-in { from { opacity: 0; } }
+      .pp .codebox .omit { color: var(--pp-muted); font-family: 'Hind', sans-serif; font-style: italic; }
+      .pp .codebox .kw { color: #7a1fa2; }
+      .pp .codebox .cm { color: #2e7d32; font-style: italic; }
+      .pp .codebox .str { color: #3b2f8f; }
+      .pp .replay { overflow: hidden; }
+      .pp .replay .codebox { min-height: 12rem; }
+      .pp .replay-foot { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: center; padding: 0.8rem 1rem 1rem; }
+      .pp .replay-foot .btn-theme6 { margin: 0; }
+      .pp .replay-result { margin: 0; color: var(--pp-title); font-size: 16px; }
+      .pp .replay-result .fa { color: var(--pp-ok); }
+      .pp .legend i.sw-prompt { background: #fff6d4; border: 1px solid #e3cf7e; }
+      .pp .legend i.sw-gen { background: #dce9f7; border: 1px solid #8fb2d6; }
+      .pp .legend i.sw-patch { background: var(--pp-theme); width: 3px; border-radius: 0; }
+      .pp .legend i.sw-extra { background: #cfe2f5; border: 1px solid #6c9fcf; }
+      .pp .legend i.sw-miss { background: #fde0c8; border: 1px solid #e0915a; }
+      .pp .code-py .seg-x { background: #cfe2f5; color: #1c5a92; border-radius: 2px; }
+      .pp .code-py .seg-m { background: #fde0c8; color: #a2470d; border-radius: 2px; }
+      .pp .fig6 { padding-bottom: 1rem; }
+
+      /* ---------- leakage signals ---------- */
+      .pp .sig { margin-top: 1rem; }
+      .pp .sig .tabs { flex-wrap: wrap; }
+      .pp .sig .tabs .fa { margin-right: 0.2rem; }
+      .pp .sig-panel { padding: 1rem 1.1rem 1.1rem; min-height: 17rem; }
+      .pp .sig-q { font-size: 17px; color: var(--pp-title); max-width: 46rem; }
+      .pp .hbars { display: grid; gap: 0.45rem; max-width: 40rem; }
+      .pp .hb { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr) 3.4rem; gap: 0.7rem; align-items: center; font-size: 15px; }
+      .pp .hb-l.d4j, .pp .hc-h.d4j { color: var(--pp-theme); font-weight: 700; }
+      .pp .hb-track { height: 14px; background: #efefef; border-radius: 0 4px 4px 0; }
+      .pp .hb-fill { display: block; height: 100%; background: var(--s-dfa); border-radius: 0 4px 4px 0; transition: width 300ms ease; }
+      .pp .hb-v { text-align: right; color: var(--pp-title); font-weight: 600; font-variant-numeric: tabular-nums; }
+      .pp .nll-demo { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin: 0.4rem 0 0.8rem; }
+      .pp .nll-demo .ctx { background: var(--pp-code-bg); padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 15px; color: var(--pp-title); }
+      .pp .tok { border: 1px solid #747474; background: #fff; border-radius: 4px; padding: 0.2rem 0.8rem; cursor: pointer; }
+      .pp .tok code { font-size: 15px; color: var(--pp-title); }
+      .pp .tok:hover { border-color: var(--pp-title); }
+      .pp .tok[aria-pressed="true"] { background: var(--pp-title); border-color: var(--pp-title); }
+      .pp .tok[aria-pressed="true"] code { color: #fff; }
+      .pp .nll-out { min-height: 3rem; color: var(--pp-title); max-width: 44rem; }
+      .pp .nll-meter { display: inline-block; vertical-align: middle; width: 5rem; height: 10px; background: #efefef; border-radius: 5px; overflow: hidden; margin-right: 0.3rem; }
+      .pp .nll-meter i { display: block; height: 100%; border-radius: 5px; }
+      .pp .nll-meter.low i { width: 12%; background: var(--pp-ok); }
+      .pp .nll-meter.high i { width: 92%; background: var(--pp-theme); }
+      .pp .ng-demo { background: var(--pp-light); border-radius: 6px; padding: 0.9rem 1rem; max-width: 46rem; }
+      .pp .ng-row { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 0.6rem; align-items: baseline; margin-bottom: 0.35rem; }
+      .pp .ng-row code { color: var(--pp-title); font-size: 13.5px; overflow-wrap: anywhere; }
+      .pp .ng-l { font-size: 14px; color: var(--pp-muted); }
+      .pp .ng-x { background: #cfe2f5; color: #1c5a92; border-radius: 2px; padding: 0 1px; }
+      .pp .ng-verdict { margin: 0.6rem 0 0; color: var(--pp-title); font-size: 16px; }
+      .pp .ng-verdict .fa { color: var(--pp-theme); }
+      @media (max-width: 575px) { .pp .ng-row { grid-template-columns: minmax(0, 1fr); gap: 0; } .pp .hb { grid-template-columns: 7rem minmax(0, 1fr) 3.2rem; } }
+
+      /* ---------- heatmap (Tables V and VI) ---------- */
+      .pp .heat { display: grid; gap: 3px; min-width: 700px; max-width: 60rem; }
+      .pp .hrow { display: grid; grid-template-columns: 9.5rem repeat(7, minmax(0, 1fr)); gap: 3px; align-items: stretch; }
+      .pp .hm { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; color: var(--pp-title); align-self: center; }
+      .pp .hc-h { font-size: 13px; line-height: 1.2; color: var(--pp-muted); text-align: center; align-self: end; padding-bottom: 0.2rem; }
+      .pp .hc-h.new { font-style: italic; }
+      .pp .hc { border: 0; border-radius: 3px; padding: 0.45rem 0; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; cursor: pointer; transition: background 250ms, color 250ms; position: relative; }
+      .pp .hc.best { box-shadow: inset 0 0 0 2px var(--pp-title); }
+      .pp .hc.sel { outline: 3px solid #f0a500; outline-offset: 1px; z-index: 1; }
+      .pp .ring-key { display: inline-block; width: 0.9rem; height: 0.9rem; vertical-align: -0.1rem; border-radius: 3px; box-shadow: inset 0 0 0 2px var(--pp-title); background: rgb(176, 12, 66); }
+      .pp .cell-detail { margin-top: 0.6rem; padding: 0.8rem 1rem; background: var(--pp-light); border-radius: 6px; max-width: 46rem; color: var(--pp-text); font-size: 16px; min-height: 3.2rem; }
+      .pp .cell-detail b { color: var(--pp-title); }
+
+      /* ---------- NLL ratios (Figure 4) ---------- */
+      .pp #model-pick .btn-theme6 { font-size: 13.5px; }
+      .pp .ratio { padding: 1rem 1.1rem 0.9rem; max-width: 46rem; display: grid; gap: 0.45rem; }
+      .pp .rb-axis { position: relative; height: 1.1rem; margin-left: 8.7rem; margin-right: 4.1rem; font-size: 13px; font-weight: 700; color: var(--pp-title); }
+      .pp .rb-axis span { position: absolute; transform: translateX(-50%); }
+      .pp .rb { display: grid; grid-template-columns: 8rem minmax(0, 1fr) 3.4rem; gap: 0.7rem; align-items: center; font-size: 15px; }
+      .pp .rb-track { position: relative; height: 16px; background: #efefef; border-radius: 0 4px 4px 0; }
+      .pp .rb-fill { display: block; height: 100%; background: var(--s-dfa); border-radius: 0 4px 4px 0; transition: width 350ms ease; }
+      .pp .rb-fill.under { background: var(--s-baseline); }
+      .pp .rb-one { position: absolute; top: -3px; bottom: -3px; border-left: 2px dashed var(--pp-title); z-index: 1; }
+      .pp .rb-v { text-align: right; font-weight: 600; color: var(--pp-title); font-variant-numeric: tabular-nums; }
+      .pp .ratio-note { margin-top: 0.7rem; max-width: 46rem; min-height: 3rem; color: var(--pp-title); }
+      @media (max-width: 575px) { .pp .rb { grid-template-columns: 6.6rem minmax(0, 1fr) 3rem; gap: 0.5rem; font-size: 14px; } .pp .rb-axis { margin-left: 7.1rem; margin-right: 3.5rem; } }
+
+      .pp .recs { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; max-width: 46rem; }
+      .pp .recs li { font-size: 17px; }
+      .pp .recs .fa { color: var(--pp-theme); width: 1.6rem; }
+      .pp .hm { position: sticky; left: 0; z-index: 2; background: #fff; padding-right: 0.4rem; align-self: stretch; display: flex; align-items: center; margin-right: -3px; box-shadow: 3px 0 0 #fff; }
+      .pp .hhead .hm { align-items: flex-end; padding-bottom: 0.2rem; }
+      @media (max-width: 575px) { .pp .heat { min-width: 620px; } .pp .hrow { grid-template-columns: 7.6rem repeat(7, minmax(0, 1fr)); } .pp .hm { font-size: 13px; } }
+    </style>
+  </head>
+  <body>
+
+<section class="w3l-bootstrap-header">
+  <nav class="navbar navbar-expand-lg navbar-light py-lg-3 py-2">
+    <div class="container">
+      <a class="navbar-brand" href="../../index.html">Catarina Gamboa</a>
+      <!-- if logo is image enable this   
+    <a class="navbar-brand" href="#index.html">
+        <img src="../../image-path" alt="Your logo" title="Your logo" style="height:35px;" />
+    </a> -->
+    
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon fa fa-bars"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../../index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../CatarinaGamboa_CV.pdf"><span class="fa fa-download"></span> CV</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../about_me.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../projects.html">Papers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../activities.html">Outreach & Activities</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../blog.html">Blog</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>
+<section class="w3l-about-breadcrum">
+  <div class="breadcrum-bg">
+    <div class="container py-5">
+      <p><br/><!--<a href="../../index.html">Home</a> &nbsp; / &nbsp; About--></p> 
+     </div>
+  </div>
+</section>
+
+<main class="pp" id="paper">
+
+<section class="pp-hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="venue">LLM4Code 2025, co-located with ICSE 2025, Ottawa, Canada</p>
+        <h1 class="long">Are Large Language Models Memorizing Bug Benchmarks?</h1>
+        <p class="authors mt-4">Daniel Ramos, Claudia Mamede<sup>*</sup>, Kush Jain<sup>*</sup>, Paulo Canelas<sup>*</sup>, <u>Catarina Gamboa</u><sup>*</sup>, Claire Le Goues</p>
+        <p class="venue-full">LLM4Code 2025 - International Workshop on Large Language Models for Code. <sup>*</sup>Equal contribution.</p>
+        <div class="btns">
+          <a href="https://arxiv.org/abs/2411.13323" class="btn-theme6 btn"><span class="fa fa-file-text"></span>  Paper (arXiv)</a>
+          <a href="../../papers/are_llms_memorizing.pdf" class="btn-theme6 btn"><span class="fa fa-file-pdf-o"></span>  PDF</a>
+          <a href="#cite" class="btn-theme6 btn"><span class="fa fa-quote-right"></span>  Cite</a>
+          <span class="btn-theme6 btn award"><span class="fa fa-trophy"></span>  Best Paper Award</span>
+        </div>
+        <p class="lede">Bug benchmarks like Defects4J have been public for years, so models may have seen the answers. We tested <b>9 open models</b> on <b>5 bug benchmarks</b> and on new code from 2024. <b>Defects4J</b> shows the strongest signs of memorization.</p>
+      </div>
+      <div class="hero-stats" aria-label="Headline numbers">
+        <div><span class="num">82<small>%</small></span><p>of Defects4J 5-grams that <b>codegen-multi</b> reproduces exactly</p></div>
+        <div><span class="num">80<small>%</small></span><p>of Defects4J repositories are in <b>TheStack</b>, a common pretraining dataset</p></div>
+        <div><span class="num">5.63<small>×</small></span><p>more familiar Defects4J is to <b>codegen-multi</b> than new Java code</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="replay" aria-labelledby="replay-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="replay-h">A model that finishes the patch</h2>
+      <p>We gave <code>codegen-multi</code> the start of the fixed file for Defects4J <b>Lang bug 39</b> (Figure 1). Press the button to see what it wrote next.</p>
+    </div>
+    <div class="pane replay">
+      <div class="pane-head">StringUtils.java, Defects4J Lang bug 39 <span class="hint" id="replay-hint">Lines 2 to 11 are the prompt</span></div>
+      <div class="codebox code-l" id="code-l"><ol id="code-lines"></ol></div>
+      <div class="replay-foot">
+        <button class="btn-theme6 btn" id="continue"><span class="fa fa-play"></span>  Let codegen-multi continue</button>
+        <p class="replay-result" id="replay-result" aria-live="polite"></p>
+      </div>
+    </div>
+    <ul class="legend mt-3">
+      <li><i class="sw-prompt"></i>Prompt</li>
+      <li><i class="sw-gen"></i>Generated by codegen-multi, identical to the Defects4J fix</li>
+      <li><i class="sw-patch"></i>The patched lines</li>
+    </ul>
+  </div>
+</section>
+
+<section class="pp-block" id="signals" aria-labelledby="signals-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="signals-h">Three signals of leakage</h2>
+      <p>Training data is rarely public, so no single test can prove a model saw a benchmark. We combine <mark class="k">three signals</mark>. Pick one.</p>
+    </div>
+    <div class="pane sig">
+      <div class="tabs" role="tablist" aria-label="Leakage signals">
+        <button role="tab" id="tab-mem" aria-controls="panel-mem" aria-selected="true"><span class="fa fa-database"></span> Membership</button>
+        <button role="tab" id="tab-nll" aria-controls="panel-nll" aria-selected="false" tabindex="-1"><span class="fa fa-question-circle-o"></span> NLL</button>
+        <button role="tab" id="tab-ngram" aria-controls="panel-ngram" aria-selected="false" tabindex="-1"><span class="fa fa-align-left"></span> 5-gram accuracy</button>
+      </div>
+
+      <div class="sig-panel" role="tabpanel" id="panel-mem" aria-labelledby="tab-mem">
+        <p class="sig-q">Is the benchmark's repository in <mark class="k">TheStack</mark>, a pretraining dataset that models like StarCoder 2 report using?</p>
+        <div class="seg" role="group" aria-label="TheStack version" id="stack-ver">
+          <button class="btn-theme6 btn" aria-pressed="true" data-v="0">v1.0 (3 TB)</button>
+          <button class="btn-theme6 btn" aria-pressed="false" data-v="1">v2.0 (15 TB)</button>
+          <button class="btn-theme6 btn" aria-pressed="false" data-v="2">v2.1 (opt-outs removed)</button>
+        </div>
+        <div class="hbars" id="mem-bars"></div>
+        <details class="table-view"><summary>Table view (Table III)</summary><div class="scroll-x" id="mem-table"></div></details>
+      </div>
+
+      <div class="sig-panel" role="tabpanel" id="panel-nll" aria-labelledby="tab-nll" hidden>
+        <p class="sig-q"><mark class="k">Negative log-likelihood</mark> measures how surprised a model is by each next token. Code it has seen many times scores <b>close to zero</b>.</p>
+        <div class="nll-demo">
+          <code class="ctx">int main</code>
+          <span class="muted small">Next token?</span>
+          <button class="tok" data-t="paren"><code>(</code></button>
+          <button class="tok" data-t="sky"><code>SKY</code></button>
+        </div>
+        <p class="nll-out" id="nll-out" aria-live="polite">Pick a next token (the example from Figure 2).</p>
+        <p class="small muted">NLL depends on the tokenizer, so we only compare it <b>within a model family</b>.</p>
+      </div>
+
+      <div class="sig-panel" role="tabpanel" id="panel-ngram" aria-labelledby="tab-ngram" hidden>
+        <p class="sig-q"><mark class="k">5-gram accuracy</mark>: give the model the file up to a point and check whether its next 5 tokens match the real ones. <b>1.0</b> means it reproduces the file verbatim.</p>
+        <div class="ng-demo">
+          <div class="ng-row"><span class="ng-l">Ground truth</span><code>def __init__(self, *, qop: str = None,</code></div>
+          <div class="ng-row"><span class="ng-l">LLaMa 3.1 70B</span><code>def __init__(<span class="ng-x">\n</span>self, <span class="ng-x">\n</span>*, <span class="ng-x">\n</span>qop: str = None <span class="ng-x">\n</span>,</code></div>
+          <p class="ng-verdict"><span class="fa fa-times-circle"></span> <b>No match</b> on <code>__init__(self,</code>, even though the code is the same. Only the line breaks differ (BugsInPy, fastapi bug 12).</p>
+        </div>
+        <p class="small muted">That is why a low 5-gram score alone does not rule out memorization, and why we use all three signals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-block" id="results" aria-labelledby="results-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="results-h">Defects4J stands out</h2>
+      <p>For all <b>9 models</b>, Defects4J has the <mark class="k">highest 5-gram accuracy</mark> (tied in 2). Darker means more familiar to that model. Select a cell.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Metric" id="metric">
+      <button class="btn-theme6 btn" aria-pressed="true" data-m="ng">5-gram accuracy</button>
+      <button class="btn-theme6 btn" aria-pressed="false" data-m="nll">NLL</button>
+    </div>
+    <div class="scroll-x"><div class="heat" id="heat" role="grid" aria-label="Familiarity by model and dataset"></div></div>
+    <p class="small muted mt-2" id="heat-note"></p>
+    <div class="cell-detail" id="cell-detail" aria-live="polite"></div>
+    <details class="table-view"><summary>Table view (Tables V and VI)</summary><div class="scroll-x" id="heat-table"></div></details>
+  </div>
+</section>
+
+<section class="pp-block" id="models" aria-labelledby="models-h">
+  <div class="container">
+    <div class="prose">
+      <h2 class="pp-h" id="models-h">Newer models find Defects4J less special</h2>
+      <p>How many times more surprising each dataset is than Defects4J, from the NLL ratios in Figure 4. Bars near <b>1×</b> mean no special familiarity. Pick a model.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Model" id="model-pick"></div>
+    <div class="ratio pane" id="ratio"></div>
+    <p class="ratio-note" id="ratio-note" aria-live="polite"></p>
+
+    <h3 class="pp-sub">But not nothing</h3>
+    <p class="prose">Bigger models still reproduce benchmark code. Both LLaMa 3.1 models got the <b>30 lines</b> before the fastapi bug 12 patch from BugsInPy (Figure 6).</p>
+    <div class="seg" role="group" aria-label="LLaMa model" id="llama-pick">
+      <button class="btn-theme6 btn" aria-pressed="false" data-k="8b">LLaMa 3.1 8B</button>
+      <button class="btn-theme6 btn" aria-pressed="true" data-k="70b">LLaMa 3.1 70B</button>
+    </div>
+    <div class="pane fig6">
+      <div class="codebox code-py" id="fig6"></div>
+    </div>
+    <ul class="legend mt-3">
+      <li><i class="sw-prompt"></i>Prompt</li>
+      <li><i class="sw-extra"></i>Generated, not in the fix</li>
+      <li><i class="sw-miss"></i>In the fix, not generated</li>
+    </ul>
+    <p class="ratio-note" id="fig6-note" aria-live="polite"></p>
+
+    <h3 class="pp-sub">What we recommend</h3>
+    <ul class="recs">
+      <li><span class="fa fa-balance-scale"></span> Pair <mark class="k">Defects4J</mark> with recent benchmarks such as <mark class="k">GitBug-Java</mark>.</li>
+      <li><span class="fa fa-refresh"></span> Re-check <mark class="k">membership, NLL and 5-gram accuracy</mark> as pretraining data grows.</li>
+      <li><span class="fa fa-th-large"></span> Read the signals <mark class="k">together</mark>: no single one gives the full picture.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="pp-block pb-5" id="cite" aria-labelledby="cite-h">
+  <div class="container">
+    <h2 class="pp-h" id="cite-h">Cite</h2>
+    <div class="cite">
+      <button class="btn-theme6 btn" id="copy-bib"><span class="fa fa-clipboard"></span>  Copy</button>
+<pre id="bibtex">@inproceedings{ramos2025memorizing,
+  title         = {Are Large Language Models Memorizing Bug Benchmarks?},
+  author        = {Ramos, Daniel and Mamede, Claudia and Jain, Kush and
+                   Canelas, Paulo and Gamboa, Catarina and Le Goues, Claire},
+  booktitle     = {LLM4Code 2025, co-located with ICSE 2025},
+  year          = {2025},
+  eprint        = {2411.13323},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.SE},
+  url           = {https://arxiv.org/abs/2411.13323}
+}</pre>
+    </div>
+  </div>
+</section>
+</main>
+<div class="pp-tooltip" id="pp-tooltip" role="presentation"></div>
+
+
+ <section class="w3l-footer-29-main" id="footer">
+  <div class="footer-29 text-center">
+      <div class="container">
+        
+        <div class="main-social-footer-29"> 
+          <a href="mailto:catarinavgamboa@gmail.com" class="facebook" aria-label="Email"><span class="fa fa-envelope-o" aria-hidden="true"></span></a>
+          <a href="https://github.com/CatarinaGamboa" class="twitter" aria-label="GitHub"><span class="fa fa-github" aria-hidden="true"></span></a>
+          <a href="https://www.linkedin.com/in/catarina-ventura-gamboa-518151172/" class="linkedin" aria-label="LinkedIn"><span class="fa fa-linkedin" aria-hidden="true"></span></a>
+          <a href="https://scholar.google.com/citations?user=uzAFeKAAAAAJ" class="linkedin" aria-label="Google Scholar"><span class="fa fa-graduation-cap" aria-hidden="true"></span></a>
+        </div>
+          <div class="bottom-copies text-center">
+              <p class="copy-footer-29">© 2026 Catarina Gamboa. Template by <a href="https://w3layouts.com">W3layouts</a>.</p>
+               
+          </div>
+      </div>
+  </div>
+   <!-- move top -->
+  <button onclick="topFunction()" id="movetop" title="Go to top">
+              <span class="fa fa-angle-up"></span>
+                 </button>
+                 <script>
+                     // When the user scrolls down 20px from the top of the document, show the button
+                     window.onscroll = function () {
+                         scrollFunction()
+                     };
+              
+                     function scrollFunction() {
+                         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                             document.getElementById("movetop").style.display = "block";
+                         } else {
+                             document.getElementById("movetop").style.display = "none";
+                         }
+                     }
+              
+                     // When the user clicks on the button, scroll to the top of the document
+                     function topFunction() {
+                         document.body.scrollTop = 0;
+                         document.documentElement.scrollTop = 0;
+                     }
+                 </script>
+                 <!-- /move top -->
+</section>
+<!-- // grids block 5 -->
+<script src="../../assets/js/jquery-3.3.1.min.js"></script>
+<!-- //footer-28 block -->
+</section>
+
+<script>
+    $(function () {
+      $('.navbar-toggler').click(function () {
+        $('body').toggleClass('noscroll');
+      })
+    });
+  </script>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+
+<!-- Smooth scrolling -->
+
+
+
+<script src="../../assets/js/paper-dfa.js"></script>
+<script src="../../assets/js/paper-zoom.js"></script>
+<script src="../../assets/js/llm4code.js"></script>
+</body>
+
+</html>
+<!-- // grids block 5 -->
+
