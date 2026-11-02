@@ -544,12 +544,12 @@ body.list #phone-hint { display: block; text-align: center; font: 14px var(--san
 </section>
 
 <!-- C: specs are the bottleneck (LASIGE) -->
-<section class="slide" data-steps="2" data-fn="specq" data-title="Specs are the bottleneck" data-notes="0.5 min. Read the quote, click to light up the two phrases: a comprehensive and unambiguous spec, a significant obstacle. All the news needs a statement to prove. Math hands us the statement. Code does not. Alt titles: A proof is only as good as its specification / Who writes the specs?">
+<section class="slide" data-steps="2" data-fn="specq" data-title="Specs are the bottleneck" data-notes="0.5 min. Read the quote, click to light up the two phrases: a comprehensive and unambiguous spec, a significant obstacle. All the news needs a statement to prove. Math hands us the statement. For code we first have to ask what the intended behavior is, for example when a Socket lets us call getInputStream. Alt titles: A proof is only as good as its specification / Who writes the specs?">
   <h2>Verification is getting cheap. <em>Specifications</em> are not.</h2>
   <blockquote class="qt">&ldquo;The difficulty of obtaining <span class="qhl">a comprehensive and unambiguous spec</span> is <span class="qhl">a significant obstacle</span> to verifying software at a larger scale.&rdquo;<cite>Anthropic, LLMs are making formal software verification feasible at a much larger scale, 22 Oct 2026</cite></blockquote>
   <div class="bridge step" data-s="2">
     <div><div class="lbl">Math</div><p>The theorem comes with a statement to prove</p><span class="mono">aⁿ + bⁿ = cⁿ has no positive integer solution for n &gt; 2</span></div>
-    <div class="code"><div class="lbl">Everyday code</div><p>Has no spec at all</p><span class="mono">Socket.java: ?</span></div>
+    <div class="code"><div class="lbl">Everyday code</div><p>We first have to ask: what is the <b>intended behavior</b>?</p><span class="mono">Socket: when may I call getInputStream()?</span></div>
   </div>
   <span class="pg">5</span>
 </section>
