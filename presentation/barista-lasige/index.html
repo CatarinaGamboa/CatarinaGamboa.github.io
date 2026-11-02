@@ -666,7 +666,7 @@ InputStream getInputStream();</span></div>
   <div class="cols">
     <div class="step" data-s="2">
       <div class="lbl">2 · Synthesize tests</div>
-      <p>DFA paths become test templates; the agent fills the <span class="mono hole">[?]</span> until they compile</p>
+      <p>DFA paths become test templates. The agent fills the <span class="mono hole">[?]</span> until they compile</p>
       <div class="tcard"><div class="hd h-valid">@Test valid</div><pre>s = new Socket(<span class="hole">[InetAddress a]</span>, <span class="hole">[int port]</span>);
 s.close();</pre></div>
       <div class="tcard"><div class="hd h-invalid">@Test invalid</div><pre>s = new Socket();
@@ -674,7 +674,7 @@ s.close();</pre></div>
     </div>
     <div class="step" data-s="3">
       <div class="lbl">3 · Synthesize refinements</div>
-      <p>States and transitions map mechanically; the agent adds argument constraints</p>
+      <p>States and transitions map mechanically. The agent adds argument constraints</p>
       <div class="tcard"><div class="hd h-dfa">from DFA · MCP</div><pre><span class="an">@StateRefinement</span>(from=<span class="str">"bound(this)"</span>,
                  to=<span class="str">"connected(this)"</span>)</pre></div>
       <div class="tcard"><div class="hd h-docs">from docs · agent</div><pre>Socket(InetAddress a,
@@ -789,8 +789,8 @@ s.getInputStream();</pre></div>
   <h2>Takeaways and next steps</h2>
   <div class="tk">
     <div><ol>
-      <li><b>1</b><div><h3>Documentation is enough to <span class="em">bootstrap</span> typestate specs</h3><p>High precision; a starting point for experts, not a replacement</p></div></li>
-      <li class="step" data-s="1"><b>2</b><div><h3><span class="em">Intermediate representation</span> for precision, <span class="em">tests</span> for recall</h3><p>The gains come from the pipeline, more than from multi-agent orchestration. They help developers understand object protocols.</p></div></li>
+      <li><b>1</b><div><h3>Documentation is enough to <span class="em">bootstrap</span> typestate specs</h3><p>High precision. A starting point for experts, not a replacement</p></div></li>
+      <li class="step" data-s="1"><b>2</b><div><h3><span class="em">Intermediate representation</span> for precision, <span class="em">tests</span> for recall</h3><p>The gains come from the pipeline, more than from multi-agent orchestration. The state machines also help developers understand object protocols.</p></div></li>
       <li class="step" data-s="2"><b>3</b><div><h3>Next: <span class="em">richer representations</span> than the DFA</h3><p>Symbolic automata or extended FSMs for parameter-conditional transitions</p></div></li>
     </ol>
     <div class="loop step" data-s="3"><b>Can we trust a spec the AI wrote?</b><span>We check it against tests and expert ground truth. <span class="n">75%</span> are usable as is or with minor edits.</span></div></div>
@@ -802,7 +802,7 @@ s.getInputStream();</pre></div>
 <!-- 16: thank you -->
 <section class="slide s-thanks" data-fn="thanks" data-title="Thank you">
   <div class="thumbs" id="thumbs"></div>
-  <div class="ty"><div><h2>Thank you</h2><p>cgamboa@andrew.cmu.edu</p><p class="study"><b>Join our user study next week.</b><br>All you need is Java.</p></div><div class="qr"><img src="user-study-signup.png" alt="QR code to sign up for the user study"><small>Sign up for the study</small></div></div>
+  <div class="ty"><div><h2>Thank you</h2><p>cgamboa@andrew.cmu.edu</p><p class="study"><b>Join our user study.</b><br>All you need is Java.</p></div><div class="qr"><img src="user-study-signup.png" alt="QR code to sign up for the user study"><small>Sign up for the study</small></div></div>
 </section>
 
 <!-- 17: backup -->
