@@ -645,7 +645,7 @@ InputStream getInputStream();</span></div>
 </section>
 
 <!-- 6: workflow (was 8-11), the original Figure 1 revealed in four builds -->
-<section class="slide" data-fn="workflow" data-title="Workflow" data-notes="The figure builds by itself, about 9 s: generate the DFA, synthesize tests, synthesize refinements, LiquidJava iteration.">
+<section class="slide" data-fn="workflow" data-title="Workflow" data-notes="The figure builds by itself, about 3 s: generate the DFA, synthesize tests, synthesize refinements, LiquidJava iteration.">
   <h2><em>Barista</em> turns documentation into verified LiquidJava specifications</h2>
   <div class="fig1"><svg class="wf reveal" data-wf="fig" viewBox="0 0 1580 750" role="img" aria-label="Barista workflow, Figure 1"></svg></div>
   <span class="pg">11</span>
@@ -1635,8 +1635,8 @@ s.getInputStream();</pre></div>
       if (listMode) { w.light(REVEAL[REVEAL.length - 1]); return; }
       w.light([]); svg.getBoundingClientRect(); // restart the loop spins on arrival
       w.light(REVEAL[0]);
-      // the remaining builds play by themselves, one every 2.2 s
-      for (var k = 1; k < REVEAL.length; k++) (function (k) { wfT.push(setTimeout(function () { w.light(REVEAL[k]); }, 2200 * k)); })(k);
+      // the remaining builds play by themselves, one every 0.9 s
+      for (var k = 1; k < REVEAL.length; k++) (function (k) { wfT.push(setTimeout(function () { w.light(REVEAL[k]); }, 900 * k)); })(k);
     },
     step1: function (s, el, entered) {
       if (!entered) return;
