@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Fim de semana de aniversário</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: dossier de viagem. Factos no topo, clima e tempos de viagem, depois um capítulo por destino ordenado pela recomendação. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --ink: #18233a;
+  --muted: #5a6478;
+  --line: #dde1e8;
+  --azulejo: #1f4fa3;
+  --saffron: #b07807;
+  --saffron-soft: #fbf1dc;
+  --azulejo-soft: #e7eefb;
+  --warm: #c2571a;
+  --cool: #2f6fb5;
+  --warn: #a5541a;
+  --display: "Young Serif", Georgia, "Times New Roman", serif;
+  --body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1522; --surface: #161e2f; --ink: #e8ecf4; --muted: #a2abbd; --line: #2a3448;
+    --azulejo: #8fb2f2; --saffron: #e7b04a; --saffron-soft: #2b2414; --azulejo-soft: #1a2640;
+    --warm: #f0925a; --cool: #8fb2f2; --warn: #f0a26a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1522; --surface: #161e2f; --ink: #e8ecf4; --muted: #a2abbd; --line: #2a3448;
+  --azulejo: #8fb2f2; --saffron: #e7b04a; --saffron-soft: #2b2414; --azulejo-soft: #1a2640;
+  --warm: #f0925a; --cool: #8fb2f2; --warn: #f0a26a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px; display: flex; flex-direction: column; gap: 56px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); }
+h3 { font-size: 1.2rem; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--azulejo); text-underline-offset: 2px; }
+a:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }
+.eyebrow { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--saffron); }
+.muted { color: var(--muted); }
+.small { font-size: .875rem; }
+section.block { display: flex; flex-direction: column; gap: 16px; }
+
+header { display: flex; flex-direction: column; gap: 16px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line); }
+.tiles > div { padding: 12px 16px 12px 0; display: flex; flex-direction: column; gap: 2px; }
+.tiles b { font-family: var(--display); font-weight: 400; font-size: 1.35rem; }
+
+.pick { background: var(--azulejo-soft); border-left: 4px solid var(--azulejo); padding: 20px 24px; display: flex; flex-direction: column; gap: 8px; border-radius: 0 6px 6px 0; }
+
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+thead th { font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: none; }
+tbody th { font-weight: 600; white-space: nowrap; }
+.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.stars { color: var(--saffron); letter-spacing: 2px; white-space: nowrap; }
+.up { color: var(--warm); font-weight: 600; }
+.down { color: var(--cool); font-weight: 600; }
+tr.base td, tr.base th { background: var(--azulejo-soft); }
+.bar { display: inline-block; height: 8px; border-radius: 4px; background: var(--warm); vertical-align: middle; margin-right: 8px; }
+
+.option { display: flex; flex-direction: column; gap: 24px; }
+.opt-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px; border-bottom: 2px solid var(--ink); padding-bottom: 12px; }
+.opt-head .tag { font-size: .8rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; background: var(--saffron-soft); color: var(--saffron); }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: .82rem; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-variant-numeric: tabular-nums; }
+.photos { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; height: 340px; }
+.photos figure { margin: 0; position: relative; overflow: hidden; border-radius: 6px; min-height: 0; }
+.photos figure:first-child { grid-row: 1 / 3; }
+.photos img { width: 100%; height: 100%; object-fit: cover; display: block; max-width: 100%; }
+.photos figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 10px 6px; font-size: .75rem; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.65)); }
+.games { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.game { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+.game .kind { font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; }
+.game .kind.in { color: var(--azulejo); }
+.game .kind.out { color: var(--warm); }
+.game b { font-size: .98rem; }
+.game span { font-size: .85rem; color: var(--muted); }
+.cols { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; }
+.cols > * { min-width: 0; }
+.days { display: flex; flex-direction: column; gap: 18px; }
+.day { display: grid; grid-template-columns: 56px 1fr; gap: 12px; }
+.day .d { font-family: var(--display); font-size: 1.05rem; color: var(--azulejo); line-height: 1.2; }
+.day .d span { display: block; font-family: var(--body); font-size: .72rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+.day ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
+.ev { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--azulejo); }
+.ledger { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; align-self: start; }
+.ledger table { font-size: .88rem; }
+.ledger td { padding: 6px 0; }
+.ledger td.num { text-align: right; padding-left: 12px; }
+.ledger tfoot td { border-top: 2px solid var(--ink); border-bottom: none; font-weight: 700; padding-top: 10px; }
+.ledger .pp { font-family: var(--display); font-size: 1.5rem; }
+.flag { font-size: .85rem; padding: 10px 14px; border-radius: 6px; background: var(--saffron-soft); }
+.flag b { color: var(--warn); }
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+.links a { font-size: .85rem; padding: 6px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); text-decoration: none; }
+.links a:hover { border-color: var(--azulejo); }
+
+.checklist { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.checklist div { border-top: 2px solid var(--saffron); padding-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+footer { border-top: 1px solid var(--line); padding-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+footer ul { margin: 0; padding-left: 18px; font-size: .82rem; color: var(--muted); columns: 2 280px; }
+
+@media (max-width: 760px) {
+  .cols { grid-template-columns: 1fr; }
+  .photos { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 120px; height: auto; }
+  .photos figure:first-child { grid-row: auto; grid-column: 1 / 3; }
+}
+</style>
+
+<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Fim de semana de aniversário · 27–29 novembro 2026 · v6</span>
+  <h1>Enigmas, calor e piscina interior</h1>
+  <p class="muted">Quatro pessoas, a sair de Olhalvo. A prioridade são jogos-enigma: pelo menos um escape room numa sala e um jogo de pistas ao ar livre. O destino deve ser mais quente do que Olhalvo e ter piscina interior ou spa. Os concertos de música clássica saíram do plano.</p>
+  <div class="tiles">
+    <div><span class="small muted">Datas</span><b>Sex 27 – Dom 29 nov</b></div>
+    <div><span class="small muted">Grupo</span><b>4 pessoas · 2 quartos</b></div>
+    <div><span class="small muted">Imprescindível</span><b>1 escape room + 1 jogo ao ar livre</b></div>
+    <div><span class="small muted">Alojamento</span><b>≤ €100 / quarto / noite</b></div>
+  </div>
+</header>
+
+<section class="pick">
+  <span class="eyebrow" style="color:var(--azulejo)">Recomendação</span>
+  <h3>Silves, Lagos e Aljezur, a dormir no Jupiter Algarve (4★, nota ~8,8)</h3>
+  <p>É a zona <b>mais quente</b> da lista, com cerca de +2 °C de dia e de noite em relação a Olhalvo. O jogo ao ar livre é o <b>SOS H2ORANGE</b> da Escape In Games, 2h pelas ruas de Silves. Não precisa de marcação e o bilhete vale 1 ano, por isso jogam na hora em que não estiver a chover. O escape room numa sala é o <b>Holy Trap</b>, em Lagos. O hotel é o <b>Jupiter Algarve</b>, na Praia da Rocha: 4★, piscina coberta e aquecida no inverno e Soul Spa com massagens. Fica a 20 min de Silves e a 25 min de Lagos. Há ainda o <b>Festival da Batata-doce</b> em Aljezur.</p>
+</section>
+
+<!-- 1. LAGOS + ALJEZUR -->
+<section class="option" id="lagos">
+  <div class="opt-head">
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <span class="eyebrow">Opção 1 · Barlavento algarvio</span>
+      <h2>Silves, Lagos &amp; Aljezur</h2>
+    </div>
+    <span class="tag">Recomendada · mais quente</span>
+  </div>
+  <div class="facts"><span class="chip">🚗 ~3h30</span><span class="chip">☀️ 17,8 °C máx. em Lagos</span><span class="chip">🧩 ar livre em Silves + escape room em Lagos</span><span class="chip">🏨 Jupiter Algarve 4★ · 8,8</span><span class="chip">♨️ piscina interior aquecida + spa</span></div>
+  <div class="photos">
+    <figure><img src="img/piedade.jpg" alt="Falésias e arcos rochosos da Ponta da Piedade em Lagos"><figcaption>Ponta da Piedade, Lagos</figcaption></figure>
+    <figure><img src="img/aljezur.jpg" alt="Vila de Aljezur vista do monte do castelo"><figcaption>Aljezur, terra da batata-doce</figcaption></figure>
+    <figure><img src="img/monchique.jpg" alt="Parque termal das Caldas de Monchique"><figcaption>Monchique, passeio de domingo</figcaption></figure>
+  </div>
+  <div class="games">
+    <div class="game"><span class="kind out">Ar livre · principal</span><b>SOS H2ORANGE, Escape In Games (Silves)</b><span>2h pelas ruas de Silves com o grupo "Los Citrus" e um enigma sobre uma inundação de laranjas. Joga-se pela app e por ficheiros enviados por e-mail, até 5 pessoas, ~€40. Não precisa de marcação e o bilhete vale 1 ano.</span></div>
+    <div class="game"><span class="kind out">Ar livre · alternativa</span><b>Adventure Hunt Lagos</b><span>Enigmas pela cidade velha de Lagos, para 2–4 jogadores, 120–150 min, ~€19,50 por grupo.</span></div>
+    <div class="game"><span class="kind in">Escape room</span><b>Holy Trap: "Mafia Safehouse"</b><span>60 min para descobrir o código. Tem 2 salas, das quais 1 está ativa segundo o último registo.</span></div>
+    <div class="game"><span class="kind in">Plano B coberto</span><b>Escape One / 7 Seas, Portimão</b><span>A 25 min de Lagos. O Escape One começa em ~€20 por pessoa.</span></div>
+  </div>
+  <div class="cols">
+    <div class="days">
+      <div class="day"><div class="d">Sex<span>27 nov</span></div><ul>
+        <li>Saída às 8h30 e chegada a Aljezur por volta das 12h00, quando abre o festival.</li>
+        <li>Almoço no <b>Festival da Batata-doce</b>, com tapas, pastéis, gelado e licor.</li>
+        <li>Castelo de Aljezur e pôr do sol na Arrifana.</li>
+        <li>50 min até à Praia da Rocha, check-in no Jupiter e piscina interior aquecida.</li>
+      </ul></div>
+      <div class="day"><div class="d">Sáb<span>28 nov</span></div><ul>
+        <li>Manhã de anos: <b>massagem no Soul Spa</b> e piscina interior.</li>
+        <li>Almoço em Silves (20 min) e castelo.</li>
+        <li><span class="ev">14h00</span> <b>SOS H2ORANGE</b>, 2h de enigmas pelas ruas de Silves. Se a previsão der chuva, troquem para domingo de manhã.</li>
+        <li><span class="ev">17h30</span> <b>Holy Trap</b>, o escape room em Lagos (30 min).</li>
+        <li>Pôr do sol na Ponta da Piedade e <b>jantar de anos</b> em Lagos.</li>
+      </ul></div>
+      <div class="day"><div class="d">Dom<span>29 nov</span></div><ul>
+        <li>Subida à Fóia (902 m) para ver a vista, se estiver limpo.</li>
+        <li>Almoço no festival, que está no último dia, e compras para casa.</li>
+        <li>Saída às 15h30 e chegada a casa por volta das 19h00.</li>
+      </ul></div>
+    </div>
+    <div class="ledger">
+      <span class="eyebrow">Orçamento para 4 (estimativa)</span>
+      <table>
+        <tbody>
+          <tr><td>Jupiter Algarve · 2 quartos × 2 noites a €95–120</td><td class="num">€380–480</td></tr>
+          <tr><td>Piscina interior</td><td class="num">incluída</td></tr>
+          <tr><td>Massagem de anos</td><td class="num">€50–70</td></tr>
+          <tr><td>SOS H2ORANGE, Silves (até 5 pessoas)</td><td class="num">~€40</td></tr>
+          <tr><td>Holy Trap escape room (grupo)</td><td class="num">€60–90</td></tr>
+          <tr><td>Festival (entrada grátis) + compras</td><td class="num">€20–40</td></tr>
+          <tr><td>Refeições · €35–45/pessoa/dia</td><td class="num">€350–450</td></tr>
+          <tr><td>Combustível + portagens (~630 km)</td><td class="num">€100–120</td></tr>
+        </tbody>
+        <tfoot><tr><td>Total</td><td class="num">€1.000–1.290</td></tr></tfoot>
+      </table>
+      <span class="small muted">Por pessoa</span><span class="pp num">€250–325</span>
+    </div>
+  </div>
+  <p class="flag"><b>Confirmar:</b> as datas do festival (a Visit Algarve diz 27–29, mas outra página diz 28–30; Câmara de Aljezur: 282 990 010). Confirmem também os horários e o preço do Holy Trap. O jogo de Silves não precisa de marcação. Confirmem no Booking a nota e o preço do Jupiter para sexta e sábado. Se passar muito de €100, o Vila Galé Lagos (4★, 8,6, piscina interior) é a alternativa.</p>
+  <div class="links">
+    <a href="https://escapeingames.pt/en" target="_blank" rel="noopener">Escape In Games (Silves) ↗</a>
+    <a href="https://www.yumping.com/pt/ofertas/escape-room/faro/escape-room-por-la-ciudad-de-silves-de-2-horas--o80134" target="_blank" rel="noopener">SOS H2ORANGE, detalhes ↗</a>
+    <a href="https://www.myguidealgarve.com/things-to-do/holy-trap-escape-room" target="_blank" rel="noopener">Holy Trap Escape Room ↗</a>
+    <a href="https://escapethereview.co.uk/escape-room/60424/adventure-hunt-lagos-lagos-adventure-hunt" target="_blank" rel="noopener">Adventure Hunt Lagos ↗</a>
+    <a href="https://www.myguidealgarve.com/things-to-do/escape-rooms/lagos" target="_blank" rel="noopener">Escape rooms em Lagos ↗</a>
+    <a href="https://festival-batatadoce.cm-aljezur.pt/" target="_blank" rel="noopener">Festival da Batata-doce ↗</a>
+    <a href="https://www.booking.com/hotel/pt/jupiter.html?checkin=2026-11-27&amp;checkout=2026-11-29&amp;group_adults=4&amp;no_rooms=2" target="_blank" rel="noopener">Jupiter Algarve no Booking ↗</a>
+    <a href="https://www.booking.com/hotel/pt/vila-gale-lagos.html?checkin=2026-11-27&amp;checkout=2026-11-29&amp;group_adults=4&amp;no_rooms=2" target="_blank" rel="noopener">Vila Galé Lagos no Booking ↗</a>
+    <a href="https://www.booking.com/searchresults.html?ss=Lagos%2C+Portugal&amp;checkin=2026-11-27&amp;checkout=2026-11-29&amp;group_adults=4&amp;no_rooms=2&amp;nflt=hotelfacility%3D11" target="_blank" rel="noopener">Lagos com piscina interior ↗</a>
+    <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Olhalvo%2C+Portugal&amp;destination=Lagos%2C+Portugal" target="_blank" rel="noopener">Percurso ↗</a>
+  </div>
+</section>
+
+<!-- 3. ÉVORA -->
+<section class="option" id="evora">
+  <div class="opt-head">
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <span class="eyebrow">Opção 2 · Alentejo</span>
+      <h2>Évora, a capital dos enigmas</h2>
+    </div>
+    <span class="tag">Mais jogos · mais perto</span>
+  </div>
+  <div class="facts"><span class="chip">🚗 1h52</span><span class="chip">🌡️ igual a Olhalvo de dia, mais frio à noite</span><span class="chip">🧩 4+ jogos</span><span class="chip">♨️ piscina interior aquecida</span></div>
+  <div class="photos">
+    <figure><img src="img/evora.jpg" alt="Templo Romano de Évora"><figcaption>Templo Romano, Évora</figcaption></figure>
+    <figure><img src="img/ossos.jpg" alt="Capela dos Ossos"><figcaption>Capela dos Ossos</figcaption></figure>
+    <figure><img src="img/monsaraz.jpg" alt="Monsaraz"><figcaption>Monsaraz, a 45 min</figcaption></figure>
+  </div>
+  <div class="games">
+    <div class="game"><span class="kind out">Ar livre</span><b>Escape Tours Évora</b><span>Ajudem o Dinis a encontrar a saída secreta da cidade. Cerca de 2h, para 2–5 pessoas, a €29,95 por equipa.</span></div>
+    <div class="game"><span class="kind out">Ar livre</span><b>myCityHunt Évora</b><span>Enigmas à volta da Sé, por €12,99 por pessoa.</span></div>
+    <div class="game"><span class="kind in">Escape room</span><b>Puzzle Room Évora</b><span>Na Rua dos Caldeireiros, 60 min, cerca de €50 para 3–5 pessoas.</span></div>
+    <div class="game"><span class="kind in">Escape room</span><b>100Escape</b><span>3 salas, na Rua Diogo Cão.</span></div>
+  </div>
+  <div class="cols">
+    <div class="days">
+      <div class="day"><div class="d">Sex<span>27 nov</span></div><ul>
+        <li>Saída às 9h30 e chegada por volta das 11h20.</li>
+        <li><b>Escape Tours ao ar livre</b>: o jogo serve também de visita à cidade, com o Templo, a Sé e a Praça do Giraldo.</li>
+        <li>Piscina interior aquecida no hotel e jantar alentejano.</li>
+      </ul></div>
+      <div class="day"><div class="d">Sáb<span>28 nov</span></div><ul>
+        <li><b>Massagem de anos</b> e spa.</li>
+        <li>Capela dos Ossos e almoço.</li>
+        <li><b>Puzzle Room</b> ou <b>100Escape</b> (porque não os dois?).</li>
+        <li><b>Jantar de anos</b>.</li>
+      </ul></div>
+      <div class="day"><div class="d">Dom<span>29 nov</span></div><ul>
+        <li><b>myCityHunt</b> à volta da Sé, ou um passeio a Monsaraz.</li>
+        <li>Almoço e chegada a casa por volta das 18h00.</li>
+      </ul></div>
+    </div>
+    <div class="ledger">
+      <span class="eyebrow">Orçamento para 4 (estimativa)</span>
+      <table>
+        <tbody>
+          <tr><td>Évora Olive (9,0) ou Vila Galé (8,6) · 2 × 2 noites a €70–110</td><td class="num">€280–440</td></tr>
+          <tr><td>Escape Tours (equipa)</td><td class="num">€30</td></tr>
+          <tr><td>Escape room</td><td class="num">€50–70</td></tr>
+          <tr><td>Monumentos</td><td class="num">~€40</td></tr>
+          <tr><td>Massagem de anos</td><td class="num">€50–65</td></tr>
+          <tr><td>Refeições · €35–45/pessoa/dia</td><td class="num">€350–450</td></tr>
+          <tr><td>Combustível + portagens (~310 km)</td><td class="num">€50–65</td></tr>
+        </tbody>
+        <tfoot><tr><td>Total</td><td class="num">€850–1.160</td></tr></tfoot>
+      </table>
+      <span class="small muted">Por pessoa</span><span class="pp num">€215–290</span>
+    </div>
+  </div>
+  <p class="flag"><b>Contra:</b> não é mais quente do que Olhalvo, e as noites são ~1 °C mais frias. Os preços de alguns escape rooms vêm de listagens antigas, por isso confirmem.</p>
+  <div class="links">
+    <a href="https://en.escapetours.com/city/evora" target="_blank" rel="noopener">Escape Tours Évora ↗</a>
+    <a href="https://www.mycityhunt.com/cities/evora-pt-10347/escape-game-evora-4747" target="_blank" rel="noopener">myCityHunt Évora ↗</a>
+    <a href="https://www.roomescape.com/prt/eng/evora/puzzle-room/puzzle-room" target="_blank" rel="noopener">Puzzle Room Évora ↗</a>
+    <a href="https://morty.app/location/100escape-live-escape-room/evora" target="_blank" rel="noopener">100Escape ↗</a>
+    <a href="https://www.booking.com/searchresults.html?ss=%C3%89vora+Olive+Hotel&amp;checkin=2026-11-27&amp;checkout=2026-11-29&amp;group_adults=4&amp;no_rooms=2" target="_blank" rel="noopener">Évora Olive Hotel no Booking ↗</a>
+        <a href="https://www.booking.com/searchresults.html?ss=Vila+Gal%C3%A9+%C3%89vora&amp;checkin=2026-11-27&amp;checkout=2026-11-29&amp;group_adults=4&amp;no_rooms=2" target="_blank" rel="noopener">Vila Galé Évora no Booking ↗</a>
+    <a href="https://www.booking.com/searchresults.html?ss=%C3%89vora&amp;checkin=2026-11-27&amp;checkout=2026-11-29&amp;group_adults=4&amp;no_rooms=2&amp;nflt=hotelfacility%3D11" target="_blank" rel="noopener">Évora com piscina interior ↗</a>
+  </div>
+</section>
+
+<!-- 4. MÉRIDA -->
+<section class="option" id="merida">
+  <div class="opt-head">
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <span class="eyebrow">Opção 3 · Extremadura, Espanha</span>
+      <h2>Mérida, Roma e luzes de Natal</h2>
+    </div>
+    <span class="tag">Mais Natal</span>
+  </div>
+  <div class="facts"><span class="chip">🚗 3h26 (+1h fuso)</span><span class="chip">🌡️ noites 2,3 °C mais frias</span><span class="chip">🎄 luzes acesas desde 26 nov</span></div>
+  <div class="photos">
+    <figure><img src="img/merida-teatro.jpg" alt="Teatro Romano de Mérida"><figcaption>Teatro Romano de Mérida</figcaption></figure>
+    <figure><img src="img/merida-museo.jpg" alt="Sala do Museo Nacional de Arte Romano"><figcaption>Museo Nacional de Arte Romano</figcaption></figure>
+    <figure><img src="img/merida-diana.jpg" alt="Templo de Diana"><figcaption>Templo de Diana</figcaption></figure>
+  </div>
+  <div class="games">
+    <div class="game"><span class="kind out">Ar livre</span><b>myCityHunt Mérida</b><span>3h e 4,2 km a partir da Plaza de España, pela Mérida romana. €12,99 por pessoa.</span></div>
+    <div class="game"><span class="kind in">Escape room</span><b>Bunker da II Guerra (Mérida Aventura)</b><span>60 min, €50 até 3 pessoas ou €60 para 4–5. Fica na estrada de Proserpina.</span></div>
+    <div class="game"><span class="kind in">Escape room</span><b>Evasión Mérida: "El asesino de la Máscara"</b><span>Para 2–4 jogadores, desde ~€44,90.</span></div>
+  </div>
+  <div class="cols">
+    <div class="days">
+      <div class="day"><div class="d">Sex<span>27 nov</span></div><ul>
+        <li>Saída às 8h30 e chegada por volta das 13h00, hora de Espanha.</li>
+        <li>Tapas, Teatro e Anfiteatro romanos.</li>
+        <li>À noite, passeio pelas luzes de Natal.</li>
+      </ul></div>
+      <div class="day"><div class="d">Sáb<span>28 nov</span></div><ul>
+        <li><span class="ev">10h00</span> <b>myCityHunt</b>, 3h pela cidade.</li>
+        <li>Museu de Arte Romana (grátis a partir das 14h).</li>
+        <li><b>Escape room</b> no bunker da II Guerra e <b>jantar de anos</b>.</li>
+      </ul></div>
+      <div class="day"><div class="d">Dom<span>29 nov</span></div><ul>
+        <li>Aqueduto de Los Milagros, almoço, e saída às 15h00 hora local.</li>
+        <li>Chegada a casa por volta das 17h30.</li>
+      </ul></div>
+    </div>
+    <div class="ledger">
+      <span class="eyebrow">Orçamento para 4 (estimativa)</span>
+      <table>
+        <tbody>
+          <tr><td>Parador de Mérida · 2 quartos × 2 noites a €75–100</td><td class="num">€300–400</td></tr>
+          <tr><td>myCityHunt × 4</td><td class="num">~€52</td></tr>
+          <tr><td>Escape room (grupo de 4)</td><td class="num">€60</td></tr>
+          <tr><td>Monumentos (entrada conjunta) × 4</td><td class="num">~€70</td></tr>
+          <tr><td>Massagem de anos</td><td class="num">€50–65</td></tr>
+          <tr><td>Refeições · €30–40/pessoa/dia</td><td class="num">€300–400</td></tr>
+          <tr><td>Combustível + portagens (~620 km)</td><td class="num">€90–110</td></tr>
+        </tbody>
+        <tfoot><tr><td>Total</td><td class="num">€920–1.160</td></tr></tfoot>
+      </table>
+      <span class="small muted">Por pessoa</span><span class="pp num">€230–290</span>
+    </div>
+  </div>
+  <p class="flag"><b>Contra:</b> é o sítio mais frio da lista à noite, e não confirmei nenhum hotel com piscina interior. A imprensa espanhola fala de eleições gerais a 29 de novembro.</p>
+  <div class="links">
+    <a href="https://www.mycityhunt.com/cities/merida-es-10961/escape-game-merida-6378" target="_blank" rel="noopener">myCityHunt Mérida ↗</a>
+    <a href="https://sites.google.com/view/meridaaventura/paintball-lasertag-escape-room" target="_blank" rel="noopener">Mérida Aventura, escape room ↗</a>
+    <a href="https://www.escapistas.club/escape-room/infiltrados" target="_blank" rel="noopener">Evasión Mérida ↗</a>
+    <a href="https://www.cope.es/emisoras/extremadura/badajoz-provincia/merida/noticias/merida-enciende-navidad-millon-luces-led-gran-fiesta-noviembre-20261028_3464262.html" target="_blank" rel="noopener">Luzes de Natal 2026 ↗</a>
+    <a href="https://www.booking.com/searchresults.html?ss=M%C3%A9rida%2C+Badajoz%2C+Spain&amp;checkin=2026-11-27&amp;checkout=2026-11-29&amp;group_adults=4&amp;no_rooms=2" target="_blank" rel="noopener">Hotéis em Mérida ↗</a>
+  </div>
+</section>
+
+<section class="block">
+  <h2>Comparação rápida</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th></th><th>Silves + Lagos + Aljezur</th><th>Évora</th><th>Mérida</th></tr></thead>
+      <tbody>
+        <tr><th>Mais quente que Olhalvo?</th><td><span class="up">Sim, ~+2 °C</span></td><td><span class="down">Não</span></td><td><span class="down">Não, noites frias</span></td></tr>
+        <tr><th>Escape room (sala)</th><td>Holy Trap, em Lagos</td><td>Puzzle Room, 100Escape, Escape in City</td><td>Bunker da II Guerra, Evasión Mérida</td></tr>
+        <tr><th>Jogo ao ar livre</th><td>SOS H2ORANGE em Silves (Adventure Hunt em Lagos como alternativa)</td><td>Escape Tours, myCityHunt</td><td>myCityHunt (3h, 4,2 km)</td></tr>
+        <tr><th>Jogos (nota)</th><td class="stars">★★★★★</td><td class="stars">★★★★★</td><td class="stars">★★★★☆</td></tr>
+        <tr><th>Hotel (4★+, nota 8+)</th><td>Jupiter Algarve, 8,8, com piscina interior e spa</td><td>Évora Olive, 9,0, ou Vila Galé, 8,6, com piscina interior</td><td>Parador, ~8,1, sem piscina interior</td></tr>
+        <tr><th>Extra</th><td>Festival da Batata-doce, castelo de Silves</td><td>Património UNESCO</td><td>Luzes de Natal, Roma antiga</td></tr>
+        <tr><th>Total estimado (4 pessoas)</th><td class="num"><b>€1.000–1.290</b></td><td class="num"><b>€850–1.160</b></td><td class="num"><b>€920–1.160</b></td></tr>
+        <tr><th>Por pessoa</th><td class="num">€250–325</td><td class="num">€215–290</td><td class="num">€230–290</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small muted">Os totais incluem 2 quartos por 2 noites, jogos, uma massagem para a aniversariante, refeições, combustível e portagens. São estimativas a partir de anúncios públicos.</p>
+</section>
+
+<section class="block" id="clima">
+  <h2>Clima e tempo de viagem</h2>
+  <p class="muted small">A previsão do tempo para 27–29 de novembro só fica fiável a partir de ~17–20 de novembro. Até lá, o melhor indicador é o que aconteceu nestes mesmos dias (22 nov – 3 dez) nos últimos 10 anos, de 2016 a 2025, com dados do arquivo Open-Meteo. Os tempos de viagem foram calculados pelo OpenStreetMap, sem trânsito.</p>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Local</th><th>Carro desde Olhalvo</th><th>Máxima média</th><th>Mínima média</th><th>Dias com chuva</th><th>Sol / dia</th></tr></thead>
+      <tbody>
+        <tr class="base"><th>Olhalvo (referência)</th><td class="num">—</td><td class="num">15,7 °C</td><td class="num">9,0 °C</td><td class="num">36%</td><td class="num">7,0 h</td></tr>
+        <tr><th>Silves</th><td class="num">3h06 · 270 km</td><td class="num"><span class="bar" style="width:38px"></span>17,6 °C <span class="up">+1,9</span></td><td class="num">10,8 °C <span class="up">+1,8</span></td><td class="num">28%</td><td class="num">7,9 h</td></tr>
+        <tr><th>Lagos</th><td class="num">3h32 · 314 km</td><td class="num"><span class="bar" style="width:42px"></span>17,8 °C <span class="up">+2,1</span></td><td class="num">11,1 °C <span class="up">+2,1</span></td><td class="num">31%</td><td class="num">7,9 h</td></tr>
+        <tr><th>Aljezur</th><td class="num">3h27 · 256 km</td><td class="num"><span class="bar" style="width:24px"></span>16,9 °C <span class="up">+1,2</span></td><td class="num">11,9 °C <span class="up">+2,9</span></td><td class="num">32%</td><td class="num">7,9 h</td></tr>
+                <tr><th>Monchique (Caldas)</th><td class="num">3h25 · 279 km</td><td class="num"><span class="bar" style="width:8px"></span>16,1 °C <span class="up">+0,4</span></td><td class="num">9,1 °C <span class="up">+0,1</span></td><td class="num">29%</td><td class="num">7,8 h</td></tr>
+        <tr><th>Évora</th><td class="num">1h52 · 152 km</td><td class="num">15,4 °C <span class="down">−0,3</span></td><td class="num">7,8 °C <span class="down">−1,2</span></td><td class="num">32%</td><td class="num">7,1 h</td></tr>
+        <tr><th>Mérida</th><td class="num">3h26 · 308 km (+1h fuso)</td><td class="num">15,3 °C <span class="down">−0,4</span></td><td class="num">6,7 °C <span class="down">−2,3</span></td><td class="num">33%</td><td class="num">6,7 h</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="flag"><b>Resumo:</b> só o Algarve (Silves, Lagos e Aljezur) é mais quente do que Olhalvo, com cerca de +2 °C de dia e de noite. <b>Évora e Mérida têm temperaturas parecidas de dia e são mais frias à noite.</b> Em todos os sítios chove em cerca de 1 em cada 3 dias, por isso convém ter sempre um plano coberto, como o escape room ou a piscina.</p>
+  <div class="pick" style="border-left-color:var(--warm);background:var(--saffron-soft)">
+    <span class="eyebrow">Jogo ao ar livre em Silves: e se chover ou estiver frio?</span>
+    <p>Em Silves, nestes dias, a chuva é curta. Nos últimos 10 anos houve em média só <b>0,7 h de chuva entre as 10h e as 18h</b>, e em <b>96% dos dias houve pelo menos 3 horas seguidas sem chuva</b> nesse horário. Chove em 28% dos dias, menos do que em Olhalvo (36%). Às 15h estão em média <b>17 °C</b>, por isso chega um casaco leve. Como o bilhete não tem marcação e vale 1 ano, não fixem a hora: decidam na véspera, com a previsão, se jogam no sábado à tarde ou no domingo de manhã. Se chover o fim de semana todo, ficam o escape room coberto em Lagos e a piscina, e o bilhete continua válido.</p>
+  </div>
+</section>
+
+<section class="block" id="hoteis">
+  <h2>Hotéis com 4★+ e nota 8+</h2>
+  <p class="muted small">O Booking bloqueia consultas automáticas, por isso não consegui ler a nota ao vivo. As notas abaixo vêm de excertos de páginas do Booking em pesquisas (“Booking”) ou de agregadores que mostram a nota do Booking (“via agregador”). Confirmem no Booking antes de reservar. Os preços são indicativos, de uma noite de semana em novembro, por isso o fim de semana deve sair mais caro.</p>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Hotel</th><th>Estrelas</th><th>Nota Booking</th><th>Piscina interior</th><th>Spa / massagem</th><th>Preço indicativo</th></tr></thead>
+      <tbody>
+        <tr><th>Jupiter Algarve, Praia da Rocha · <span class="up">escolha</span></th><td>4★</td><td class="num">8,8 (via agregador, 1.372) · 8,7 (Booking)</td><td>Sim, coberta e aquecida no inverno</td><td>Soul Spa, massagens pagas</td><td class="num">~€95</td></tr>
+        <tr><th>Vila Galé Lagos, Meia Praia</th><td>4★</td><td class="num">8,6 (Booking)</td><td>Sim, no spa Satsanga</td><td>Sim, massagens pagas</td><td class="num">~€75–115</td></tr>
+        <tr><th>Clube Porto Mós, Lagos</th><td>4★</td><td class="num">8,6 (Booking, avaliações antigas)</td><td>Sim, aquecida</td><td>Sauna, massagem paga</td><td class="num">—</td></tr>
+        <tr><th>Évora Olive Hotel · <span class="up">escolha Évora</span></th><td>4★</td><td class="num">9,0 (via agregador, 4.484)</td><td>Sim, todo o ano</td><td>Massagens pagas</td><td class="num">~€55–90 (confirmar)</td></tr>
+        <tr><th>Vila Galé Évora</th><td>4★</td><td class="num">8,6 (Booking)</td><td>Sim, aquecida</td><td>Spa Satsanga</td><td class="num">—</td></tr>
+        <tr><th>Évora Hotel</th><td>4★</td><td class="num">8,1 (via agregador)</td><td>Sim, aquecida</td><td>Spa, sauna, massagens</td><td class="num">~€120</td></tr>
+        <tr><th>Parador de Mérida</th><td>4★</td><td class="num">~8,1 (fora do Booking)</td><td><span class="down">Não</span>, só exterior sazonal</td><td>Sauna e ginásio</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="flag"><b>Excluídos:</b> o <b>Villa Termal de Monchique</b> tem nota ~7,5 em todos os sites e tanto aparece como 3★ como 4★. O Velada Mérida tem 7,8. Em Mérida <b>nenhum hotel de 4★+ tem piscina interior</b>.</p>
+</section>
+
+<section class="block">
+  <h2>Reservar já</h2>
+  <div class="checklist">
+    <div><b>Escape room</b><span class="muted small">Reserva-se por horário, e as tardes de sábado esgotam primeiro. Confirmem que a sala está ativa.</span></div>
+    <div><b>Hotel</b><span class="muted small">2 quartos com cancelamento grátis. Perguntem se a piscina interior está aberta e aquecida.</span></div>
+    <div><b>Massagem</b><span class="muted small">Marquem para a manhã de sábado.</span></div>
+    <div><b>Tempo</b><span class="muted small">Vejam a previsão a partir de ~20 de novembro e, se chover, troquem o jogo ao ar livre com o escape room.</span></div>
+  </div>
+</section>
+
+<footer>
+  <span class="eyebrow">Fontes &amp; créditos</span>
+  <p class="small muted">Pesquisa de 6 de novembro de 2026. O clima vem da média de 22 nov a 3 dez de 2016–2025, do arquivo histórico Open-Meteo (ERA5). Os tempos de viagem foram calculados pelo OSRM/OpenStreetMap, sem trânsito; o Google costuma mostrar um pouco menos. Os preços são estimativas.</p>
+  <ul>
+    <li><a href="https://open-meteo.com/en/docs/historical-weather-api">Open-Meteo, arquivo histórico</a></li>
+    <li><a href="https://project-osrm.org/">OSRM, cálculo de percursos</a></li>
+    <li><a href="https://festival-batatadoce.cm-aljezur.pt/">Festival da Batata-doce de Aljezur</a></li>
+    <li><a href="https://algarveatlas.com/en/events/festival-da-batata-doce-de-aljezur-4183">Algarve Atlas: festival 2026</a></li>
+    <li><a href="https://www.myguidealgarve.com/things-to-do/escape-rooms/lagos">Escape rooms em Lagos</a></li>
+    <li><a href="https://escapethereview.co.uk/escape-room/60424/adventure-hunt-lagos-lagos-adventure-hunt">Adventure Hunt Lagos</a></li>
+    <li><a href="https://www.booking.com/hotel/pt/jupiter.html">Jupiter Algarve (Booking)</a></li>
+    <li><a href="https://www.vilagale.com/en/hotels-portugal/hotels-algarve/vila-gale-lagos/">Vila Galé Lagos: spa e piscina interior</a></li>
+    <li><a href="https://www.booking.com/city/pt/evora.html">Hotéis em Évora (Booking)</a></li>
+    <li><a href="https://escapeingames.pt/en">Escape In Games</a></li>
+    <li><a href="https://www.yumping.com/pt/ofertas/escape-room/faro/escape-room-por-la-ciudad-de-silves-de-2-horas--o80134">Escape room ao ar livre em Silves (Yumping)</a></li>
+    <li><a href="https://estrelaseouricos.sapo.pt/atividade/escape-in-na-rua-ou-no-sofa/">Escape In: sem marcação, bilhete válido 1 ano</a></li>
+    <li><a href="https://en.escapetours.com/city/evora">Escape Tours Évora</a></li>
+    <li><a href="https://www.roomescape.com/prt/eng/evora/puzzle-room/puzzle-room">Puzzle Room Évora</a></li>
+    <li><a href="https://www.odisseias.com/local/escape-rooms/evora">Escape rooms em Évora (Odisseias)</a></li>
+    <li><a href="https://www.mycityhunt.com/cities/merida-es-10961/escape-game-merida-6378">myCityHunt Mérida</a></li>
+    <li><a href="https://sites.google.com/view/meridaaventura/paintball-lasertag-escape-room">Mérida Aventura</a></li>
+    <li><a href="https://www.cope.es/emisoras/extremadura/badajoz-provincia/merida/noticias/merida-enciende-navidad-millon-luces-led-gran-fiesta-noviembre-20261028_3464262.html">COPE: luzes de Mérida</a></li>
+    <li>Fotos: Wikimedia Commons (<a href="https://commons.wikimedia.org/wiki/File:Ponta_da_Piedade,_Lagos_(20083809934).jpg">Ponta da Piedade</a>, <a href="https://commons.wikimedia.org/wiki/File:Aljezur_seen_from_the_castle_hill_-_Portugal_-_2015-08-05.jpg">Aljezur</a>, <a href="https://commons.wikimedia.org/wiki/File:Parque_termal_Caldas_de_Monchique_05.jpg">Monchique</a>, <a href="https://commons.wikimedia.org/wiki/File:Roman_Temple_Evora_Portugal_01.jpg">Templo de Évora</a>, <a href="https://commons.wikimedia.org/wiki/File:Capela_dos_Ossos_2024-12-22.jpg">Capela dos Ossos</a>, <a href="https://commons.wikimedia.org/wiki/File:Monsaraz_January_2020-1.jpg">Monsaraz</a>, <a href="https://commons.wikimedia.org/wiki/File:Teatro_romano_de_M%C3%A9rida._Espa%C3%B1a-2.jpg">Teatro de Mérida</a>, <a href="https://commons.wikimedia.org/wiki/File:Museo_Nacional_de_Arte_Romano_(sala),_M%C3%A9rida,_Espa%C3%B1a,_2017.jpg">MNAR</a>, <a href="https://commons.wikimedia.org/wiki/File:M%C3%A9rida_-_Templo_de_Diana_-_02.jpg">Templo de Diana</a>)</li>
+  </ul>
+</footer>
+
+</div>
+
+</body>
+</html>
